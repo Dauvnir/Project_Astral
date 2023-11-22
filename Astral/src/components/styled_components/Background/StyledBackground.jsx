@@ -10,9 +10,12 @@ export const animStar = keyframes`
     }
 `;
 
-export const Background = styled.div`
+export const StyledBackground = styled.div`
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
 	background: radial-gradient(circle at bottom, #1b2735 0%, #090a0f 100%);
+	z-index: 1;
+	position: fixed;
+	top: 0;
+	left: 0;
 `;
