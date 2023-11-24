@@ -1,8 +1,47 @@
-import {StyledIndicatorArrow} from './styled_components/Indicator/StyledIndicatorArrow';
-import {StyledIndicatorWrapper} from './styled_components/Indicator/StyledIndicatorWrapper';
-import {StyledLearnMore} from './styled_components/Indicator/StyledLearnMore';
+import styled, {keyframes} from 'styled-components';
+import {SlArrowDown} from 'react-icons/sl';
 
-export const Indicator = () => {
+const arrowAnimation = keyframes`
+    0%, 100% {
+        transform: translateY(0px);
+      }
+    50% {
+        transform: translateY(-10px);
+      }
+`;
+const StyledIndicatorWrapper = styled.div`
+	display: flex;
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	height: auto;
+	margin-top: 3rem;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	flex-direction: column;
+	gap: 0.5rem;
+`;
+
+const StyledLearnMore = styled.p`
+	color: #d9d9d9;
+	text-align: center;
+	font-family: Lato;
+	font-size: 1.5625rem;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+`;
+
+const StyledIndicatorArrow = styled(SlArrowDown)`
+	color: #d9d9d9;
+	width: 2rem;
+	height: auto;
+	margin-top: 0.5rem;
+	animation: ${arrowAnimation} 2.2s linear infinite;
+`;
+
+const Indicator = () => {
 	return (
 		<StyledIndicatorWrapper>
 			<StyledLearnMore>Learn More</StyledLearnMore>
@@ -10,3 +49,5 @@ export const Indicator = () => {
 		</StyledIndicatorWrapper>
 	);
 };
+
+export default Indicator;
