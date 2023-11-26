@@ -50,7 +50,6 @@ const StyledImgCarouselElement = styled.li`
 		animation-play-state: paused, running;
 	}
 `;
-
 const StyledImgElement = styled.img`
 	border-radius: 0.3125rem;
 	border: 2px solid #000;

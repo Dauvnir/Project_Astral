@@ -5,15 +5,16 @@ const StyledLogoHeader = styled.div`
 	align-items: center;
 	justify-content: center;
 	z-index: 2;
-	height: 10vh;
+	height: auto;
 	width: 100%;
+	padding: 0rem 0 2rem 0;
 `;
 
 const Logo = () => {
 	return (
 		<svg
-			width="302"
-			height="50"
+			width="604"
+			height="100"
 			viewBox="0 0 302 50"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg">
@@ -36,9 +37,7 @@ const Logo = () => {
 
 const StyledLogo = styled(Logo)`
 	display: block;
-	width: 100%;
 	max-width: 500px;
-	height: auto;
 `;
 const LogoHeader = () => {
 	return (
