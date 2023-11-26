@@ -1,14 +1,5 @@
 import styled from 'styled-components';
-const StyledLogoHeader = styled.div`
-	display: flex;
-	position: relative;
-	align-items: center;
-	justify-content: center;
-	z-index: 2;
-	height: auto;
-	width: 100%;
-	padding: 0rem 0 2rem 0;
-`;
+import {WrapperFlex} from './WrapperFlex';
 
 const Logo = () => {
 	return (
@@ -41,9 +32,9 @@ const StyledLogo = styled(Logo)`
 `;
 const LogoHeader = () => {
 	return (
-		<StyledLogoHeader>
+		<WrapperFlex style={{paddingBottom: '2rem'}}>
 			<StyledLogo></StyledLogo>
-		</StyledLogoHeader>
+		</WrapperFlex>
 	);
 };
 

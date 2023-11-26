@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {WrapperFlex} from './WrapperFlex';
 
 const StyledBtn = styled.button`
 	border-radius: 0.9375rem;
@@ -18,7 +19,7 @@ const StyledBtn = styled.button`
 `;
 
 const StyledText = styled.p`
-	color: #e5e9f1;
+	color: #d9d9d9;
 	text-align: center;
 	text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	font-family: Lato;
@@ -34,22 +35,13 @@ const StyledText = styled.p`
 	}
 `;
 
-const StyledWrapperBtn = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	height: 5.15rem;
-	margin-top: 3rem;
-`;
-
 const LibraryBtn = () => {
 	return (
-		<StyledWrapperBtn>
+		<WrapperFlex height={'5.15rem'} style={{marginTop: '3rem'}}>
 			<StyledBtn>
 				<StyledText>CREATE YOUR OWN LIBRARY</StyledText>
 			</StyledBtn>
-		</StyledWrapperBtn>
+		</WrapperFlex>
 	);
 };
 

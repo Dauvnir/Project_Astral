@@ -1,7 +1,7 @@
 import styled, {keyframes} from 'styled-components';
 import {SlArrowDown} from 'react-icons/sl';
 import {useState, useEffect} from 'react';
-
+import {Paragraph} from './Paragraph';
 const arrowAnimation = keyframes`
     0%, 100% {
         transform: translateY(0px);
@@ -24,16 +24,6 @@ const StyledIndicatorWrapper = styled.div`
 	flex-wrap: wrap;
 	flex-direction: column;
 	gap: 0.5rem;
-`;
-
-const StyledLearnMore = styled.p`
-	color: #d9d9d9;
-	text-align: center;
-	font-family: Lato;
-	font-size: 1.5625rem;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
 `;
 
 const StyledIndicatorArrow = styled(SlArrowDown)`
@@ -59,7 +49,7 @@ const Indicator = () => {
 	};
 	return (
 		<StyledIndicatorWrapper $isVisible={isVisible}>
-			<StyledLearnMore>Learn More</StyledLearnMore>
+			<Paragraph fontSize={'1.5625rem'}>Learn More</Paragraph>
 			<StyledIndicatorArrow></StyledIndicatorArrow>
 		</StyledIndicatorWrapper>
 	);
