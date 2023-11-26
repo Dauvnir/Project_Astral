@@ -1,5 +1,6 @@
 import styled, {keyframes} from 'styled-components';
 import {SlArrowDown} from 'react-icons/sl';
+import {useState, useEffect} from 'react';
 
 const arrowAnimation = keyframes`
     0%, 100% {
@@ -10,12 +11,14 @@ const arrowAnimation = keyframes`
       }
 `;
 const StyledIndicatorWrapper = styled.div`
+	visibility: ${(props) => (props.$isVisible ? 'visible' : 'hidden')};
 	display: flex;
 	position: relative;
 	z-index: 2;
 	width: 100%;
 	height: auto;
 	margin-top: 3rem;
+	margin-bottom: ${(props) => (props.$isVisible ? 0 : -3)}rem;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
@@ -42,8 +45,20 @@ const StyledIndicatorArrow = styled(SlArrowDown)`
 `;
 
 const Indicator = () => {
+	const [isVisible, setIsVisible] = useState(true);
+
+	useEffect(() => {
+		window.addEventListener('scroll', listenToScroll);
+		return () => window.removeEventListener('scroll', listenToScroll);
+	}, []);
+	const listenToScroll = () => {
+		const heightToHideFrom = 0;
+		const winScroll = window.scrollY;
+
+		setIsVisible(winScroll <= heightToHideFrom);
+	};
 	return (
-		<StyledIndicatorWrapper>
+		<StyledIndicatorWrapper $isVisible={isVisible}>
 			<StyledLearnMore>Learn More</StyledLearnMore>
 			<StyledIndicatorArrow></StyledIndicatorArrow>
 		</StyledIndicatorWrapper>
