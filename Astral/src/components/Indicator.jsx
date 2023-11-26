@@ -1,6 +1,7 @@
 import styled, {keyframes} from 'styled-components';
 import {SlArrowDown} from 'react-icons/sl';
-
+import {useState, useEffect} from 'react';
+import {Paragraph} from './Paragraph';
 const arrowAnimation = keyframes`
     0%, 100% {
         transform: translateY(0px);
@@ -10,27 +11,19 @@ const arrowAnimation = keyframes`
       }
 `;
 const StyledIndicatorWrapper = styled.div`
+	visibility: ${(props) => (props.$isVisible ? 'visible' : 'hidden')};
 	display: flex;
 	position: relative;
 	z-index: 2;
 	width: 100%;
 	height: auto;
 	margin-top: 3rem;
+	margin-bottom: ${(props) => (props.$isVisible ? 0 : -3)}rem;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
 	flex-direction: column;
 	gap: 0.5rem;
-`;
-
-const StyledLearnMore = styled.p`
-	color: #d9d9d9;
-	text-align: center;
-	font-family: Lato;
-	font-size: 1.5625rem;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
 `;
 
 const StyledIndicatorArrow = styled(SlArrowDown)`
@@ -42,9 +35,21 @@ const StyledIndicatorArrow = styled(SlArrowDown)`
 `;
 
 const Indicator = () => {
+	const [isVisible, setIsVisible] = useState(true);
+
+	useEffect(() => {
+		window.addEventListener('scroll', listenToScroll);
+		return () => window.removeEventListener('scroll', listenToScroll);
+	}, []);
+	const listenToScroll = () => {
+		const heightToHideFrom = 0;
+		const winScroll = window.scrollY;
+
+		setIsVisible(winScroll <= heightToHideFrom);
+	};
 	return (
-		<StyledIndicatorWrapper>
-			<StyledLearnMore>Learn More</StyledLearnMore>
+		<StyledIndicatorWrapper $isVisible={isVisible}>
+			<Paragraph fontSize={'1.5625rem'}>Learn More</Paragraph>
 			<StyledIndicatorArrow></StyledIndicatorArrow>
 		</StyledIndicatorWrapper>
 	);

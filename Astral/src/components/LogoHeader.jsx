@@ -1,19 +1,11 @@
 import styled from 'styled-components';
-const StyledLogoHeader = styled.div`
-	display: flex;
-	position: relative;
-	align-items: center;
-	justify-content: center;
-	z-index: 2;
-	height: 10vh;
-	width: 100%;
-`;
+import {WrapperFlex} from './WrapperFlex';
 
 const Logo = () => {
 	return (
 		<svg
-			width="302"
-			height="50"
+			width="604"
+			height="100"
 			viewBox="0 0 302 50"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg">
@@ -36,15 +28,13 @@ const Logo = () => {
 
 const StyledLogo = styled(Logo)`
 	display: block;
-	width: 100%;
 	max-width: 500px;
-	height: auto;
 `;
 const LogoHeader = () => {
 	return (
-		<StyledLogoHeader>
+		<WrapperFlex style={{paddingBottom: '2rem'}}>
 			<StyledLogo></StyledLogo>
-		</StyledLogoHeader>
+		</WrapperFlex>
 	);
 };
 

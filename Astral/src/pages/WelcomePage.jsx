@@ -5,6 +5,9 @@ import JoinMsg from '../components/JoinMsg';
 import LibraryBtn from '../components/LibraryBtn';
 import Indicator from '../components/Indicator';
 import LogoHeader from '../components/LogoHeader';
+import AboutUs from '../components/AboutUs';
+import Footer from '../components/Footer';
+
 const WelcomePage = () => {
 	return (
 		<>
@@ -15,6 +18,8 @@ const WelcomePage = () => {
 			<JoinMsg></JoinMsg>
 			<LibraryBtn></LibraryBtn>
 			<Indicator></Indicator>
+			<AboutUs></AboutUs>
+			<Footer></Footer>
 		</>
 	);
 };

@@ -1,36 +1,13 @@
-import styled from 'styled-components';
-
-const StyledWelcomeMsgWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	flex-wrap: wrap;
-	gap: 1.5rem;
-	margin-top: 1.5rem;
-	overflow: hidden;
-`;
-
-const StyledWelcomeMsg = styled.p`
-	color: #d9d9d9;
-	text-align: center;
-	font-family: Lato;
-	font-size: min(${(props) => props.fontSize || '16px'});
-	font-style: normal;
-	font-weight: 600;
-	line-height: normal;
-	z-index: 2;
-	margin: 0;
-	width: 100%;
-`;
+import {Paragraph} from './Paragraph';
+import {WrapperFlex} from './WrapperFlex';
 
 const WelcomeMsg = () => {
 	return (
-		<StyledWelcomeMsgWrapper>
-			<StyledWelcomeMsg fontSize="2rem">
+		<WrapperFlex $flexWrap={'wrap'} $gap={'1.5rem'}>
+			<Paragraph fontSize={'1.8rem'} fontWeight={'600'}>
 				WELCOME TO ASTRAL CENTER,WHERE YOU CAN GRASP ALL OF YOUR STARS!
-			</StyledWelcomeMsg>
-		</StyledWelcomeMsgWrapper>
+			</Paragraph>
+		</WrapperFlex>
 	);
 };
 
