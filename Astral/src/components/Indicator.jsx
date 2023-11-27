@@ -24,6 +24,10 @@ const StyledIndicatorWrapper = styled.div`
 	flex-wrap: wrap;
 	flex-direction: column;
 	gap: 0.5rem;
+
+	@media only screen and (min-width: 915px) {
+		margin-top: 5rem;
+	}
 `;
 
 const StyledIndicatorArrow = styled(SlArrowDown)`

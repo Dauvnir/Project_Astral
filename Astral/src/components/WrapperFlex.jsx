@@ -5,7 +5,7 @@ export const WrapperFlex = styled.div`
 	position: relative;
 	align-items: center;
 	justify-content: center;
-	overflow: hidden;
+	overflow: ${(props) => props.overflow || 'hidden'};
 	text-align: center;
 	z-index: 2;
 	gap: ${(props) => props.$gap || '0rem'};

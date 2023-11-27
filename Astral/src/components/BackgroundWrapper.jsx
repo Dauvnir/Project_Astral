@@ -14,4 +14,15 @@ export const BackgroundWrapper = styled.div`
 	padding: 2rem 1rem 2rem 1rem;
 	border-radius: 10%;
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.56);
+	@media only screen and (min-width: 560px) {
+		width: 95%;
+		margin-top: 3rem;
+	}
+	@media only screen and (min-width: 700px) {
+		width: 90%;
+		margin-top: 3rem;
+	}
+	@media only screen and (min-width: 800px) {
+		width: 50%;
+	}
 `;
