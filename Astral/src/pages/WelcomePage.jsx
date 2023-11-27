@@ -7,7 +7,7 @@ import Indicator from '../components/Indicator';
 import LogoHeader from '../components/LogoHeader';
 import AboutUs from '../components/AboutUs';
 import Footer from '../components/Footer';
-
+import Form from '../components/Form';
 const WelcomePage = () => {
 	return (
 		<>
@@ -19,6 +19,7 @@ const WelcomePage = () => {
 			<LibraryBtn></LibraryBtn>
 			<Indicator></Indicator>
 			<AboutUs></AboutUs>
+			<Form></Form>
 			<Footer></Footer>
 		</>
 	);
