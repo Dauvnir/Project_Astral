@@ -5,12 +5,12 @@ import ImgCarouselWrapper from '../components/ImgCarouselWrapper';
 import JoinMsg from '../components/JoinMsg';
 import LibraryBtn from '../components/LibraryBtn';
 import Indicator from '../components/Indicator';
-import LogoHeader from '../components/LogoHeader';
+import StyledLogo from '../components/LogoHeader';
 import AboutUs from '../components/AboutUs';
 import Footer from '../components/Footer';
 import Form from '../components/Form';
 import MoveToTopBtn from '../components/MoveToTopBtn';
-import {WrapperFlex} from '../components/WrapperFlex';
+import { WrapperFlex } from '../components/WrapperFlex';
 
 const ResponsiveWrapperFlex = styled(WrapperFlex)`
 	flex-wrap: wrap;
@@ -26,8 +26,10 @@ const WelcomePage = () => {
 	return (
 		<>
 			<MainBackground></MainBackground>
-			<LogoHeader></LogoHeader>
-			<WelcomeMsg></WelcomeMsg>
+			<WrapperFlex $margin=' 0 0 2rem 0'>
+				<StyledLogo></StyledLogo>
+			</WrapperFlex>
+			<WelcomeMsg style={{ marginTop: '3rem' }}></WelcomeMsg>
 			<ImgCarouselWrapper></ImgCarouselWrapper>
 			<JoinMsg></JoinMsg>
 			<LibraryBtn></LibraryBtn>

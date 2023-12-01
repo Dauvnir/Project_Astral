@@ -9,12 +9,11 @@ export const StyledText = styled.p`
 	font-style: normal;
 	font-weight: 600;
 	line-height: normal;
-	padding: 0.5rem;
 	border: none;
 	transition: color ease 0.5s;
-	width: 100%;
-	&:hover {
+
+	/* &:hover {
 		color: rgba(29, 37, 53, 0.9);
 		transition: color ease 0.5s;
-	}
+	} */
 `;

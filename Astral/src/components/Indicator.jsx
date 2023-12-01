@@ -1,7 +1,7 @@
-import styled, {keyframes} from 'styled-components';
-import {SlArrowDown} from 'react-icons/sl';
-import {useState, useEffect} from 'react';
-import {Paragraph} from './Paragraph';
+import styled, { keyframes } from 'styled-components';
+import { SlArrowDown } from 'react-icons/sl';
+import { useState, useEffect } from 'react';
+import { Paragraph } from './Paragraph';
 const arrowAnimation = keyframes`
     0%, 100% {
         transform: translateY(0px);
@@ -10,13 +10,14 @@ const arrowAnimation = keyframes`
         transform: translateY(-10px);
       }
 `;
+
 const StyledIndicatorWrapper = styled.div`
 	visibility: ${(props) => (props.$isVisible ? 'visible' : 'hidden')};
 	display: flex;
 	position: relative;
 	z-index: 2;
 	width: 100%;
-	height: auto;
+	height: clamp(5rem, 5vh + 1rem, 8rem);
 	margin-top: 3rem;
 	margin-bottom: ${(props) => (props.$isVisible ? 0 : -3)}rem;
 	justify-content: center;
@@ -24,12 +25,11 @@ const StyledIndicatorWrapper = styled.div`
 	flex-wrap: wrap;
 	flex-direction: column;
 	gap: 0.5rem;
-
-	@media only screen and (min-width: 915px) {
-		margin-top: 5rem;
+	@media screen and (min-height: 850px) {
+		visibility: hidden !important;
+		height: 1rem;
 	}
 `;
-
 const StyledIndicatorArrow = styled(SlArrowDown)`
 	color: #d9d9d9;
 	width: 2rem;
@@ -53,7 +53,7 @@ const Indicator = () => {
 	};
 	return (
 		<StyledIndicatorWrapper $isVisible={isVisible}>
-			<Paragraph fontSize={'1.5625rem'}>Learn More</Paragraph>
+			<Paragraph $fontSize={'1.5625rem'}>Learn More</Paragraph>
 			<StyledIndicatorArrow></StyledIndicatorArrow>
 		</StyledIndicatorWrapper>
 	);

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import {BackgroundWrapper} from './BackgroundWrapper';
-import {Paragraph} from './Paragraph';
-import {WrapperFlex} from './WrapperFlex';
+import { BackgroundWrapper } from './BackgroundWrapper';
+import { Paragraph } from './Paragraph';
+import { WrapperFlex } from './WrapperFlex';
 const Header = styled.p`
 	color: #e5e9f1;
 	font-family: Lato;
@@ -34,8 +34,13 @@ const AboutUs = () => {
 	return (
 		<BackgroundWrapper>
 			<Header>About this project</Header>
-			<WrapperFlex height={'80%'} $gap={'1rem'} overflow={'visible'}>
-				<Paragraph fontSize={'1.125rem'} $textAlign={'left'}>
+			<WrapperFlex
+				$height={'80%'}
+				$gap={'1rem'}
+				$overflow={'visible'}>
+				<Paragraph
+					$fontSize={'1.125rem'}
+					$textAlign={'left'}>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel condimentum nisi.
 					Cras sollicitudin orci tempus consequat pretium. Fusce erat magna, mollis imperdiet odio
 					eu, vestibulum rutrum ipsum.
