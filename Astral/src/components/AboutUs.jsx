@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { BackgroundWrapper } from './BackgroundWrapper';
 import { Paragraph } from './Paragraph';
 import { WrapperFlex } from './WrapperFlex';
+
 const Header = styled.p`
 	color: #e5e9f1;
 	font-family: Lato;
@@ -29,7 +30,10 @@ const Image = styled.img`
 	box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.56);
 	object-fit: cover;
 `;
-
+const ResponsiveParagraph = styled(Paragraph)`
+	font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
+	text-align: left;
+`;
 const AboutUs = () => {
 	return (
 		<BackgroundWrapper>
@@ -38,13 +42,11 @@ const AboutUs = () => {
 				$height={'80%'}
 				$gap={'1rem'}
 				$overflow={'visible'}>
-				<Paragraph
-					$fontSize={'1.125rem'}
-					$textAlign={'left'}>
+				<ResponsiveParagraph>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel condimentum nisi.
 					Cras sollicitudin orci tempus consequat pretium. Fusce erat magna, mollis imperdiet odio
 					eu, vestibulum rutrum ipsum.
-				</Paragraph>
+				</ResponsiveParagraph>
 				<Image
 					src={
 						'https://img.asuracomics.com/unsafe/fit-in/720x936/https://asuratoon.com/wp-content/uploads/2022/09/EstateDevCover01.png'

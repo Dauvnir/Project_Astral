@@ -1,5 +1,5 @@
 import ImgLinks from './ImgLinks';
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const slider = keyframes`
 	to{
@@ -18,6 +18,10 @@ const StyledImgCarouselWrapper = styled.div`
 	padding-top: 1rem;
 	padding-bottom: 0.5rem;
 	overflow: hidden;
+	height: 14rem;
+	@media (min-width: 801px) {
+		height: 17rem;
+	}
 `;
 
 const StyledImgCarouselElements = styled.ul`
@@ -34,6 +38,9 @@ const StyledImgCarouselElements = styled.ul`
 	&:hover {
 		animation-play-state: paused, running;
 	}
+	@media (min-width: 801px) {
+		gap: 2rem;
+	}
 `;
 
 const StyledImgCarouselElement = styled.li`
@@ -48,6 +55,13 @@ const StyledImgCarouselElement = styled.li`
 		transform: scale(1.1);
 		z-index: 3;
 		animation-play-state: paused, running;
+	}
+	@media (min-width: 801px) {
+		transform: scale(1.1);
+		&:hover {
+			transform: scale(1.3);
+			overflow: visible;
+		}
 	}
 `;
 const StyledImgElement = styled.img`

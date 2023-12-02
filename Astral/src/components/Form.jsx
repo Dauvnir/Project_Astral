@@ -9,7 +9,7 @@ const StyledInput = styled.input`
 	height: 2rem;
 	border-radius: 5px;
 	font-weight: 600;
-	font-size: 1rem;
+	font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
 	padding: 0.5rem;
 	border: none;
 	box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.2);
@@ -20,7 +20,7 @@ const StyledTextarea = styled.textarea`
 	height: 6rem;
 	resize: none;
 	box-sizing: border-box;
-	font-size: 1rem;
+	font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
 	padding: 0.5rem;
 	border-radius: 5px;
 	font-weight: 600;
@@ -34,6 +34,7 @@ const WrapDivForm = styled.div`
 const ExtendedParagraph = styled(Paragraph)`
 	text-align: left;
 	padding-bottom: 0.5rem;
+	font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
 `;
 const Form = () => {
 	return (

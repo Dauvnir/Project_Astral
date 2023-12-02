@@ -13,4 +13,5 @@ export const WrapperFlex = styled.div`
 	height: ${(props) => props.$height || 'auto'};
 	width: ${(props) => props.$width || '100%'};
 	margin: ${(props) => props.$margin || '0rem'};
+	flex-direction: ${(props) => props.$flexDirection || 'row'};
 `;
