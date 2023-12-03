@@ -4,6 +4,7 @@ import { Paragraph } from './Paragraph';
 import { WrapperFlex } from './WrapperFlex';
 import { StyledBtn } from './Btn';
 import { StyledText } from './StyledTextForBtn';
+import { StyledForm } from '../components/StyledForm';
 const StyledInput = styled.input`
 	width: 100%;
 	height: 2rem;
@@ -46,28 +47,30 @@ const Form = () => {
 				style={{ width: '100%', marginBottom: '1rem' }}>
 				Get in touch with us.
 			</Paragraph>
-			<WrapperFlex
-				$flexWrap='wrap'
-				$gap='1rem'
-				$overflow='visible'>
-				<WrapDivForm>
-					<ExtendedParagraph>Your e-mail address.</ExtendedParagraph>
-					<StyledInput
-						type='e-mail'
-						placeholder='E-mail'></StyledInput>
-				</WrapDivForm>
-				<WrapDivForm>
-					<ExtendedParagraph>You want to talk about..</ExtendedParagraph>
-					<StyledInput placeholder='Topic'></StyledInput>
-				</WrapDivForm>
-				<WrapDivForm>
-					<ExtendedParagraph>Your message.</ExtendedParagraph>
-					<StyledTextarea placeholder='I want to say that I very like eating tacos....'></StyledTextarea>
-				</WrapDivForm>
-			</WrapperFlex>
-
-			<StyledBtn style={{ marginTop: '2rem' }}>
-				<StyledText style={{ padding: '1.5rem 0rem' }}>Submit</StyledText>
+			<StyledForm id='form' method='post' action=''>
+				<WrapperFlex $flexWrap='wrap' $gap='1rem' $overflow='visible'>
+					<WrapDivForm>
+						<ExtendedParagraph>Your e-mail address.</ExtendedParagraph>
+						<StyledInput
+							pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'
+							required
+							type='e-mail'
+							placeholder='E-mail'></StyledInput>
+					</WrapDivForm>
+					<WrapDivForm>
+						<ExtendedParagraph>You want to talk about..</ExtendedParagraph>
+						<StyledInput required placeholder='Topic'></StyledInput>
+					</WrapDivForm>
+					<WrapDivForm>
+						<ExtendedParagraph>Your message.</ExtendedParagraph>
+						<StyledTextarea
+							required
+							placeholder='I want to say that I very like eating tacos....'></StyledTextarea>
+					</WrapDivForm>
+				</WrapperFlex>
+			</StyledForm>
+			<StyledBtn form='form' type='submit' value='Submit' style={{ marginTop: '2rem' }}>
+				<StyledText style={{ padding: '1.5rem 0rem' }}>SUBMIT</StyledText>
 			</StyledBtn>
 		</BackgroundWrapper>
 	);

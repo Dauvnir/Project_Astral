@@ -29,7 +29,7 @@ const WelcomePage = () => {
 			<WrapperFlex $margin=' 0 0 2rem 0'>
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
-			<WelcomeMsg style={{ marginTop: '3rem' }}></WelcomeMsg>
+			<WelcomeMsg></WelcomeMsg>
 			<ImgCarouselWrapper></ImgCarouselWrapper>
 			<JoinMsg></JoinMsg>
 			<LibraryBtn></LibraryBtn>

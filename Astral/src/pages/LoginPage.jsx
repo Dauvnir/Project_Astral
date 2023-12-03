@@ -17,10 +17,10 @@ const LoginPage = () => {
 		<>
 			<ResponsiveBackgroundWrapper $flexDirection='row'>
 				<WrapperFlex $margin='0 0 1rem 0'>
-					<StyledBtn $width='45%' $margin='0 1rem 0 0' onClick={() => navigate('/login/form')}>
+					<StyledBtn $width='45%' $margin='0 1rem 0 0' onClick={() => navigate('/login/logIn')}>
 						<StyledText>Login</StyledText>
 					</StyledBtn>
-					<StyledBtn $width='45%'>
+					<StyledBtn $width='45%' onClick={() => navigate('/login/signUp')}>
 						<StyledText>Sign Up</StyledText>
 					</StyledBtn>
 				</WrapperFlex>

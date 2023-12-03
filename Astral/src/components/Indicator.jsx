@@ -18,7 +18,7 @@ const StyledIndicatorWrapper = styled.div`
 	z-index: 2;
 	width: 100%;
 	height: clamp(5rem, 5vh + 1rem, 8rem);
-	margin-top: 3rem;
+	margin-top: 1.5rem;
 	margin-bottom: ${(props) => (props.$isVisible ? 0 : -3)}rem;
 	justify-content: center;
 	align-items: center;
@@ -28,6 +28,9 @@ const StyledIndicatorWrapper = styled.div`
 	@media screen and (min-height: 850px) {
 		visibility: hidden !important;
 		height: 1rem;
+	}
+	@media (min-width: 414px) {
+		margin-top: 3rem;
 	}
 `;
 const StyledIndicatorArrow = styled(SlArrowDown)`
