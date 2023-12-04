@@ -1,10 +1,9 @@
 import ImgLinks from './ImgLinks';
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const slider = keyframes`
 	to{
 		transform: translateX(calc(-50% - 0.25rem))
-		
 	}	
 `;
 
@@ -14,10 +13,14 @@ const StyledImgCarouselWrapper = styled.div`
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	margin-top: 1.5rem;
+
 	padding-top: 1rem;
 	padding-bottom: 0.5rem;
 	overflow: hidden;
+	height: 14rem;
+	@media (min-width: 801px) {
+		height: 17rem;
+	}
 `;
 
 const StyledImgCarouselElements = styled.ul`
@@ -28,15 +31,19 @@ const StyledImgCarouselElements = styled.ul`
 	height: auto;
 	gap: 0.5rem;
 	margin-bottom: 1rem;
-	animation: ${slider} 40s linear infinite reverse; // variable for reverse can be created
+	animation: ${slider} 60s linear infinite reverse; // variable for reverse can be created
 	width: max-content;
 	pointer-events: none;
 	&:hover {
 		animation-play-state: paused, running;
 	}
+	@media (min-width: 801px) {
+		gap: 2rem;
+	}
 `;
 
 const StyledImgCarouselElement = styled.li`
+	cursor: pointer;
 	flex-shrink: 0;
 	position: relative;
 	list-style-type: none;
@@ -48,6 +55,13 @@ const StyledImgCarouselElement = styled.li`
 		transform: scale(1.1);
 		z-index: 3;
 		animation-play-state: paused, running;
+	}
+	@media (min-width: 801px) {
+		transform: scale(1.1);
+		&:hover {
+			transform: scale(1.3);
+			overflow: visible;
+		}
 	}
 `;
 const StyledImgElement = styled.img`
