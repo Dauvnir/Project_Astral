@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const animStar = keyframes`
 	0% {
@@ -10,8 +10,8 @@ const animStar = keyframes`
 `;
 
 const StyledBackground = styled.div`
-	height: 100%;
-	width: 100%;
+	height: 100vh;
+	width: 100vw;
 	background: radial-gradient(circle at bottom, #1b2735 0%, #090a0f 100%);
 	z-index: 1;
 	position: fixed;

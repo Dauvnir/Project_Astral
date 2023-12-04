@@ -34,13 +34,16 @@ const LoginLayout = () => {
 				</WrapperFlex>
 				<Wrapper>
 					<Outlet />
-					<WrapperFlex $height='20%' style={{ alignItems: 'end' }}>
-						<StyledBtn
-							$margin='0 0 1.5rem 0'
-							onClick={() => (pathname != '/login' ? navigate('/login') : navigate('/'))}>
-							<StyledText>BACK</StyledText>
-						</StyledBtn>
-					</WrapperFlex>
+					{pathname == '/login/logIn/forgottenPswd/succes' ||
+					pathname == '/login/signUp/registerSucces' ? null : (
+						<WrapperFlex $height='20%' style={{ alignItems: 'end' }}>
+							<StyledBtn
+								$margin='0 0 1.5rem 0'
+								onClick={() => (pathname != '/login' ? navigate('/login') : navigate('/'))}>
+								<StyledText>BACK</StyledText>
+							</StyledBtn>
+						</WrapperFlex>
+					)}
 				</Wrapper>
 			</WrapperMain>
 		</>

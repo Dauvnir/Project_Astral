@@ -4,7 +4,7 @@ export const BackgroundWrapper = styled.div`
 	background-color: rgba(29, 37, 53, 0.7);
 	position: relative;
 	z-index: 2;
-	width: clamp(25rem, 85% + 1rem, 35rem);
+	width: clamp(15rem, 85% + 1rem, 35rem);
 	height: auto;
 	display: flex;
 	align-items: center;

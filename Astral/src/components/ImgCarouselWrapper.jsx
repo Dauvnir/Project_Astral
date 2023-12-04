@@ -4,7 +4,6 @@ import styled, { keyframes } from 'styled-components';
 const slider = keyframes`
 	to{
 		transform: translateX(calc(-50% - 0.25rem))
-		
 	}	
 `;
 
@@ -32,7 +31,7 @@ const StyledImgCarouselElements = styled.ul`
 	height: auto;
 	gap: 0.5rem;
 	margin-bottom: 1rem;
-	animation: ${slider} 40s linear infinite reverse; // variable for reverse can be created
+	animation: ${slider} 60s linear infinite reverse; // variable for reverse can be created
 	width: max-content;
 	pointer-events: none;
 	&:hover {
@@ -44,6 +43,7 @@ const StyledImgCarouselElements = styled.ul`
 `;
 
 const StyledImgCarouselElement = styled.li`
+	cursor: pointer;
 	flex-shrink: 0;
 	position: relative;
 	list-style-type: none;

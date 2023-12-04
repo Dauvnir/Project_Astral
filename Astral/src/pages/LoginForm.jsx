@@ -7,6 +7,7 @@ import { StyledText } from '../components/StyledTextForBtn';
 import { LineBreak } from '../components/LineBreak';
 import { StyledInput } from '../components/StyledInput';
 import { StyledForm } from '../components/StyledForm';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Checkbox = styled.input`
 	width: 1.5rem;
@@ -15,7 +16,15 @@ const Checkbox = styled.input`
 	border-radius: 5px;
 	accent-color: #1d2535;
 `;
+const StyledLink = styled(Link)`
+	color: #d9d9d9;
+	transition: color 0.2s ease-in-out;
+	&:hover {
+		color: #afbfd5;
+	}
+`;
 const LoginForm = () => {
+	const navigate = useNavigate();
 	return (
 		<>
 			<BackgroundWrapper
@@ -66,7 +75,7 @@ const LoginForm = () => {
 								textDecoration: 'underline #d9d9d9',
 								cursor: 'pointer',
 							}}>
-							Forgot password?
+							<StyledLink onClick={navigate('forgottenPswd')}>Forgot password?</StyledLink>
 						</Paragraph>
 					</StyledForm>
 					<StyledBtn form='form1' type='submit' value='Submit' $width='65%'>

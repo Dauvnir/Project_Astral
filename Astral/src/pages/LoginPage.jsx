@@ -16,7 +16,7 @@ const LoginPage = () => {
 	return (
 		<>
 			<ResponsiveBackgroundWrapper $flexDirection='row'>
-				<WrapperFlex $margin='0 0 1rem 0'>
+				<WrapperFlex $overflow='visible' $margin='0 0 1rem 0'>
 					<StyledBtn $width='45%' $margin='0 1rem 0 0' onClick={() => navigate('/login/logIn')}>
 						<StyledText>Login</StyledText>
 					</StyledBtn>
@@ -24,7 +24,7 @@ const LoginPage = () => {
 						<StyledText>Sign Up</StyledText>
 					</StyledBtn>
 				</WrapperFlex>
-				<WrapperFlex $justifyContent='center'>
+				<WrapperFlex $justifyContent='center' $overflow='visible'>
 					<StyledBtn $width='45%'>
 						<StyledText>Guest</StyledText>
 					</StyledBtn>

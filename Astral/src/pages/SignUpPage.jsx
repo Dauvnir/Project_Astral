@@ -8,6 +8,7 @@ import { StyledInput } from '../components/StyledInput';
 import { StyledForm } from '../components/StyledForm';
 import { Label } from '../components/Label';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const RadioButton = styled.input`
 	width: 1.125rem;
@@ -25,6 +26,11 @@ const MediaWrapperFlex = styled(WrapperFlex)`
 	}
 `;
 const SignUpPage = () => {
+	const navigate = useNavigate();
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		navigate('/login/signUp/registerSucces');
+	};
 	return (
 		<>
 			<BackgroundWrapper
@@ -38,7 +44,7 @@ const SignUpPage = () => {
 					Registration
 				</Paragraph>
 				<LineBreak />
-				<StyledForm id='form2' method='post' action=''>
+				<StyledForm id='form2' method='post' action='' onSubmit={handleSubmit}>
 					<StyledInput
 						pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'
 						type='email'
