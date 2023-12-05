@@ -1,6 +1,6 @@
 import MainBackground from '../components/MainBackground';
 import StyledLogo from '../components/LogoHeader';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, Link } from 'react-router-dom';
 import { StyledText } from '../components/StyledTextForBtn';
 import { StyledBtn } from '../components/Btn';
 import { WrapperFlex } from '../components/WrapperFlex';
@@ -21,7 +21,6 @@ const Wrapper = styled.div`
 	height: 100%;
 `;
 const LoginLayout = () => {
-	const navigate = useNavigate();
 	const location = useLocation();
 	const { pathname } = location;
 	console.log(pathname);
@@ -37,11 +36,11 @@ const LoginLayout = () => {
 					{pathname == '/login/logIn/forgottenPswd/succes' ||
 					pathname == '/login/signUp/registerSucces' ? null : (
 						<WrapperFlex $height='20%' style={{ alignItems: 'end' }}>
-							<StyledBtn
-								$margin='0 0 1.5rem 0'
-								onClick={() => (pathname != '/login' ? navigate('/login') : navigate('/'))}>
-								<StyledText>BACK</StyledText>
-							</StyledBtn>
+							<Link to={pathname != '/login' ? '/login' : '/'}>
+								<StyledBtn $margin='0 0 1.5rem 0'>
+									<StyledText>BACK</StyledText>
+								</StyledBtn>
+							</Link>
 						</WrapperFlex>
 					)}
 				</Wrapper>

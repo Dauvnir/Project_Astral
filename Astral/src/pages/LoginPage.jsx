@@ -3,7 +3,7 @@ import { BackgroundWrapper } from '../components/BackgroundWrapper';
 import { StyledText } from '../components/StyledTextForBtn';
 import { WrapperFlex } from '../components/WrapperFlex';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 const ResponsiveBackgroundWrapper = styled(BackgroundWrapper)`
 	height: 40%;
 	margin-top: 7rem;
@@ -11,18 +11,20 @@ const ResponsiveBackgroundWrapper = styled(BackgroundWrapper)`
 `;
 
 const LoginPage = () => {
-	const navigate = useNavigate();
-
 	return (
 		<>
 			<ResponsiveBackgroundWrapper $flexDirection='row'>
 				<WrapperFlex $overflow='visible' $margin='0 0 1rem 0'>
-					<StyledBtn $width='45%' $margin='0 1rem 0 0' onClick={() => navigate('/login/logIn')}>
-						<StyledText>Login</StyledText>
-					</StyledBtn>
-					<StyledBtn $width='45%' onClick={() => navigate('/login/signUp')}>
-						<StyledText>Sign Up</StyledText>
-					</StyledBtn>
+					<Link to='/login/logIn'>
+						<StyledBtn $margin='0 1rem 0 0'>
+							<StyledText>Login</StyledText>
+						</StyledBtn>
+					</Link>
+					<Link to='/login/signUp'>
+						<StyledBtn $margin='0 1rem 0 0'>
+							<StyledText>Sign Up</StyledText>
+						</StyledBtn>
+					</Link>
 				</WrapperFlex>
 				<WrapperFlex $justifyContent='center' $overflow='visible'>
 					<StyledBtn $width='45%'>
