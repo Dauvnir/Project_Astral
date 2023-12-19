@@ -28,6 +28,7 @@ const Logo = () => {
 const StyledLogo = styled(Logo)`
 	display: block;
 	max-width: 500px;
+	z-index: 2;
 `;
 
 export default StyledLogo;

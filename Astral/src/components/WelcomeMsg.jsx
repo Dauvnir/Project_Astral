@@ -9,7 +9,7 @@ const WelcomeMsg = () => {
 	return (
 		<WrapperFlex $flexWrap='wrap'>
 			<ResponsiveParagraph $fontSize='1.8rem' $fontWeight='600'>
-				WELCOME TO ASTRAL CENTER,WHERE YOU CAN GRASP ALL OF YOUR STARS!
+				WELCOME TO ASTRAL CENTER, WHERE YOU CAN GRASP ALL OF YOUR STARS!
 			</ResponsiveParagraph>
 		</WrapperFlex>
 	);

@@ -7,6 +7,7 @@ import SignUpPage from './pages/SignUpPage';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import RegistrationSuccess from './pages/RegistrationSuccess';
+import Library from './pages/Library';
 
 const App = () => {
 	return (
@@ -26,6 +27,7 @@ const App = () => {
 					<Route path='registerSucces' element={<RegistrationSuccess />} />
 				</Route>
 			</Route>
+			<Route path='/library' element={<Library />} />
 		</Routes>
 	);
 };

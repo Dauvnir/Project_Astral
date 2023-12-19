@@ -16,10 +16,7 @@ const StyledFooter = styled.footer`
 const Footer = () => {
 	return (
 		<StyledFooter>
-			<Paragraph
-				$textAlign='left'
-				$fontWeight='400'
-				style={{ width: '65%' }}>
+			<Paragraph $textAlign='left' $fontWeight='400' style={{ width: '65%' }}>
 				© 2023 Dauvnir, buy me coffee
 			</Paragraph>
 		</StyledFooter>

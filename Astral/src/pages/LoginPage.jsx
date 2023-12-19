@@ -9,27 +9,35 @@ const ResponsiveBackgroundWrapper = styled(BackgroundWrapper)`
 	margin-top: 7rem;
 	width: clamp(20rem, 80vw + 1rem, 35rem);
 `;
-
+const CenteredStyledText = styled(StyledText)`
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center; /* Center vertically */
+	justify-content: center; /* Center horizontally            https://youtu.be/iLmBy-HKIAw?list=PL-FULmdOpaU1wtXMOIM5-KzXnASlHBJFv&t=708*/
+`;
 const LoginPage = () => {
 	return (
 		<>
 			<ResponsiveBackgroundWrapper $flexDirection='row'>
 				<WrapperFlex $overflow='visible' $margin='0 0 1rem 0'>
-					<Link to='/login/logIn'>
-						<StyledBtn $margin='0 1rem 0 0'>
-							<StyledText>Login</StyledText>
-						</StyledBtn>
-					</Link>
-					<Link to='/login/signUp'>
-						<StyledBtn $margin='0 1rem 0 0'>
-							<StyledText>Sign Up</StyledText>
-						</StyledBtn>
-					</Link>
+					<StyledBtn $margin='0 1rem 0  0 '>
+						<Link to='/login/logIn' style={{ textDecoration: 'none' }}>
+							<CenteredStyledText>Login</CenteredStyledText>
+						</Link>
+					</StyledBtn>
+					<StyledBtn>
+						<Link to='/login/signUp' style={{ textDecoration: 'none' }}>
+							<CenteredStyledText>Sign Up</CenteredStyledText>
+						</Link>
+					</StyledBtn>
 				</WrapperFlex>
 				<WrapperFlex $justifyContent='center' $overflow='visible'>
-					<StyledBtn $width='45%'>
-						<StyledText>Guest</StyledText>
-					</StyledBtn>
+					<Link to='/library'>
+						<StyledBtn>
+							<StyledText>Guest</StyledText>
+						</StyledBtn>
+					</Link>
 				</WrapperFlex>
 			</ResponsiveBackgroundWrapper>
 		</>
