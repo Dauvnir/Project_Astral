@@ -17,8 +17,8 @@ const StyledImgCarouselWrapper = styled.div`
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	padding-top: 1rem;
-	padding-bottom: 0.5rem;
+	padding-top: 2rem;
+	padding-bottom: 14rem;
 	height: 14rem;
 	overflow: hidden;
 	position: relative;
@@ -82,14 +82,9 @@ const StyledImgElement = styled.img`
 	height: 100%;
 `;
 
-const ImgCarouselWrapper = (props) => {
-	const { customWidth } = props;
-
-	const changedStyle = {
-		width: customWidth,
-	};
+const ImgCarouselWrapper = () => {
 	return (
-		<StyledImgCarouselWrapper style={changedStyle}>
+		<StyledImgCarouselWrapper style={{ width: 'calc(100% + 2rem)', marginLeft: '-1rem' }}>
 			<StyledImgCarouselElements>
 				{ImgLinks.map((links, index) => (
 					<StyledImgCarouselElement key={index}>

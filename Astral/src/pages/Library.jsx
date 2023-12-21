@@ -11,6 +11,7 @@ import BookmarkBtn from '../components/BookmarkBtn';
 import WrapperGrid from '../components/WrapperGrid';
 import Chapter from '../components/Chapter';
 import Footer from '../components/Footer';
+import Menu from '../components/Menu';
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -66,6 +67,7 @@ const Library = () => {
 	return (
 		<>
 			<MainBackground></MainBackground>
+			<Menu></Menu>
 			<WrapperFlex>
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
@@ -77,7 +79,13 @@ const Library = () => {
 				style={{ position: 'relative', zIndex: '2', marginTop: '1.5rem' }}>
 				Popular Today
 			</Paragraph>
-			<WrapperFlex style={{ marginBottom: '1.5rem' }}>
+			<WrapperFlex
+				style={{
+					marginBottom: '1.5rem',
+					width: 'calc(100% + 2rem)',
+					marginLeft: '-1rem',
+					overflow: 'visible',
+				}}>
 				<WrapperFlex $width='100%'>
 					<ImgCarouselWrapper></ImgCarouselWrapper>
 				</WrapperFlex>
