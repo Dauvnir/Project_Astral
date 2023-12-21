@@ -6,7 +6,9 @@ import LoginLayout from './pages/LoginLayout';
 import SignUpPage from './pages/SignUpPage';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import RegistrationSucces from './pages/RegistrationSucces';
+import RegistrationSuccess from './pages/RegistrationSuccess';
+import Library from './pages/Library';
+
 const App = () => {
 	return (
 		<Routes>
@@ -22,9 +24,10 @@ const App = () => {
 				</Route>
 				<Route path='signUp'>
 					<Route index element={<SignUpPage />} />
-					<Route path='registerSucces' element={<RegistrationSucces />} />
+					<Route path='registerSucces' element={<RegistrationSuccess />} />
 				</Route>
 			</Route>
+			<Route path='/library' element={<Library />} />
 		</Routes>
 	);
 };

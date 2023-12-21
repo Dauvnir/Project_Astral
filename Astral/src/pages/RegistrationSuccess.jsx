@@ -6,7 +6,7 @@ import { Paragraph } from '../components/Paragraph';
 import { StyledText } from '../components/StyledTextForBtn';
 import { WrapperFlex } from '../components/WrapperFlex';
 
-const RegistrationSucces = () => {
+const RegistrationSuccess = () => {
 	return (
 		<WrapperFlex $height='85%'>
 			<BackgroundWrapper>
@@ -29,4 +29,4 @@ const RegistrationSucces = () => {
 	);
 };
 
-export default RegistrationSucces;
+export default RegistrationSuccess;

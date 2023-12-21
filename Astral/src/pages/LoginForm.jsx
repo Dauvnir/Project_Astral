@@ -7,7 +7,7 @@ import { StyledText } from '../components/StyledTextForBtn';
 import { LineBreak } from '../components/LineBreak';
 import { StyledInput } from '../components/StyledInput';
 import { StyledForm } from '../components/StyledForm';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Checkbox = styled.input`
 	width: 1.5rem;
@@ -24,7 +24,6 @@ const StyledLink = styled(Link)`
 	}
 `;
 const LoginForm = () => {
-	const navigate = useNavigate();
 	return (
 		<>
 			<BackgroundWrapper
@@ -75,7 +74,7 @@ const LoginForm = () => {
 								textDecoration: 'underline #d9d9d9',
 								cursor: 'pointer',
 							}}>
-							<StyledLink onClick={navigate('forgottenPswd')}>Forgot password?</StyledLink>
+							<StyledLink to='forgottenPswd'>Forgot password?</StyledLink>
 						</Paragraph>
 					</StyledForm>
 					<StyledBtn form='form1' type='submit' value='Submit' $width='65%'>
