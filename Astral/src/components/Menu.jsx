@@ -2,14 +2,19 @@ import styled from 'styled-components';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { MdManageAccounts } from 'react-icons/md';
 import { IoAdd } from 'react-icons/io5';
-import { MdLogout } from 'react-icons/md';
 import { IoHeartSharp } from 'react-icons/io5';
+import { FaBook } from 'react-icons/fa';
+import MenuExtended from './MenuExtended';
+import { useState } from 'react';
+import { useRef } from 'react';
+import MenuExtendedAccount from './MenuExtendedAccount';
+
 const MenuStyled = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	position: fixed;
-	z-index: 3;
+	z-index: 4;
 	width: clamp(12rem, calc(100% - 2rem), 35rem);
 	height: 4rem;
 	left: 50%;
@@ -35,6 +40,8 @@ const WrapperIcon = styled.div`
 	display: flex;
 	justify-content: center;
 	align-content: center;
+	position: relative;
+	z-index: 4;
 	height: 100%;
 	width: 17%;
 	padding-block: 10px;
@@ -67,7 +74,7 @@ const WrapperIconCircle = styled.div`
 	right: 0;
 	margin-left: auto;
 	margin-right: auto;
-	z-index: 4;
+	z-index: 5;
 	width: 5rem;
 	height: 5rem;
 	overflow: visible;
@@ -112,27 +119,67 @@ const Favorite = styled(IoHeartSharp)`
 	color: #d9d9d9;
 `;
 
-const LogOut = styled(MdLogout)`
+const LogOut = styled(FaBook)`
 	display: inline-block;
 	height: 100%;
 	width: 100%;
 	color: #d9d9d9;
 `;
+
 const Menu = () => {
+	const windowSize = useRef([window.innerWidth, window.innerHeight]);
+	const [showValue, setShowValue] = useState(0);
+	const menuHidingHandler = () => {
+		if (windowSize.current[0] >= 550) {
+			if (showValue == 0) {
+				setShowValue(25.5);
+				setShowValue2(0);
+			} else {
+				setShowValue(0);
+			}
+		}
+		if (windowSize.current[0] < 550) {
+			if (showValue == 0) {
+				setShowValue(21);
+				setShowValue2(0);
+			} else {
+				setShowValue(0);
+			}
+		}
+	};
+	const [showValue2, setShowValue2] = useState(0);
+	const menuHidingHandler2 = () => {
+		if (windowSize.current[0] >= 550) {
+			if (showValue2 == 0) {
+				setShowValue2(25.5);
+				setShowValue(0);
+			} else {
+				setShowValue2(0);
+			}
+		}
+		if (windowSize.current[0] < 550) {
+			if (showValue2 == 0) {
+				setShowValue2(21);
+				setShowValue(0);
+			} else {
+				setShowValue2(0);
+			}
+		}
+	};
 	return (
 		<>
+			<MenuExtended $heightMenu={showValue} />
+			<MenuExtendedAccount $heightMenu={showValue2} />
 			<MenuStyled>
-				<WrapperIconLeft>
+				<WrapperIconLeft onClick={menuHidingHandler}>
 					<Hamburger />
 				</WrapperIconLeft>
-				<WrapperIcon style={{ width: '33%', paddingRight: '3.5rem' }}>
+				<WrapperIcon onClick={menuHidingHandler2} style={{ width: '33%', paddingRight: '3.5rem' }}>
 					<Account></Account>
 				</WrapperIcon>
-
 				<WrapperIconCircle>
 					<Add></Add>
 				</WrapperIconCircle>
-
 				<WrapperIcon style={{ width: '33%', paddingLeft: '3.5rem' }}>
 					<Favorite></Favorite>
 				</WrapperIcon>

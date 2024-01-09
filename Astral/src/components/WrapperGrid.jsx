@@ -20,6 +20,18 @@ const WrapperGrid = styled.div`
 	@media (min-width: 1100px) {
 		grid-template-columns: repeat(6, calc(100% / 6));
 	}
+	@media (min-width: 1300px) {
+		grid-template-columns: repeat(7, calc(100% / 7));
+	}
+	@media (min-width: 1500px) {
+		grid-template-columns: repeat(8, calc(100% / 8));
+	}
+	@media (min-width: 1700px) {
+		grid-template-columns: repeat(9, calc(100% / 9));
+	}
+	@media (min-width: 1900px) {
+		grid-template-columns: repeat(10, calc(100% / 10));
+	}
 `;
 
 export default WrapperGrid;
