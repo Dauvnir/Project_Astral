@@ -8,7 +8,7 @@ import MenuExtended from './MenuExtended';
 import { useState } from 'react';
 import { useRef } from 'react';
 import MenuExtendedAccount from './MenuExtendedAccount';
-
+import ChangeWindowTemplate from './ChangeWindowTemplate';
 const MenuStyled = styled.div`
 	display: flex;
 	align-items: center;
@@ -170,6 +170,7 @@ const Menu = () => {
 		<>
 			<MenuExtended $heightMenu={showValue} />
 			<MenuExtendedAccount $heightMenu={showValue2} />
+			<ChangeWindowTemplate />
 			<MenuStyled>
 				<WrapperIconLeft onClick={menuHidingHandler}>
 					<Hamburger />

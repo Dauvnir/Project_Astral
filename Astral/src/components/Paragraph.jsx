@@ -9,4 +9,5 @@ export const Paragraph = styled.p`
 	font-weight: ${(props) => props.$fontWeight || '500'};
 	line-height: normal;
 	z-index: 2;
+	margin: ${(props) => props.$margin || 'auto'};
 `;

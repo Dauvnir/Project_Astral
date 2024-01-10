@@ -17,10 +17,10 @@ const StyledDiv = styled.div`
 	cursor: pointer;
 	&:hover {
 		background: rgba(217, 217, 217, 0.9);
-		transition: background linear 0.4s;
+		transition: background linear 0.3s;
 		:is(svg) {
 			color: rgba(29, 37, 53, 1);
-			transition: color linear 0.4s;
+			transition: color linear 0.3s;
 		}
 	}
 `;

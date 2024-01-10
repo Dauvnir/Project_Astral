@@ -42,7 +42,7 @@ const ExtendedLineBreak = styled(LineBreak)`
 const MenuExtended = ($heightMenu) => {
 	const { $heightMenu: height } = $heightMenu;
 	return (
-		<MenuExtendedStyling $height={height} style={{ transition: 'height .5s ease' }}>
+		<MenuExtendedStyling $height={height} style={{ transition: 'all .3s ease' }}>
 			<UlList>
 				<LiElement>
 					<Span>Home</Span>
