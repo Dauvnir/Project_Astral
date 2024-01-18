@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 const Logo = () => {
 	return (
 		<svg
@@ -29,6 +28,7 @@ const StyledLogo = styled(Logo)`
 	display: block;
 	max-width: 500px;
 	z-index: 2;
+	cursor: pointer;
 `;
 
 export default StyledLogo;

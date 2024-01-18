@@ -9,6 +9,35 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import MenuExtendedAccount from './MenuExtendedAccount';
 import ChangeWindowTemplate from './ChangeWindowTemplate';
+import { Paragraph } from './Paragraph';
+import { StyledInput } from './StyledInput';
+import { Label } from './Label';
+import PropTypes from 'prop-types';
+import { WrapperFlex } from './WrapperFlex';
+import { StyledForm } from '../components/StyledForm';
+import { useNavigate } from 'react-router-dom';
+
+const StyledTextarea = styled.textarea`
+	width: 100%;
+	height: 6rem;
+	resize: none;
+	box-sizing: border-box;
+	font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
+	padding: 0.5rem;
+	border-radius: 5px;
+	font-weight: 600;
+	border: none;
+	box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.2);
+	outline: none;
+`;
+const WrapDivForm = styled.div`
+	width: 100%;
+`;
+const ExtendedParagraph = styled(Paragraph)`
+	text-align: left;
+	padding-bottom: 0.5rem;
+	font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
+`;
 const MenuStyled = styled.div`
 	display: flex;
 	align-items: center;
@@ -119,13 +148,271 @@ const Favorite = styled(IoHeartSharp)`
 	color: #d9d9d9;
 `;
 
-const LogOut = styled(FaBook)`
+const AllBooksIcon = styled(FaBook)`
 	display: inline-block;
 	height: 100%;
 	width: 100%;
 	color: #d9d9d9;
 `;
+const Input = styled(StyledInput)`
+	margin: 1rem auto;
+`;
+const WindowTemplateStyling = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	position: absolute;
+	z-index: 4;
+	width: clamp(15rem, 80%, 30rem);
+	height: auto;
+	margin: 0 auto;
+	background-color: rgba(29, 37, 53, 1);
+	left: 50%;
+	top: 50%;
+	transform: translate3D(-50%, -50%, 0);
+	border-radius: 10%;
+	padding: 1rem;
+	box-shadow: rgba(0, 0, 0, 0.56) 0px 0px 10px 4px;
+`;
+const Image = styled.img`
+	position: relative;
+	z-index: 2;
+	width: 7rem;
+	height: 11rem;
+	border-radius: 0.3125rem;
+	border: 2px solid #000;
+	box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.56);
+	object-fit: cover;
+`;
+const ChangeEmail = ({ resetComponent }) => {
+	const [manageState, setManageState] = useState(true);
+	const closeHandler = (closeHandler) => {
+		setManageState(closeHandler);
+		resetComponent(closeHandler);
+	};
+	return (
+		<>
+			{manageState ? (
+				<WindowTemplateStyling>
+					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Change Email
+					</Paragraph>
+					<Label $textAlign='left' $width='100%' $cursor='default'>
+						New Email
+					</Label>
+					<Input placeholder='New Email'></Input>
+					<Label $textAlign='left' $width='100%' $cursor='default'>
+						Confirm New Email
+					</Label>
+					<Input placeholder='Confirm New Email ?'></Input>
+					<ChangeWindowTemplate closeHandler={closeHandler} />
+				</WindowTemplateStyling>
+			) : null}
+		</>
+	);
+};
+const ChangePassword = ({ resetComponent }) => {
+	const [manageState, setManageState] = useState(true);
+	const closeHandler = (closeHandler) => {
+		setManageState(closeHandler);
+		resetComponent(closeHandler);
+	};
 
+	return (
+		<>
+			{manageState ? (
+				<WindowTemplateStyling>
+					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Change Password
+					</Paragraph>
+					<Label $textAlign='left' $width='100%' $cursor='default'>
+						Old Password
+					</Label>
+					<Input placeholder='Old Password'></Input>
+					<Label $textAlign='left' $width='100%' $cursor='default'>
+						New Password
+					</Label>
+					<Input placeholder='New Password'></Input>
+					<Label $textAlign='left' $width='100%' $cursor='default'>
+						Confirm New Password
+					</Label>
+					<Input placeholder='Confirm New Password'></Input>
+					<ChangeWindowTemplate closeHandler={closeHandler} />
+				</WindowTemplateStyling>
+			) : null}
+		</>
+	);
+};
+const ChangeNickname = ({ resetComponent }) => {
+	const [manageState, setManageState] = useState(true);
+	const closeHandler = (closeHandler) => {
+		setManageState(closeHandler);
+		resetComponent(closeHandler);
+	};
+	return (
+		<>
+			{manageState ? (
+				<WindowTemplateStyling>
+					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Change Nickname
+					</Paragraph>
+					<Label $textAlign='left' $width='100%' $cursor='default'>
+						New Nickname
+					</Label>
+					<Input placeholder='New Nickname'></Input>
+					<ChangeWindowTemplate closeHandler={closeHandler} />
+				</WindowTemplateStyling>
+			) : null}
+		</>
+	);
+};
+const ChangeAvatar = ({ resetComponent }) => {
+	const [manageState, setManageState] = useState(true);
+	const closeHandler = (closeHandler) => {
+		setManageState(closeHandler);
+		resetComponent(closeHandler);
+	};
+	return (
+		<>
+			{manageState ? (
+				<WindowTemplateStyling>
+					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Change Avatar
+					</Paragraph>
+					<Paragraph $fontSize='1.125rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						There should be possibility to change picture.
+					</Paragraph>
+					<ChangeWindowTemplate closeHandler={closeHandler} />
+				</WindowTemplateStyling>
+			) : null}
+		</>
+	);
+};
+const DeleteAccount = ({ resetComponent }) => {
+	const [manageState, setManageState] = useState(true);
+	const closeHandler = (closeHandler) => {
+		setManageState(closeHandler);
+		resetComponent(closeHandler);
+	};
+	return (
+		<>
+			{manageState ? (
+				<WindowTemplateStyling>
+					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Delete Account
+					</Paragraph>
+					<Paragraph $fontSize='1.125rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Do you really want to leave us? Are you sure about this ? All your information will be
+						deleted.
+					</Paragraph>
+					<ChangeWindowTemplate closeHandler={closeHandler} />
+				</WindowTemplateStyling>
+			) : null}
+		</>
+	);
+};
+const Logout = ({ resetComponent }) => {
+	const [manageState, setManageState] = useState(true);
+	const closeHandler = (closeHandler) => {
+		setManageState(closeHandler);
+		resetComponent(closeHandler);
+	};
+	return (
+		<>
+			{manageState ? (
+				<WindowTemplateStyling>
+					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Logout
+					</Paragraph>
+					<Paragraph $fontSize='1.125rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Do you really want to logout from your library?
+					</Paragraph>
+					<ChangeWindowTemplate closeHandler={closeHandler} />
+				</WindowTemplateStyling>
+			) : null}
+		</>
+	);
+};
+const AboutUs = ({ resetComponent }) => {
+	const [manageState, setManageState] = useState(true);
+	const closeHandler = (closeHandler) => {
+		setManageState(closeHandler);
+		resetComponent(closeHandler);
+	};
+	return (
+		<>
+			{manageState ? (
+				<WindowTemplateStyling>
+					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						About Us
+					</Paragraph>
+					<WrapperFlex>
+						<Paragraph
+							style={{ width: '70%' }}
+							$fontSize='1.125rem'
+							$fontWeight='500'
+							$margin='0 auto 1rem auto'>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel condimentum nisi.
+							Cras sollicitudin orci tempus consequat pretium. Fusce erat magna, mollis imperdiet
+							odio eu, vestibulum rutrum ipsum.
+						</Paragraph>
+						<Image
+							src={
+								'https://img.asuracomics.com/unsafe/fit-in/720x936/https://asuratoon.com/wp-content/uploads/2022/09/EstateDevCover01.png'
+							}></Image>
+					</WrapperFlex>
+					<ChangeWindowTemplate closeHandler={closeHandler} />
+				</WindowTemplateStyling>
+			) : null}
+		</>
+	);
+};
+const ReportBug = ({ resetComponent }) => {
+	const [manageState, setManageState] = useState(true);
+	const closeHandler = (closeHandler) => {
+		setManageState(closeHandler);
+		resetComponent(closeHandler);
+	};
+	return (
+		<>
+			{manageState ? (
+				<WindowTemplateStyling>
+					<Paragraph
+						$fontSize='2rem'
+						$fontWeight='600'
+						$textAlign='center'
+						style={{ width: '100%', marginBottom: '1rem' }}>
+						Report Bug
+					</Paragraph>
+					<StyledForm id='form' method='post' action=''>
+						<WrapperFlex $flexWrap='wrap' $gap='1rem' $overflow='visible'>
+							<WrapDivForm>
+								<ExtendedParagraph>Your e-mail address.</ExtendedParagraph>
+								<StyledInput
+									pattern='[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$'
+									required
+									type='e-mail'
+									placeholder='E-mail'></StyledInput>
+							</WrapDivForm>
+							<WrapDivForm>
+								<ExtendedParagraph>You want to talk about..</ExtendedParagraph>
+								<StyledInput required placeholder='Topic'></StyledInput>
+							</WrapDivForm>
+							<WrapDivForm>
+								<ExtendedParagraph>Your message.</ExtendedParagraph>
+								<StyledTextarea
+									required
+									placeholder='I want to say that I very like eating tacos....'></StyledTextarea>
+							</WrapDivForm>
+						</WrapperFlex>
+					</StyledForm>
+					<ChangeWindowTemplate closeHandler={closeHandler} />
+				</WindowTemplateStyling>
+			) : null}
+		</>
+	);
+};
 const Menu = () => {
 	const windowSize = useRef([window.innerWidth, window.innerHeight]);
 	const [showValue, setShowValue] = useState(0);
@@ -166,11 +453,63 @@ const Menu = () => {
 			}
 		}
 	};
+	const [activeComponent, setActiveComponent] = useState(null);
+	const showComponent = (componentName) => {
+		setActiveComponent(componentName);
+		setShowValue2(0);
+		setShowValue(0);
+	};
+	// eslint-disable-next-line no-unused-vars
+	const [resetComponentValue, setResetComponent] = useState(null);
+	const resetComponent = (resetValue, componentName) => {
+		setResetComponent(resetValue);
+		!resetComponentValue ? setActiveComponent(null) : setActiveComponent(componentName);
+	};
+	let navigate = useNavigate();
+	const toBooks = () => {
+		let path = `/library/allBooks`;
+		navigate(path);
+	};
 	return (
 		<>
-			<MenuExtended $heightMenu={showValue} />
-			<MenuExtendedAccount $heightMenu={showValue2} />
-			<ChangeWindowTemplate />
+			{activeComponent === 'ChangePassword' && (
+				<ChangePassword
+					onShow={() => showComponent('ChangePassword')}
+					resetComponent={resetComponent}
+				/>
+			)}
+			{activeComponent === 'ChangeEmail' && (
+				<ChangeEmail onShow={() => showComponent('ChangeEmail')} resetComponent={resetComponent} />
+			)}
+			{activeComponent === 'ChangeNickname' && (
+				<ChangeNickname
+					onShow={() => showComponent('ChangeNickname')}
+					resetComponent={resetComponent}
+				/>
+			)}
+			{activeComponent === 'ChangeAvatar' && (
+				<ChangeAvatar
+					onShow={() => showComponent('ChangeAvatar')}
+					resetComponent={resetComponent}
+				/>
+			)}
+			{activeComponent === 'DeleteAccount' && (
+				<DeleteAccount
+					onShow={() => showComponent('DeleteAccount')}
+					resetComponent={resetComponent}
+				/>
+			)}
+			{activeComponent === 'LogOut' && (
+				<Logout onShow={() => showComponent('LogOut')} resetComponent={resetComponent} />
+			)}
+			{activeComponent === 'AboutUs' && (
+				<AboutUs onShow={() => showComponent('AboutUs')} resetComponent={resetComponent} />
+			)}
+			{activeComponent === 'ReportBug' && (
+				<ReportBug onShow={() => showComponent('AboutUs')} resetComponent={resetComponent} />
+			)}
+			<MenuExtended $heightMenu={showValue} onShow={showComponent} />
+			<MenuExtendedAccount $heightMenu={showValue2} onShow={showComponent} />
 			<MenuStyled>
 				<WrapperIconLeft onClick={menuHidingHandler}>
 					<Hamburger />
@@ -185,11 +524,34 @@ const Menu = () => {
 					<Favorite></Favorite>
 				</WrapperIcon>
 				<WrapperIconRight>
-					<LogOut></LogOut>
+					<AllBooksIcon onClick={toBooks} />
 				</WrapperIconRight>
 			</MenuStyled>
 		</>
 	);
 };
-
+ChangePassword.propTypes = {
+	resetComponent: PropTypes.func,
+};
+ChangeNickname.propTypes = {
+	resetComponent: PropTypes.func,
+};
+ChangeAvatar.propTypes = {
+	resetComponent: PropTypes.func,
+};
+ChangeEmail.propTypes = {
+	resetComponent: PropTypes.func,
+};
+DeleteAccount.propTypes = {
+	resetComponent: PropTypes.func,
+};
+Logout.propTypes = {
+	resetComponent: PropTypes.func,
+};
+AboutUs.propTypes = {
+	resetComponent: PropTypes.func,
+};
+ReportBug.propTypes = {
+	resetComponent: PropTypes.func,
+};
 export default Menu;

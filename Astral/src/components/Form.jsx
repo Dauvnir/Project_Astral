@@ -41,9 +41,9 @@ const Form = () => {
 	return (
 		<BackgroundWrapper>
 			<Paragraph
-				$fontSize='1.5rem'
+				$fontSize='2rem'
 				$fontWeight='600'
-				$textAlign='left'
+				$textAlign='center'
 				style={{ width: '100%', marginBottom: '1rem' }}>
 				Get in touch with us.
 			</Paragraph>

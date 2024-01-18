@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { LineBreak } from './LineBreak';
 import { MenuExtendedStyling } from './MenuExtendedStyling';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 const UlList = styled.ul`
 	text-align: left;
@@ -39,12 +41,25 @@ const Span = styled.span`
 const ExtendedLineBreak = styled(LineBreak)`
 	margin: 0;
 `;
-const MenuExtended = ($heightMenu) => {
-	const { $heightMenu: height } = $heightMenu;
+const MenuExtended = ({ $heightMenu, onShow }) => {
+	const activeComponent1 = () => {
+		onShow('LogOut');
+	};
+	const activeComponent2 = () => {
+		onShow('AboutUs');
+	};
+	const activeComponent3 = () => {
+		onShow('ReportBug');
+	};
+	let navigate = useNavigate();
+	const toHome = () => {
+		let path = `/library`;
+		navigate(path);
+	};
 	return (
-		<MenuExtendedStyling $height={height} style={{ transition: 'all .3s ease' }}>
+		<MenuExtendedStyling $height={$heightMenu} style={{ transition: 'all .3s ease' }}>
 			<UlList>
-				<LiElement>
+				<LiElement onClick={toHome}>
 					<Span>Home</Span>
 				</LiElement>
 				<ExtendedLineBreak />
@@ -52,20 +67,23 @@ const MenuExtended = ($heightMenu) => {
 					<Span>Notifications</Span>
 				</LiElement>
 				<ExtendedLineBreak />
-				<LiElement>
+				<LiElement onClick={activeComponent3}>
 					<Span>Report bug</Span>
 				</LiElement>
 				<ExtendedLineBreak />
-				<LiElement>
+				<LiElement onClick={activeComponent2}>
 					<Span>About us</Span>
 				</LiElement>
 				<ExtendedLineBreak />
-				<LiElement style={{ paddingBottom: '2rem' }}>
+				<LiElement style={{ paddingBottom: '2rem' }} onClick={activeComponent1}>
 					<Span>Log Out</Span>
 				</LiElement>
 			</UlList>
 		</MenuExtendedStyling>
 	);
 };
-
+MenuExtended.propTypes = {
+	$heightMenu: PropTypes.number.isRequired,
+	onShow: PropTypes.func.isRequired,
+};
 export default MenuExtended;

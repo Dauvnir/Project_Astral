@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { MenuExtendedStyling } from './MenuExtendedStyling';
 import { LineBreak } from './LineBreak';
-
+import PropTypes from 'prop-types';
 const UlList = styled.ul`
 	text-align: left;
 	width: 100%;
@@ -39,29 +39,44 @@ const Span = styled.span`
 const ExtendedLineBreak = styled(LineBreak)`
 	margin: 0;
 `;
-const MenuExtendedAccount = ($heightMenu) => {
-	const { $heightMenu: height } = $heightMenu;
+
+const MenuExtendedAccount = ({ $heightMenu, onShow }) => {
+	const activeComponent = () => {
+		onShow('ChangePassword');
+	};
+	const activeComponent2 = () => {
+		onShow('ChangeEmail');
+	};
+	const activeComponent3 = () => {
+		onShow('ChangeNickname');
+	};
+	const activeComponent4 = () => {
+		onShow('ChangeAvatar');
+	};
+	const activeComponent5 = () => {
+		onShow('DeleteAccount');
+	};
 	return (
 		<>
-			<MenuExtendedStyling $height={height} style={{ transition: 'all .3s ease' }}>
+			<MenuExtendedStyling $height={$heightMenu} style={{ transition: 'all .3s ease' }}>
 				<UlList>
-					<LiElement>
+					<LiElement onClick={activeComponent}>
 						<Span>Change Password</Span>
 					</LiElement>
 					<ExtendedLineBreak></ExtendedLineBreak>
-					<LiElement>
+					<LiElement onClick={activeComponent2}>
 						<Span>Change Email</Span>
 					</LiElement>
 					<ExtendedLineBreak></ExtendedLineBreak>
-					<LiElement>
+					<LiElement onClick={activeComponent3}>
 						<Span>Change Nickname</Span>
 					</LiElement>
 					<ExtendedLineBreak></ExtendedLineBreak>
-					<LiElement>
+					<LiElement onClick={activeComponent4}>
 						<Span>Change Avatar</Span>
 					</LiElement>
 					<ExtendedLineBreak></ExtendedLineBreak>
-					<LiElement style={{ paddingBottom: '2rem' }}>
+					<LiElement style={{ paddingBottom: '2rem' }} onClick={activeComponent5}>
 						<Span>Delete Account</Span>
 					</LiElement>
 				</UlList>
@@ -69,5 +84,8 @@ const MenuExtendedAccount = ($heightMenu) => {
 		</>
 	);
 };
-
+MenuExtendedAccount.propTypes = {
+	$heightMenu: PropTypes.number.isRequired,
+	onShow: PropTypes.func.isRequired,
+};
 export default MenuExtendedAccount;

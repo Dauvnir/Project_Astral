@@ -4,6 +4,7 @@ import { StyledText } from '../components/StyledTextForBtn';
 import { WrapperFlex } from '../components/WrapperFlex';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
 const ResponsiveBackgroundWrapper = styled(BackgroundWrapper)`
 	height: 40%;
 	margin-top: 7rem;

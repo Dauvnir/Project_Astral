@@ -1,10 +1,11 @@
 import MainBackground from '../components/MainBackground';
 import StyledLogo from '../components/LogoHeader';
-import { Outlet, useLocation, Link } from 'react-router-dom';
+import { Outlet, useLocation, Link, useNavigate } from 'react-router-dom';
 import { StyledText } from '../components/StyledTextForBtn';
 import { StyledBtn } from '../components/Btn';
 import { WrapperFlex } from '../components/WrapperFlex';
 import styled from 'styled-components';
+
 const WrapperMain = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -23,12 +24,19 @@ const Wrapper = styled.div`
 const LoginLayout = () => {
 	const location = useLocation();
 	const { pathname } = location;
-	console.log(pathname);
+	let navigate = useNavigate();
+	const toWelcomePage = () => {
+		let path = `/`;
+		navigate(path);
+	};
 	return (
 		<>
 			<MainBackground></MainBackground>
 			<WrapperMain>
-				<WrapperFlex $margin=' 0 0 2rem 0' style={{ overflow: 'visible' }}>
+				<WrapperFlex
+					$margin=' 0 0 2rem 0'
+					style={{ overflow: 'visible', cursor: 'pointer' }}
+					onClick={toWelcomePage}>
 					<StyledLogo></StyledLogo>
 				</WrapperFlex>
 				<Wrapper>

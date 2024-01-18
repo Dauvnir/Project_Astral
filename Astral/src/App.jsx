@@ -8,6 +8,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import RegistrationSuccess from './pages/RegistrationSuccess';
 import Library from './pages/Library';
+import AllBooks from './pages/AllBooks';
 
 const App = () => {
 	return (
@@ -27,7 +28,10 @@ const App = () => {
 					<Route path='registerSucces' element={<RegistrationSuccess />} />
 				</Route>
 			</Route>
-			<Route path='/library' element={<Library />} />
+			<Route path='/library'>
+				<Route index element={<Library />} />
+				<Route path='allBooks' element={<AllBooks />} />
+			</Route>
 		</Routes>
 	);
 };
