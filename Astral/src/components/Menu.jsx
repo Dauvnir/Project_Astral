@@ -5,8 +5,8 @@ import { IoAdd } from 'react-icons/io5';
 import { IoHeartSharp } from 'react-icons/io5';
 import { FaBook } from 'react-icons/fa';
 import MenuExtended from './MenuExtended';
-import { useState } from 'react';
-import { useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
 import MenuExtendedAccount from './MenuExtendedAccount';
 import ChangeWindowTemplate from './ChangeWindowTemplate';
 import { Paragraph } from './Paragraph';
@@ -470,6 +470,27 @@ const Menu = () => {
 		let path = `/library/allBooks`;
 		navigate(path);
 	};
+
+	let menuRef = useRef();
+	let extendedMenuRef = useRef();
+	let extendedMenuAccountRef = useRef();
+	useEffect(() => {
+		let handler = (e) => {
+			if (
+				!menuRef.current.contains(e.target) &&
+				!extendedMenuRef.current.contains(e.target) &&
+				!extendedMenuAccountRef.current.contains(e.target)
+			) {
+				setShowValue2(0);
+				setShowValue(0);
+			}
+		};
+		document.addEventListener('mousedown', handler);
+		return () => {
+			document.removeEventListener('mousedown', handler);
+		};
+	}, []);
+
 	return (
 		<>
 			{activeComponent === 'ChangePassword' && (
@@ -508,13 +529,20 @@ const Menu = () => {
 			{activeComponent === 'ReportBug' && (
 				<ReportBug onShow={() => showComponent('AboutUs')} resetComponent={resetComponent} />
 			)}
-			<MenuExtended $heightMenu={showValue} onShow={showComponent} />
-			<MenuExtendedAccount $heightMenu={showValue2} onShow={showComponent} />
-			<MenuStyled>
-				<WrapperIconLeft onClick={menuHidingHandler}>
+			<MenuExtended $heightMenu={showValue} onShow={showComponent} ref={extendedMenuRef} />
+			<MenuExtendedAccount
+				$heightMenu={showValue2}
+				onShow={showComponent}
+				ref={extendedMenuAccountRef}
+			/>
+			<MenuStyled style={{ pointerEvents: activeComponent ? 'none' : 'auto' }}>
+				<WrapperIconLeft onClick={menuHidingHandler} ref={menuRef}>
 					<Hamburger />
 				</WrapperIconLeft>
-				<WrapperIcon onClick={menuHidingHandler2} style={{ width: '33%', paddingRight: '3.5rem' }}>
+				<WrapperIcon
+					onClick={menuHidingHandler2}
+					style={{ width: '33%', paddingRight: '3.5rem' }}
+					ref={menuRef}>
 					<Account></Account>
 				</WrapperIcon>
 				<WrapperIconCircle>

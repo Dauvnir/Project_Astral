@@ -73,11 +73,12 @@ const Library = () => {
 		let path = `/library`;
 		navigate(path);
 	};
+
 	return (
 		<>
 			<MainBackground></MainBackground>
 			<Menu></Menu>
-			<WrapperFlex style={{ cursor: 'pointer' }} onClick={toLibrary}>
+			<WrapperFlex style={{ cursor: 'pointer', marginBottom: '1.5rem' }} onClick={toLibrary}>
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
 			<Avatar />

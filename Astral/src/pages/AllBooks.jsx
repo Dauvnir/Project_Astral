@@ -45,7 +45,7 @@ const AllBooks = () => {
 		<>
 			<MainBackground />
 			<Menu />
-			<WrapperFlex style={{ cursor: 'pointer' }} onClick={toLibrary}>
+			<WrapperFlex style={{ cursor: 'pointer', marginBottom: '1.5rem' }} onClick={toLibrary}>
 				<StyledLogo />
 			</WrapperFlex>
 			<Avatar />
@@ -54,7 +54,7 @@ const AllBooks = () => {
 			</BookWrapper>
 			<LineBreak style={{ margin: '0 0 0 -1rem', width: 'calc(100% + 2rem)' }}></LineBreak>
 			<BookWrapper style={{ marginTop: '0rem' }}>
-				<WrapperGrid>
+				<WrapperGrid style={{ paddingInline: '1rem' }}>
 					<Chapter></Chapter>
 					<Chapter></Chapter>
 					<Chapter></Chapter>

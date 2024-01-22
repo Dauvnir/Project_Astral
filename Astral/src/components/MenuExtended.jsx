@@ -3,6 +3,7 @@ import { LineBreak } from './LineBreak';
 import { MenuExtendedStyling } from './MenuExtendedStyling';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { forwardRef } from 'react';
 
 const UlList = styled.ul`
 	text-align: left;
@@ -41,7 +42,7 @@ const Span = styled.span`
 const ExtendedLineBreak = styled(LineBreak)`
 	margin: 0;
 `;
-const MenuExtended = ({ $heightMenu, onShow }) => {
+const MenuExtended = forwardRef(({ $heightMenu, onShow }, ref) => {
 	const activeComponent1 = () => {
 		onShow('LogOut');
 	};
@@ -57,7 +58,7 @@ const MenuExtended = ({ $heightMenu, onShow }) => {
 		navigate(path);
 	};
 	return (
-		<MenuExtendedStyling $height={$heightMenu} style={{ transition: 'all .3s ease' }}>
+		<MenuExtendedStyling $height={$heightMenu} style={{ transition: 'all .3s ease' }} ref={ref}>
 			<UlList>
 				<LiElement onClick={toHome}>
 					<Span>Home</Span>
@@ -81,7 +82,9 @@ const MenuExtended = ({ $heightMenu, onShow }) => {
 			</UlList>
 		</MenuExtendedStyling>
 	);
-};
+});
+
+MenuExtended.displayName = 'MenuExtended';
 MenuExtended.propTypes = {
 	$heightMenu: PropTypes.number.isRequired,
 	onShow: PropTypes.func.isRequired,

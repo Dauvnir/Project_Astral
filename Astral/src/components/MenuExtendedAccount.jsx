@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { MenuExtendedStyling } from './MenuExtendedStyling';
 import { LineBreak } from './LineBreak';
 import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 const UlList = styled.ul`
 	text-align: left;
 	width: 100%;
@@ -40,7 +41,7 @@ const ExtendedLineBreak = styled(LineBreak)`
 	margin: 0;
 `;
 
-const MenuExtendedAccount = ({ $heightMenu, onShow }) => {
+const MenuExtendedAccount = forwardRef(({ $heightMenu, onShow }, ref) => {
 	const activeComponent = () => {
 		onShow('ChangePassword');
 	};
@@ -58,7 +59,7 @@ const MenuExtendedAccount = ({ $heightMenu, onShow }) => {
 	};
 	return (
 		<>
-			<MenuExtendedStyling $height={$heightMenu} style={{ transition: 'all .3s ease' }}>
+			<MenuExtendedStyling $height={$heightMenu} style={{ transition: 'all .3s ease' }} ref={ref}>
 				<UlList>
 					<LiElement onClick={activeComponent}>
 						<Span>Change Password</Span>
@@ -83,7 +84,8 @@ const MenuExtendedAccount = ({ $heightMenu, onShow }) => {
 			</MenuExtendedStyling>
 		</>
 	);
-};
+});
+MenuExtendedAccount.displayName = 'menuExtendedAccount';
 MenuExtendedAccount.propTypes = {
 	$heightMenu: PropTypes.number.isRequired,
 	onShow: PropTypes.func.isRequired,
