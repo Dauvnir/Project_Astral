@@ -43,7 +43,7 @@ const MenuStyled = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	position: fixed;
-	z-index: 4;
+	z-index: 5;
 	width: clamp(12rem, calc(100% - 2rem), 35rem);
 	height: 4rem;
 	left: 50%;
@@ -163,7 +163,7 @@ const WindowTemplateStyling = styled.div`
 	justify-content: space-evenly;
 	align-items: center;
 	position: absolute;
-	z-index: 4;
+	z-index: 5;
 	width: clamp(15rem, 80%, 30rem);
 	height: auto;
 	margin: 0 auto;
@@ -535,8 +535,8 @@ const Menu = () => {
 				onShow={showComponent}
 				ref={extendedMenuAccountRef}
 			/>
-			<MenuStyled style={{ pointerEvents: activeComponent ? 'none' : 'auto' }}>
-				<WrapperIconLeft onClick={menuHidingHandler} ref={menuRef}>
+			<MenuStyled style={{ pointerEvents: activeComponent ? 'none' : 'auto' }} ref={menuRef}>
+				<WrapperIconLeft onClick={menuHidingHandler}>
 					<Hamburger />
 				</WrapperIconLeft>
 				<WrapperIcon

@@ -4,7 +4,7 @@ export const MenuExtendedStyling = styled.div`
 	display: flex;
 	flex-direction: column;
 	position: fixed;
-	z-index: 3;
+	z-index: 5;
 	width: clamp(12rem, calc(100% - 2rem), 35rem);
 	height: ${(props) => props.$height || '0'}rem;
 	left: 50%;
