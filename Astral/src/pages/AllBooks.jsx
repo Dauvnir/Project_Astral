@@ -11,7 +11,7 @@ import WrapperGrid from '../components/WrapperGrid';
 import Chapter from '../components/Chapter';
 import { GoListUnordered } from 'react-icons/go';
 import { SortList } from '../components/SortList';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -123,7 +123,20 @@ const AllBooks = () => {
 			setMenuSortHeight(0);
 		}
 	};
-
+	let sortMenuRef = useRef();
+	let sortMenuBtnRef = useRef();
+	useEffect(() => {
+		let handler = (e) => {
+			if (!sortMenuRef.current.contains(e.target) && !sortMenuBtnRef.current.contains(e.target)) {
+				setMenuSortHeight(0);
+				setMenuSortClosed((prev) => !prev);
+			}
+		};
+		document.addEventListener('mousedown', handler);
+		return () => {
+			document.removeEventListener('mousedown', handler);
+		};
+	}, []);
 	return (
 		<>
 			<MainBackground />
@@ -136,11 +149,12 @@ const AllBooks = () => {
 				<Title>All Books</Title>
 				<div style={{ position: 'relative' }}>
 					<StyledDiv
+						ref={sortMenuBtnRef}
 						onClick={menuSortHandler}
 						style={{ borderRadius: menuSortHeight === 0 ? '10px' : '10px 10px 0px 0px' }}>
 						<SortStyled></SortStyled>
 					</StyledDiv>
-					<SortList $height={menuSortHeight}>
+					<SortList $height={menuSortHeight} ref={sortMenuRef}>
 						<UlStyled>
 							<LiStyled>
 								<ButtonStyled>

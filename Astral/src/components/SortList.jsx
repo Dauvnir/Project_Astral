@@ -6,7 +6,7 @@ export const SortList = styled.div`
 	align-items: center;
 	justify-content: center;
 	position: absolute;
-	width: 12rem;
+	width: clamp(12rem, 25vw, 16rem);
 	height: ${(props) => props.$height || '0'}rem;
 	z-index: 3;
 	border-radius: 20px 0 20px 20px;

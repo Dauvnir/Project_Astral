@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { MdManageAccounts } from 'react-icons/md';
 import { IoAdd } from 'react-icons/io5';
-import { IoHeartSharp } from 'react-icons/io5';
+import { FaTrophy } from 'react-icons/fa6';
 import { FaBook } from 'react-icons/fa';
 import MenuExtended from './MenuExtended';
 import { useState, useEffect, useRef } from 'react';
@@ -142,7 +142,7 @@ const Add = styled(IoAdd)`
 	border-radius: 100%;
 	color: #d9d9d9;
 `;
-const Favorite = styled(IoHeartSharp)`
+const Leaderboard = styled(FaTrophy)`
 	height: 100%;
 	width: 100%;
 	color: #d9d9d9;
@@ -174,6 +174,7 @@ const WindowTemplateStyling = styled.div`
 	border-radius: 10%;
 	padding: 1rem;
 	box-shadow: rgba(0, 0, 0, 0.56) 0px 0px 10px 4px;
+	pointer-events: auto;
 `;
 const Image = styled.img`
 	position: relative;
@@ -458,19 +459,25 @@ const Menu = () => {
 		setActiveComponent(componentName);
 		setShowValue2(0);
 		setShowValue(0);
+		document.body.classList.add('disableInteractions');
 	};
 	// eslint-disable-next-line no-unused-vars
 	const [resetComponentValue, setResetComponent] = useState(null);
 	const resetComponent = (resetValue, componentName) => {
 		setResetComponent(resetValue);
 		!resetComponentValue ? setActiveComponent(null) : setActiveComponent(componentName);
+		document.body.classList.remove('disableInteractions');
 	};
 	let navigate = useNavigate();
 	const toBooks = () => {
 		let path = `/library/allBooks`;
 		navigate(path);
 	};
-
+	let navigate2 = useNavigate();
+	const toLeaderboard = () => {
+		let path2 = '/library/leaderboard';
+		navigate2(path2);
+	};
 	let menuRef = useRef();
 	let extendedMenuRef = useRef();
 	let extendedMenuAccountRef = useRef();
@@ -549,7 +556,7 @@ const Menu = () => {
 					<Add></Add>
 				</WrapperIconCircle>
 				<WrapperIcon style={{ width: '33%', paddingLeft: '3.5rem' }}>
-					<Favorite></Favorite>
+					<Leaderboard onClick={toLeaderboard}></Leaderboard>
 				</WrapperIcon>
 				<WrapperIconRight>
 					<AllBooksIcon onClick={toBooks} />

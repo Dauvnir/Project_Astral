@@ -9,6 +9,7 @@ import ResetPassword from './pages/ResetPassword';
 import RegistrationSuccess from './pages/RegistrationSuccess';
 import Library from './pages/Library';
 import AllBooks from './pages/AllBooks';
+import Leaderboard from './pages/ Leaderboard';
 
 const App = () => {
 	return (
@@ -31,6 +32,7 @@ const App = () => {
 			<Route path='/library'>
 				<Route index element={<Library />} />
 				<Route path='allBooks' element={<AllBooks />} />
+				<Route path='leaderboard' element={<Leaderboard />} />
 			</Route>
 		</Routes>
 	);
