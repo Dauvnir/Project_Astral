@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import MoveToTop from '../components/MoveToTop';
 const LeaderboardWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -91,6 +92,13 @@ const WrapperGrid = styled.div`
 const LeaderboardRowElement = styled(SpanStyled)`
 	font-size: 1.5rem;
 `;
+// const MoveBtn = styled(MoveToTop)`
+// 	position: relative;
+// 	z-index: 3;
+// 	top: 0;
+// 	left: 0;
+// 	background-color: red;
+// `;
 const LeaderboardRow = ({ place, name, score }) => {
 	let colorCode;
 	switch (place) {
@@ -143,6 +151,7 @@ const Leaderboard = () => {
 	return (
 		<>
 			<MainBackground />
+
 			<Menu />
 			<WrapperFlex style={{ cursor: 'pointer', marginBottom: '1.5rem' }} onClick={toLibrary}>
 				<StyledLogo />
@@ -239,6 +248,7 @@ const Leaderboard = () => {
 					</WrapperGrid>
 				</div>
 			</LeaderboardWrapper>
+			<MoveToTop />
 			<Footer />
 		</>
 	);

@@ -14,7 +14,7 @@ import Footer from '../components/Footer';
 import Menu from '../components/Menu';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../components/Avatar';
-
+import MoveToTop from '../components/MoveToTop';
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -127,6 +127,7 @@ const Library = () => {
 					<Chapter></Chapter>
 				</WrapperGrid>
 			</ChapterWrapper>
+			<MoveToTop></MoveToTop>
 			<Footer />
 		</>
 	);

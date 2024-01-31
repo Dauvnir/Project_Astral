@@ -12,6 +12,7 @@ import Chapter from '../components/Chapter';
 import { GoListUnordered } from 'react-icons/go';
 import { SortList } from '../components/SortList';
 import { useState, useEffect, useRef } from 'react';
+import MoveToTop from '../components/MoveToTop';
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -199,6 +200,7 @@ const AllBooks = () => {
 					<Chapter></Chapter>
 				</WrapperGrid>
 			</BookWrapper>
+			<MoveToTop />
 			<Footer />
 		</>
 	);
