@@ -13,6 +13,8 @@ import { GoListUnordered } from 'react-icons/go';
 import { SortList } from '../components/SortList';
 import { useState, useEffect, useRef } from 'react';
 import MoveToTop from '../components/MoveToTop';
+import SearchBar from '../components/SearchBar';
+
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -148,6 +150,7 @@ const AllBooks = () => {
 			<Avatar />
 			<BookWrapper style={{ zIndex: '4' }}>
 				<Title>All Books</Title>
+				<SearchBar></SearchBar>
 				<div style={{ position: 'relative' }}>
 					<StyledDiv
 						ref={sortMenuBtnRef}

@@ -10,6 +10,17 @@ const ArrowBtn = styled.svg`
 	width: 40px;
 	height: 40px;
 	fill: none;
+	&:hover {
+		transition: all ease 0.5s;
+		:is(circle) {
+			fill: rgba(217, 217, 217, 0.9);
+			transition: fill ease 0.5s;
+		}
+		:is(path) {
+			stroke: rgba(29, 37, 53, 0.9);
+			transition: stroke ease 0.5s;
+		}
+	}
 	circle {
 		fill: #1d2535;
 		filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.56));
