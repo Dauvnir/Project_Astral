@@ -7,7 +7,6 @@ const WrapperGrid = styled.div`
 	width: 100%;
 	height: auto;
 	grid-template-columns: repeat(3, 33.33%);
-	grid-auto-rows: 10%;
 	grid-auto-flow: row;
 	row-gap: 1rem;
 	@media (min-width: 600px) {

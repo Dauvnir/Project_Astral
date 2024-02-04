@@ -14,7 +14,8 @@ import { SortList } from '../components/SortList';
 import { useState, useEffect, useRef } from 'react';
 import MoveToTop from '../components/MoveToTop';
 import SearchBar from '../components/SearchBar';
-
+import { IoSearchOutline } from 'react-icons/io5';
+import SearchBarConditional from '../components/SearchBarConditional';
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -71,6 +72,9 @@ const StyledDiv = styled.div`
 			transition: color linear 0.3s;
 		}
 	}
+	@media (max-width: 400px) {
+		margin-right: 1rem;
+	}
 `;
 const UlStyled = styled.ul`
 	width: 100%;
@@ -110,6 +114,20 @@ const SpanStyled = styled.span`
 	line-height: normal;
 	padding-left: 0.5rem;
 `;
+const SearchBtn = styled(StyledDiv)`
+	display: none;
+	@media (max-width: 519px) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+`;
+const SearchStyled = styled(IoSearchOutline)`
+	width: 80%;
+	color: #d9d9d9e6;
+	height: auto;
+`;
+
 const AllBooks = () => {
 	let navigate = useNavigate();
 	const toLibrary = () => {
@@ -128,6 +146,7 @@ const AllBooks = () => {
 	};
 	let sortMenuRef = useRef();
 	let sortMenuBtnRef = useRef();
+	let searchBar = useRef();
 	useEffect(() => {
 		let handler = (e) => {
 			if (!sortMenuRef.current.contains(e.target) && !sortMenuBtnRef.current.contains(e.target)) {
@@ -140,6 +159,23 @@ const AllBooks = () => {
 			document.removeEventListener('mousedown', handler);
 		};
 	}, []);
+	useEffect(() => {
+		let searchhandler = (event) => {
+			if (!searchBar.current.contains(event.target)) {
+				setHideElements(true);
+			}
+		};
+		document.addEventListener('mousedown', searchhandler);
+		return () => {
+			document.removeEventListener('mousedown', searchhandler);
+		};
+	}, []);
+
+	const [hideElements, setHideElements] = useState(true);
+	const hideElementsHandler = () => {
+		setHideElements((prev) => !prev);
+	};
+	const windowSize = useRef([window.innerWidth, window.innerHeight]);
 	return (
 		<>
 			<MainBackground />
@@ -148,40 +184,60 @@ const AllBooks = () => {
 				<StyledLogo />
 			</WrapperFlex>
 			<Avatar />
-			<BookWrapper style={{ zIndex: '4' }}>
-				<Title>All Books</Title>
-				<SearchBar></SearchBar>
-				<div style={{ position: 'relative' }}>
-					<StyledDiv
-						ref={sortMenuBtnRef}
-						onClick={menuSortHandler}
-						style={{ borderRadius: menuSortHeight === 0 ? '10px' : '10px 10px 0px 0px' }}>
-						<SortStyled></SortStyled>
-					</StyledDiv>
-					<SortList $height={menuSortHeight} ref={sortMenuRef}>
-						<UlStyled>
-							<LiStyled>
-								<ButtonStyled>
-									<SpanStyled>Sort by name</SpanStyled>
-								</ButtonStyled>
-							</LiStyled>
-							<LiStyled>
-								<ButtonStyled>
-									<SpanStyled>Sort by scanlations</SpanStyled>
-								</ButtonStyled>
-							</LiStyled>
-							<LiStyled>
-								<ButtonStyled>
-									<SpanStyled>Sort by rating</SpanStyled>
-								</ButtonStyled>
-							</LiStyled>
-							<LiStyled style={{ borderBottom: 'none' }}>
-								<ButtonStyled>
-									<SpanStyled>Sort by chapters</SpanStyled>
-								</ButtonStyled>
-							</LiStyled>
-						</UlStyled>
-					</SortList>
+			<BookWrapper
+				style={{ zIndex: '4', justifyContent: !hideElements ? 'center' : 'space-between' }}>
+				<Title style={{ display: hideElements ? 'block' : 'none' }}>All Books</Title>
+				<div
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						justifyItems: 'center',
+						width: !hideElements ? '100%' : 'auto',
+					}}>
+					{windowSize.current[0] > 518 ? <SearchBar></SearchBar> : null}
+					<SearchBarConditional ref={searchBar} hideElements={hideElements} />
+					{windowSize.current[0] < 518 ? (
+						<SearchBtn
+							style={{
+								borderRadius: menuSortHeight === 0 ? '10px' : '10px 10px 0px 0px',
+								display: hideElements ? 'flex' : 'none',
+							}}
+							onClick={hideElementsHandler}>
+							<SearchStyled />
+						</SearchBtn>
+					) : null}
+					<div style={{ position: 'relative', display: hideElements ? 'flex' : 'none' }}>
+						<StyledDiv
+							ref={sortMenuBtnRef}
+							onClick={menuSortHandler}
+							style={{ borderRadius: menuSortHeight === 0 ? '10px' : '10px 10px 0px 0px' }}>
+							<SortStyled></SortStyled>
+						</StyledDiv>
+						<SortList $height={menuSortHeight} ref={sortMenuRef}>
+							<UlStyled>
+								<LiStyled>
+									<ButtonStyled>
+										<SpanStyled>Sort by name</SpanStyled>
+									</ButtonStyled>
+								</LiStyled>
+								<LiStyled>
+									<ButtonStyled>
+										<SpanStyled>Sort by scanlations</SpanStyled>
+									</ButtonStyled>
+								</LiStyled>
+								<LiStyled>
+									<ButtonStyled>
+										<SpanStyled>Sort by rating</SpanStyled>
+									</ButtonStyled>
+								</LiStyled>
+								<LiStyled style={{ borderBottom: 'none' }}>
+									<ButtonStyled>
+										<SpanStyled>Sort by chapters</SpanStyled>
+									</ButtonStyled>
+								</LiStyled>
+							</UlStyled>
+						</SortList>
+					</div>
 				</div>
 			</BookWrapper>
 			<LineBreak style={{ margin: '0 0 0 -1rem', width: 'calc(100% + 2rem)' }}></LineBreak>

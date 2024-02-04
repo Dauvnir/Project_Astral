@@ -3,8 +3,8 @@ import styled from 'styled-components';
 const ArrowBtn = styled.svg`
 	position: absolute;
 	z-index: 3;
-	right: -5px;
-	bottom: 20px;
+	right: -10px;
+	bottom: 80px;
 	cursor: pointer;
 	overflow: visible;
 	width: 40px;
@@ -28,6 +28,9 @@ const ArrowBtn = styled.svg`
 	path {
 		stroke: #e5e9f1;
 		stroke-width: 2;
+	}
+	@media (min-width: 680px) {
+		bottom: 20px;
 	}
 `;
 const BtnWrapper = styled.div`

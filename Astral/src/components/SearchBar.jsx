@@ -14,6 +14,15 @@ const StyledInput = styled.input`
 	outline: none;
 	font-size: 1.25rem;
 	color: #d9d9d9;
+	@media (min-width: 520px) {
+		width: 13.5rem;
+	}
+	@media (min-width: 700px) {
+		width: 14.5rem;
+	}
+	@media (min-width: 820px) {
+		width: 18rem;
+	}
 `;
 const SearchSvg = styled(IoSearchOutline)`
 	color: #d9d9d9;
@@ -23,18 +32,26 @@ const SearchSvg = styled(IoSearchOutline)`
 	height: 1.25rem;
 	transition: opacity 0.2s ease;
 `;
+const DivDisplay = styled.div`
+	display: none;
+	@media (min-width: 520px) {
+		display: inline;
+	}
+`;
 const SearchBar = () => {
 	const [isInputFocused, setIsInputFocused] = useState(false);
 	return (
-		<div>
-			<StyledInput
-				type='text'
-				placeholder='Search for a series'
-				onFocus={() => setIsInputFocused(true)}
-				onBlur={() => setIsInputFocused(false)}
-			/>
-			<SearchSvg style={{ opacity: isInputFocused ? 0 : 1 }} />
-		</div>
+		<>
+			<DivDisplay>
+				<StyledInput
+					type='text'
+					placeholder='Search for a series'
+					onFocus={() => setIsInputFocused(true)}
+					onBlur={() => setIsInputFocused(false)}
+				/>
+				<SearchSvg style={{ opacity: isInputFocused ? 0 : 1 }} />
+			</DivDisplay>
+		</>
 	);
 };
 
