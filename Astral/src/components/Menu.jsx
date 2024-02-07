@@ -6,7 +6,6 @@ import { FaTrophy } from 'react-icons/fa6';
 import { FaBook } from 'react-icons/fa';
 import MenuExtended from './MenuExtended';
 import { useState, useEffect, useRef } from 'react';
-
 import MenuExtendedAccount from './MenuExtendedAccount';
 import ChangeWindowTemplate from './ChangeWindowTemplate';
 import { Paragraph } from './Paragraph';
@@ -16,6 +15,10 @@ import PropTypes from 'prop-types';
 import { WrapperFlex } from './WrapperFlex';
 import { StyledForm } from '../components/StyledForm';
 import { useNavigate } from 'react-router-dom';
+import { LineBreak } from './LineBreak';
+import Chapter from './Chapter';
+import WrapperGrid from './WrapperGrid';
+import { IoSearchOutline } from 'react-icons/io5';
 
 const StyledTextarea = styled.textarea`
 	width: 100%;
@@ -129,12 +132,14 @@ const Hamburger = styled(RxHamburgerMenu)`
 	height: 100%;
 	width: 100%;
 	color: #d9d9d9;
+	scale: 1.1;
 `;
 const Account = styled(MdManageAccounts)`
 	display: inline-block;
 	height: 100%;
 	width: 100%;
 	color: #d9d9d9;
+	scale: 1.3;
 `;
 const Add = styled(IoAdd)`
 	width: 8rem;
@@ -185,6 +190,24 @@ const Image = styled.img`
 	border: 2px solid #000;
 	box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.56);
 	object-fit: cover;
+`;
+const WrapperAddBook = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+	position: absolute;
+	background-color: rgba(29, 37, 53, 1);
+	width: 95%;
+	height: clamp(20rem, 65vh, 40rem);
+	top: 17%;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 5;
+	overflow: visible;
+	border-radius: 20px;
+	box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.56);
 `;
 const ChangeEmail = ({ resetComponent }) => {
 	const [manageState, setManageState] = useState(true);
@@ -323,6 +346,9 @@ const Logout = ({ resetComponent }) => {
 		<>
 			{manageState ? (
 				<WindowTemplateStyling>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
 					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
 						Logout
 					</Paragraph>
@@ -414,6 +440,42 @@ const ReportBug = ({ resetComponent }) => {
 		</>
 	);
 };
+const StyledInputSearchBar = styled.input`
+	width: 100%;
+	height: 2.5rem;
+	background: none;
+	border: none;
+	border-bottom: 1px solid #afbfd5;
+	caret-color: #d9d9d9;
+	outline: none;
+	font-size: 1.25rem;
+	color: #d9d9d9;
+	margin: auto;
+`;
+const SearchSvg = styled(IoSearchOutline)`
+	color: #d9d9d9;
+	margin-left: -1.5rem;
+	margin-bottom: -0.25rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	transition: opacity 0.2s ease;
+`;
+const SearchBar = () => {
+	const [isInputFocused, setIsInputFocused] = useState(false);
+	return (
+		<>
+			<div style={{ paddingInline: '1rem', marginBlock: '0.5rem' }}>
+				<StyledInputSearchBar
+					type='text'
+					placeholder='Search for a series'
+					onFocus={() => setIsInputFocused(true)}
+					onBlur={() => setIsInputFocused(false)}
+				/>
+				<SearchSvg style={{ opacity: isInputFocused ? 0 : 1 }} />
+			</div>
+		</>
+	);
+};
 const Menu = () => {
 	const windowSize = useRef([window.innerWidth, window.innerHeight]);
 	const [showValue, setShowValue] = useState(0);
@@ -481,15 +543,26 @@ const Menu = () => {
 	let menuRef = useRef();
 	let extendedMenuRef = useRef();
 	let extendedMenuAccountRef = useRef();
+	let addBookRef = useRef();
+	let addBtn = useRef();
 	useEffect(() => {
 		let handler = (e) => {
 			if (
 				!menuRef.current.contains(e.target) &&
 				!extendedMenuRef.current.contains(e.target) &&
-				!extendedMenuAccountRef.current.contains(e.target)
+				!extendedMenuAccountRef.current.contains(e.target) &&
+				!addBookRef.current.contains(e.target)
 			) {
 				setShowValue2(0);
 				setShowValue(0);
+				setShowWindowToAdd(false);
+			}
+			if (
+				(menuRef.current.contains(e.target) && !addBtn.current.contains(e.target)) ||
+				extendedMenuRef.current.contains(e.target) ||
+				extendedMenuAccountRef.current.contains(e.target)
+			) {
+				setShowWindowToAdd(false);
 			}
 		};
 		document.addEventListener('mousedown', handler);
@@ -497,7 +570,12 @@ const Menu = () => {
 			document.removeEventListener('mousedown', handler);
 		};
 	}, []);
-
+	const [showWindowToAdd, setShowWindowToAdd] = useState(false);
+	const addBookHandler = () => {
+		setShowWindowToAdd((prev) => !prev);
+		setShowValue(0);
+		setShowValue2(0);
+	};
 	return (
 		<>
 			{activeComponent === 'ChangePassword' && (
@@ -534,8 +612,27 @@ const Menu = () => {
 				<AboutUs onShow={() => showComponent('AboutUs')} resetComponent={resetComponent} />
 			)}
 			{activeComponent === 'ReportBug' && (
-				<ReportBug onShow={() => showComponent('AboutUs')} resetComponent={resetComponent} />
+				<ReportBug onShow={() => showComponent('ReportBug')} resetComponent={resetComponent} />
 			)}
+
+			<WrapperAddBook ref={addBookRef} style={{ display: showWindowToAdd ? 'flex' : 'none' }}>
+				<div style={{ display: 'flex', width: '100%', flexDirection: 'column', minHeight: '5rem' }}>
+					<SearchBar></SearchBar>
+					<LineBreak></LineBreak>
+				</div>
+				<WrapperGrid
+					style={{ overflowY: 'scroll', padding: '1rem 0 0.5rem 0', marginBottom: '1rem' }}>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
+					<Chapter></Chapter>
+				</WrapperGrid>
+			</WrapperAddBook>
 			<MenuExtended $heightMenu={showValue} onShow={showComponent} ref={extendedMenuRef} />
 			<MenuExtendedAccount
 				$heightMenu={showValue2}
@@ -552,7 +649,7 @@ const Menu = () => {
 					ref={menuRef}>
 					<Account></Account>
 				</WrapperIcon>
-				<WrapperIconCircle>
+				<WrapperIconCircle onClick={addBookHandler} ref={addBtn}>
 					<Add></Add>
 				</WrapperIconCircle>
 				<WrapperIcon style={{ width: '33%', paddingLeft: '3.5rem' }}>
@@ -589,4 +686,5 @@ AboutUs.propTypes = {
 ReportBug.propTypes = {
 	resetComponent: PropTypes.func,
 };
+
 export default Menu;

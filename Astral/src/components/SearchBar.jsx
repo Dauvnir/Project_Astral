@@ -34,6 +34,7 @@ const SearchSvg = styled(IoSearchOutline)`
 `;
 const DivDisplay = styled.div`
 	display: none;
+	margin-right: 1rem;
 	@media (min-width: 520px) {
 		display: inline;
 	}

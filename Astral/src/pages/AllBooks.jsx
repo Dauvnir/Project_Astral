@@ -194,7 +194,9 @@ const AllBooks = () => {
 						justifyItems: 'center',
 						width: !hideElements ? '100%' : 'auto',
 					}}>
-					{windowSize.current[0] > 518 ? <SearchBar></SearchBar> : null}
+					{windowSize.current[0] > 518 ? (
+						<SearchBar style={{ marginRight: '1rem' }}></SearchBar>
+					) : null}
 					<SearchBarConditional ref={searchBar} hideElements={hideElements} />
 					{windowSize.current[0] < 518 ? (
 						<SearchBtn

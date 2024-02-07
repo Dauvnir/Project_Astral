@@ -6,9 +6,7 @@ const Wrapper = styled.div`
 	position: relative;
 	width: 6rem;
 	height: 9rem;
-	border: 1px solid #000;
-	border-bottom: 0px;
-	border-radius: 0.3125rem 0.3125rem 0rem 0rem;
+	border-radius: 5px 5px 0 0;
 	@media (min-width: 470px) {
 		width: 7rem;
 		height: 10rem;
@@ -36,7 +34,6 @@ const ChapterInformationWrapper = styled.div`
 	backdrop-filter: blur(2px);
 	overflow: hidden;
 	border-radius: 0 0 5px 5px;
-	border: 1px solid #000;
 	border-top: 0px;
 	@media (min-width: 470px) {
 		width: 7rem;
@@ -95,14 +92,14 @@ const Label = styled.label`
 const Image = styled.img`
 	height: 100%;
 	width: 100%;
-	border-radius: 0.3125rem 0.3125rem 0rem 0rem;
+	border-radius: 5px 5px 0 0;
 	cursor: pointer;
 `;
 const ScalingWrap = styled.div`
-	overflow: hidden;
+	overflow: visible;
 	justify-self: center;
-	box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.56);
-	border-radius: 0rem 0rem 0.3125rem 0.3125rem;
+	box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.56);
+	border-radius: 5px;
 	/* @media (min-width: 360px) {
 		transform: scale(0.6); 
 	}
