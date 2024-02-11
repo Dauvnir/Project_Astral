@@ -52,6 +52,9 @@ const MenuExtended = forwardRef(({ $heightMenu, onShow }, ref) => {
 	const activeComponent3 = () => {
 		onShow('ReportBug');
 	};
+	const activeComponent4 = () => {
+		onShow('Notifications');
+	};
 	let navigate = useNavigate();
 	const toHome = () => {
 		let path = `/library`;
@@ -64,7 +67,7 @@ const MenuExtended = forwardRef(({ $heightMenu, onShow }, ref) => {
 					<Span>Home</Span>
 				</LiElement>
 				<ExtendedLineBreak />
-				<LiElement>
+				<LiElement onClick={activeComponent4}>
 					<Span>Notifications</Span>
 				</LiElement>
 				<ExtendedLineBreak />

@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { WrapperFlex } from './WrapperFlex';
+
 const AvatarWrapper = styled.div`
 	display: flex;
 	height: 100%;
 	width: clamp(15rem, 35%, 20rem);
 	border-radius: 10px;
-	cursor: pointer;
 `;
 const AvatarNickname = styled.p`
 	display: flex;
@@ -34,10 +34,6 @@ const AvatarImage = styled.img`
 	border-bottom-right-radius: 10px;
 	border-top-right-radius: 10px;
 	background: url('/src/assets/avatar.jpeg') no-repeat center center / cover;
-	&:hover {
-		filter: blur(2px);
-		transition: filter 0.5s;
-	}
 `;
 
 const Avatar = () => {
@@ -48,7 +44,7 @@ const Avatar = () => {
 				$justifyContent='right'
 				style={{ height: '5rem' }}>
 				<AvatarWrapper>
-					<AvatarNickname>ALA_MA_kurwa_KOta</AvatarNickname>
+					<AvatarNickname>Alicja z kotem</AvatarNickname>
 					<AvatarImage></AvatarImage>
 				</AvatarWrapper>
 			</WrapperFlex>

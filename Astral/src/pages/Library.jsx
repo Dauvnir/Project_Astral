@@ -15,6 +15,7 @@ import Menu from '../components/Menu';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../components/Avatar';
 import MoveToTop from '../components/MoveToTop';
+
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -73,7 +74,6 @@ const Library = () => {
 		let path = `/library`;
 		navigate(path);
 	};
-
 	return (
 		<>
 			<MainBackground></MainBackground>

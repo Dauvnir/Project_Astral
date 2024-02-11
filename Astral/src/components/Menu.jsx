@@ -361,6 +361,28 @@ const Logout = ({ resetComponent }) => {
 		</>
 	);
 };
+const Notifications = ({ resetComponent }) => {
+	const [manageState, setManageState] = useState(true);
+	const closeHandler = (closeHandler) => {
+		setManageState(closeHandler);
+		resetComponent(closeHandler);
+	};
+	return (
+		<>
+			{manageState ? (
+				<WindowTemplateStyling>
+					<div>
+						<h2>Work in progress</h2>
+						<p>
+							<span>I dont have actually idea what should be there :D </span>
+						</p>
+					</div>
+					<ChangeWindowTemplate closeHandler={closeHandler} />
+				</WindowTemplateStyling>
+			) : null}
+		</>
+	);
+};
 const AboutUs = ({ resetComponent }) => {
 	const [manageState, setManageState] = useState(true);
 	const closeHandler = (closeHandler) => {
@@ -614,6 +636,12 @@ const Menu = () => {
 			{activeComponent === 'ReportBug' && (
 				<ReportBug onShow={() => showComponent('ReportBug')} resetComponent={resetComponent} />
 			)}
+			{activeComponent === 'Notifications' && (
+				<Notifications
+					onShow={() => showComponent('Notifications')}
+					resetComponent={resetComponent}
+				/>
+			)}
 
 			<WrapperAddBook ref={addBookRef} style={{ display: showWindowToAdd ? 'flex' : 'none' }}>
 				<div style={{ display: 'flex', width: '100%', flexDirection: 'column', minHeight: '5rem' }}>
@@ -684,6 +712,9 @@ AboutUs.propTypes = {
 	resetComponent: PropTypes.func,
 };
 ReportBug.propTypes = {
+	resetComponent: PropTypes.func,
+};
+Notifications.propTypes = {
 	resetComponent: PropTypes.func,
 };
 

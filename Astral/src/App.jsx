@@ -13,7 +13,7 @@ import Leaderboard from './pages/ Leaderboard';
 
 const App = () => {
 	return (
-		<Routes>
+		<Routes scrollRestoration='manual'>
 			<Route path='/' element={<WelcomePage />} />
 			<Route path='/login' element={<LoginLayout />}>
 				<Route index element={<LoginPage />} />
