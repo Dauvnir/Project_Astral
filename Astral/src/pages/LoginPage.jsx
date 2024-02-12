@@ -7,8 +7,11 @@ import { Link } from 'react-router-dom';
 
 const ResponsiveBackgroundWrapper = styled(BackgroundWrapper)`
 	height: 40%;
-	margin-top: 7rem;
 	width: clamp(20rem, 80vw + 1rem, 35rem);
+	position: sticky;
+	margin-inline: auto;
+	top: 50%;
+	transform: translateY(-50%);
 `;
 const CenteredStyledText = styled(StyledText)`
 	width: 100%;

@@ -43,7 +43,7 @@ const LoginLayout = () => {
 					<Outlet />
 					{pathname == '/login/logIn/forgottenPswd/succes' ||
 					pathname == '/login/signUp/registerSucces' ? null : (
-						<WrapperFlex $height='20%' style={{ alignItems: 'end' }}>
+						<WrapperFlex $overflow='visible' $height='20%' style={{ alignItems: 'end' }}>
 							<Link to={pathname != '/login' ? '/login' : '/'}>
 								<StyledBtn $margin='0 0 1.5rem 0'>
 									<StyledText>BACK</StyledText>
