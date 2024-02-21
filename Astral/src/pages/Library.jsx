@@ -57,7 +57,7 @@ const ModifiedWrapperFlexBtn = styled(WrapperFlex)`
 	gap: 1rem;
 	justify-content: flex-start;
 	transform: scale(0.9);
-	margin-right: -0.25rem;
+	margin-right: 0.25rem;
 	@media (min-width: 501px) {
 		transform: scale(1);
 		margin-right: 1rem;
@@ -77,6 +77,7 @@ const Library = () => {
 	return (
 		<>
 			<MainBackground></MainBackground>
+			<div className='overlay'></div>
 			<Menu></Menu>
 			<WrapperFlex style={{ cursor: 'pointer', marginBottom: '1.5rem' }} onClick={toLibrary}>
 				<StyledLogo></StyledLogo>

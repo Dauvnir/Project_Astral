@@ -32,6 +32,7 @@ const WelcomePage = () => {
 	return (
 		<>
 			<MainBackground></MainBackground>
+			<div className='overlay'></div>
 			<WrapperFlex $margin=' 0 0 2rem 0' onClick={toWelcomePage} style={{ cursor: 'pointer' }}>
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>

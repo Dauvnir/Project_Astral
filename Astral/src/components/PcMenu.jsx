@@ -1,25 +1,114 @@
 import styled from 'styled-components';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { MdManageAccounts } from 'react-icons/md';
-import { IoAdd } from 'react-icons/io5';
 import { FaTrophy } from 'react-icons/fa6';
 import { FaBook } from 'react-icons/fa';
-import MenuExtended from './MenuExtended';
-import { useState, useEffect, useRef } from 'react';
-import MenuExtendedAccount from './MenuExtendedAccount';
-import ChangeWindowTemplate from './ChangeWindowTemplate';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { MdManageAccounts } from 'react-icons/md';
+import { IoMdArrowDropdown } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { Paragraph } from './Paragraph';
 import { StyledInput } from './StyledInput';
 import { Label } from './Label';
-import PropTypes from 'prop-types';
 import { WrapperFlex } from './WrapperFlex';
+import ChangeWindowTemplate from './ChangeWindowTemplate';
 import { StyledForm } from '../components/StyledForm';
-import { useNavigate } from 'react-router-dom';
-import { LineBreak } from './LineBreak';
-import Chapter from './Chapter';
-import WrapperGrid from './WrapperGrid';
-import { IoSearchOutline } from 'react-icons/io5';
+import PropTypes from 'prop-types';
 
+const UlList = styled.ul`
+	display: flex;
+	list-style: none;
+	height: 100%;
+`;
+const LiElement = styled.li`
+	position: relative;
+	height: inherit;
+`;
+const BtnElement = styled.button`
+	background-color: rgba(29, 37, 53, 1);
+	display: flex;
+	place-items: center;
+	height: inherit;
+	border: none;
+	color: #d9d9d9;
+	font-size: 1.25rem;
+	padding: 1rem;
+	cursor: pointer;
+	&:hover {
+		background: rgba(217, 217, 217, 1);
+		transition: background ease 0.5s;
+		:is(*) {
+			color: rgba(29, 37, 53, 1);
+			transition: color ease 0.5s;
+		}
+	}
+`;
+const Wrapper = styled.div`
+	display: flex;
+	height: inherit;
+	position: relative;
+	z-index: 3;
+	box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
+	@media (max-width: 1199px) {
+		display: none;
+	}
+`;
+const Hamburger = styled(RxHamburgerMenu)`
+	display: inline-block;
+	height: 70%;
+	width: 100%;
+	color: #d9d9d9;
+`;
+const Account = styled(MdManageAccounts)`
+	display: inline-block;
+	height: 80%;
+	width: 100%;
+	color: #d9d9d9;
+`;
+
+const Leaderboard = styled(FaTrophy)`
+	height: 70%;
+	width: 100%;
+	color: #d9d9d9;
+`;
+
+const AllBooksIcon = styled(FaBook)`
+	height: 70%;
+	width: 100%;
+	color: #d9d9d9;
+`;
+const DropdownIcon = styled(IoMdArrowDropdown)`
+	height: 70%;
+	width: 70%;
+	color: #d9d9d9;
+`;
+const SubMenu = styled.div`
+	display: flex;
+	position: absolute;
+	z-index: 3;
+	left: 0;
+	height: ${(props) => props.$height || 0}rem;
+	overflow: hidden;
+	transition: height 0.2s ease-out;
+`;
+
+const AccountSubMenu = styled.div`
+	display: flex;
+	position: absolute;
+	z-index: 3;
+	left: 0;
+	height: ${(props) => props.$height || 0}rem;
+	overflow: hidden;
+	transition: height 0.2s ease-out;
+`;
+const SubMenuBtn = styled(BtnElement)`
+	width: 10.45rem;
+	border-bottom: 2px solid #afbfd5;
+`;
+const AccountSubMenuBtn = styled(SubMenuBtn)`
+	width: 12.1rem;
+`;
 const StyledTextarea = styled.textarea`
 	width: 100%;
 	height: 6rem;
@@ -41,127 +130,6 @@ const ExtendedParagraph = styled(Paragraph)`
 	padding-bottom: 0.5rem;
 	font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
 `;
-const MenuStyled = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	position: fixed;
-	z-index: 5;
-	width: clamp(12rem, calc(100% - 2rem), 35rem);
-	height: 4rem;
-	left: 50%;
-	transform: translateX(-50%);
-	bottom: 2rem;
-	border-radius: 20px;
-	background: rgba(29, 37, 53, 1);
-	overflow: visible;
-	box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.56);
-
-	@media (min-width: 550px) {
-		height: 4.5rem;
-	}
-	@media (min-width: 800px) {
-		height: 5rem;
-	}
-	@media (min-width: 1200px) {
-		display: none;
-	}
-`;
-
-const WrapperIcon = styled.div`
-	display: flex;
-	justify-content: center;
-	align-content: center;
-	position: relative;
-	z-index: 4;
-	height: 100%;
-	width: 17%;
-	padding-block: 10px;
-	padding-inline: 0.5rem;
-	overflow: hidden;
-	cursor: pointer;
-	&:hover {
-		background: rgba(217, 217, 217, 0.9);
-		transition: background ease 0.5s;
-		:is(svg) {
-			color: rgba(29, 37, 53, 1);
-			transition: color ease 0.5s;
-		}
-	}
-`;
-const WrapperIconLeft = styled(WrapperIcon)`
-	border-bottom-left-radius: 20px;
-	border-top-left-radius: 20px;
-`;
-const WrapperIconRight = styled(WrapperIcon)`
-	border-bottom-right-radius: 20px;
-	border-top-right-radius: 20px;
-`;
-const WrapperIconCircle = styled.div`
-	display: flex;
-	position: absolute;
-	align-items: center;
-	justify-content: center;
-	left: 0;
-	right: 0;
-	margin-left: auto;
-	margin-right: auto;
-	z-index: 5;
-	width: 5rem;
-	height: 5rem;
-	overflow: visible;
-	border-radius: 50%;
-	background-color: rgba(29, 37, 53, 1);
-	box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.56);
-	cursor: pointer;
-	&:hover {
-		background: rgba(217, 217, 217, 0.9);
-		transition: background ease 0.5s;
-		:is(svg) {
-			color: rgba(29, 37, 53, 1);
-			transition: color ease 0.5s;
-		}
-	}
-	@media (min-width: 500px) {
-		width: 6rem;
-		height: 6rem;
-	}
-`;
-const Hamburger = styled(RxHamburgerMenu)`
-	display: inline-block;
-	height: 100%;
-	width: 100%;
-	color: #d9d9d9;
-	scale: 1.1;
-`;
-const Account = styled(MdManageAccounts)`
-	display: inline-block;
-	height: 100%;
-	width: 100%;
-	color: #d9d9d9;
-	scale: 1.3;
-`;
-const Add = styled(IoAdd)`
-	width: 8rem;
-	height: 8rem;
-	border-radius: 100%;
-	color: #d9d9d9;
-`;
-const Leaderboard = styled(FaTrophy)`
-	height: 100%;
-	width: 100%;
-	color: #d9d9d9;
-`;
-
-const AllBooksIcon = styled(FaBook)`
-	display: inline-block;
-	height: 100%;
-	width: 100%;
-	color: #d9d9d9;
-`;
-const Input = styled(StyledInput)`
-	margin: 1rem auto;
-`;
 const WindowTemplateStyling = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -174,13 +142,15 @@ const WindowTemplateStyling = styled.div`
 	margin: 0 auto;
 	background-color: rgba(29, 37, 53, 1);
 	left: 50%;
-	top: 50%;
-	transform: translate3D(-50%, -50%, 0);
+	top: -20%;
+	transform: translate3D(-50%, 20%, 0);
 	border-radius: 10%;
 	padding: 1rem;
 	box-shadow: rgba(0, 0, 0, 0.56) 0px 0px 10px 4px;
 	pointer-events: auto;
-	filter: none;
+`;
+const Input = styled(StyledInput)`
+	margin: 1rem auto;
 `;
 const Image = styled.img`
 	position: relative;
@@ -191,24 +161,6 @@ const Image = styled.img`
 	border: 2px solid #000;
 	box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.56);
 	object-fit: cover;
-`;
-const WrapperAddBook = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	text-align: center;
-	position: absolute;
-	background-color: rgba(29, 37, 53, 1);
-	width: 95%;
-	height: clamp(20rem, 65vh, 40rem);
-	top: 17%;
-	left: 50%;
-	transform: translateX(-50%);
-	z-index: 5;
-	overflow: visible;
-	border-radius: 20px;
-	box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.56);
 `;
 const ChangeEmail = ({ resetComponent }) => {
 	const [manageState, setManageState] = useState(true);
@@ -347,9 +299,6 @@ const Logout = ({ resetComponent }) => {
 		<>
 			{manageState ? (
 				<WindowTemplateStyling>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
 					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
 						Logout
 					</Paragraph>
@@ -371,13 +320,16 @@ const Notifications = ({ resetComponent }) => {
 	return (
 		<>
 			{manageState ? (
-				<WindowTemplateStyling>
-					<div>
-						<h2>Work in progress</h2>
-						<p>
-							<span>I dont have actually idea what should be there :D </span>
-						</p>
-					</div>
+				<WindowTemplateStyling style={{ top: '40%' }}>
+					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Notifications settings
+					</Paragraph>
+					<Paragraph $fontSize='1.125rem' $fontWeight='500' $margin='0 auto 1rem auto'>
+						Do you want to get notifications about new chapters?
+					</Paragraph>
+					<Paragraph>
+						<input type='checkbox' /> Yes, I want.
+					</Paragraph>
 					<ChangeWindowTemplate closeHandler={closeHandler} />
 				</WindowTemplateStyling>
 			) : null}
@@ -463,129 +415,53 @@ const ReportBug = ({ resetComponent }) => {
 		</>
 	);
 };
-const StyledInputSearchBar = styled.input`
-	width: 100%;
-	height: 2.5rem;
-	background: none;
-	border: none;
-	border-bottom: 1px solid #afbfd5;
-	caret-color: #d9d9d9;
-	outline: none;
-	font-size: 1.25rem;
-	color: #d9d9d9;
-	margin: auto;
-`;
-const SearchSvg = styled(IoSearchOutline)`
-	color: #d9d9d9;
-	margin-left: -1.5rem;
-	margin-bottom: -0.25rem;
-	width: 1.25rem;
-	height: 1.25rem;
-	transition: opacity 0.2s ease;
-`;
-const SearchBar = () => {
-	const [isInputFocused, setIsInputFocused] = useState(false);
-	return (
-		<>
-			<div style={{ paddingInline: '1rem', marginBlock: '0.5rem' }}>
-				<StyledInputSearchBar
-					type='text'
-					placeholder='Search for a series'
-					onFocus={() => setIsInputFocused(true)}
-					onBlur={() => setIsInputFocused(false)}
-				/>
-				<SearchSvg style={{ opacity: isInputFocused ? 0 : 1 }} />
-			</div>
-		</>
-	);
-};
-const Menu = () => {
-	const windowSize = useRef([window.innerWidth, window.innerHeight]);
-	const [showValue, setShowValue] = useState(0);
-	const menuHidingHandler = () => {
-		if (windowSize.current[0] >= 550) {
-			if (showValue == 0) {
-				setShowValue(25.5);
-				setShowValue2(0);
-			} else {
-				setShowValue(0);
-			}
-		}
-		if (windowSize.current[0] < 550) {
-			if (showValue == 0) {
-				setShowValue(21);
-				setShowValue2(0);
-			} else {
-				setShowValue(0);
-			}
-		}
-	};
-	const [showValue2, setShowValue2] = useState(0);
-	const menuHidingHandler2 = () => {
-		if (windowSize.current[0] >= 550) {
-			if (showValue2 == 0) {
-				setShowValue2(25.5);
-				setShowValue(0);
-			} else {
-				setShowValue2(0);
-			}
-		}
-		if (windowSize.current[0] < 550) {
-			if (showValue2 == 0) {
-				setShowValue2(21);
-				setShowValue(0);
-			} else {
-				setShowValue2(0);
-			}
-		}
-	};
-	const [activeComponent, setActiveComponent] = useState(null);
-	const showComponent = (componentName) => {
-		setActiveComponent(componentName);
-		setShowValue2(0);
-		setShowValue(0);
-		document.body.classList.add('disableInteractions');
-	};
-	// eslint-disable-next-line no-unused-vars
-	const [resetComponentValue, setResetComponent] = useState(null);
-	const resetComponent = (resetValue, componentName) => {
-		setResetComponent(resetValue);
-		!resetComponentValue ? setActiveComponent(null) : setActiveComponent(componentName);
-		document.body.classList.remove('disableInteractions');
-	};
+const PcMenu = () => {
 	let navigate = useNavigate();
-	const toBooks = () => {
-		let path = `/library/allBooks`;
+	const toLeaderboard = () => {
+		let path = '/library/leaderboard';
 		navigate(path);
 	};
 	let navigate2 = useNavigate();
-	const toLeaderboard = () => {
-		let path2 = '/library/leaderboard';
+	const toBooks = () => {
+		let path2 = '/library/allBooks';
 		navigate2(path2);
 	};
-	let menuRef = useRef();
-	let extendedMenuRef = useRef();
-	let extendedMenuAccountRef = useRef();
-	let addBookRef = useRef();
-	let addBtn = useRef();
+	let navigate3 = useNavigate();
+	const toHome = () => {
+		let path3 = '/library';
+		navigate3(path3);
+	};
+	// eslint-disable-next-line no-unused-vars
+	const [subMenuHeight, setSubMenuHeight] = useState(0);
+	const subMenuHeightHandler = () => {
+		setSubMenuHeight((prevHeight) => {
+			if (prevHeight === 0) {
+				setAccountSubMenuHeight(0);
+				return 18;
+			} else {
+				return 0;
+			}
+		});
+	};
+	// eslint-disable-next-line no-unused-vars
+	const [accountSubMenuHeight, setAccountSubMenuHeight] = useState(0);
+	const subAccountMenuHeightHandler = () => {
+		setAccountSubMenuHeight((prevHeight) => {
+			if (prevHeight === 0) {
+				setSubMenuHeight(0);
+				return 18;
+			} else {
+				return 0;
+			}
+		});
+	};
+	let subMenuRef = useRef();
+	let accountMenuRef = useRef();
 	useEffect(() => {
 		let handler = (e) => {
-			if (
-				!menuRef.current.contains(e.target) &&
-				!extendedMenuRef.current.contains(e.target) &&
-				!extendedMenuAccountRef.current.contains(e.target) &&
-				!addBookRef.current.contains(e.target)
-			) {
-				setShowValue2(0);
-				setShowValue(0);
-				setShowWindowToAdd(false);
-			}
-			if (
-				(menuRef.current.contains(e.target) && !addBtn.current.contains(e.target)) ||
-				extendedMenuRef.current.contains(e.target) ||
-				extendedMenuAccountRef.current.contains(e.target)
-			) {
-				setShowWindowToAdd(false);
+			if (!subMenuRef.current.contains(e.target) && !accountMenuRef.current.contains(e.target)) {
+				setSubMenuHeight(0);
+				setAccountSubMenuHeight(0);
 			}
 		};
 		document.addEventListener('mousedown', handler);
@@ -593,12 +469,74 @@ const Menu = () => {
 			document.removeEventListener('mousedown', handler);
 		};
 	}, []);
-	const [showWindowToAdd, setShowWindowToAdd] = useState(false);
-	const addBookHandler = () => {
-		setShowWindowToAdd((prev) => !prev);
-		setShowValue(0);
-		setShowValue2(0);
+	const [resetComponentValue, setResetComponent] = useState(null);
+	const [activeComponent, setActiveComponent] = useState(null);
+	const showComponent = (componentName) => {
+		setActiveComponent(componentName);
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
 	};
+	const resetComponent = (resetValue, componentName) => {
+		setResetComponent(resetValue);
+		!resetComponentValue ? setActiveComponent(null) : setActiveComponent(componentName);
+		document.body.classList.remove('disableInteractions');
+	};
+	const activeComponent1 = () => {
+		setActiveComponent('ChangePassword');
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
+	};
+	const activeComponent2 = () => {
+		setActiveComponent('ChangeEmail');
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
+	};
+	const activeComponent3 = () => {
+		setActiveComponent('ChangeNickname');
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
+	};
+	const activeComponent4 = () => {
+		setActiveComponent('ChangeAvatar');
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
+	};
+	const activeComponent5 = () => {
+		setActiveComponent('DeleteAccount');
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
+	};
+	const activeComponent6 = () => {
+		setActiveComponent('Notifications');
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
+	};
+	const activeComponent7 = () => {
+		setActiveComponent('AboutUs');
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
+	};
+	const activeComponent8 = () => {
+		setActiveComponent('ReportBug');
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
+	};
+	const activeComponent9 = () => {
+		setActiveComponent('LogOut');
+		setSubMenuHeight(0);
+		setAccountSubMenuHeight(0);
+		document.body.classList.add('disableInteractions');
+	};
+
 	return (
 		<>
 			{activeComponent === 'ChangePassword' && (
@@ -643,51 +581,98 @@ const Menu = () => {
 					resetComponent={resetComponent}
 				/>
 			)}
-
-			<WrapperAddBook ref={addBookRef} style={{ display: showWindowToAdd ? 'flex' : 'none' }}>
-				<div style={{ display: 'flex', width: '100%', flexDirection: 'column', minHeight: '5rem' }}>
-					<SearchBar></SearchBar>
-					<LineBreak></LineBreak>
-				</div>
-				<WrapperGrid
-					style={{ overflowY: 'scroll', padding: '1rem 0 0.5rem 0', marginBottom: '1rem' }}>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-				</WrapperGrid>
-			</WrapperAddBook>
-			<MenuExtended $heightMenu={showValue} onShow={showComponent} ref={extendedMenuRef} />
-			<MenuExtendedAccount
-				$heightMenu={showValue2}
-				onShow={showComponent}
-				ref={extendedMenuAccountRef}
-			/>
-			<MenuStyled style={{ pointerEvents: activeComponent ? 'none' : 'auto' }} ref={menuRef}>
-				<WrapperIconLeft onClick={menuHidingHandler}>
-					<Hamburger />
-				</WrapperIconLeft>
-				<WrapperIcon
-					onClick={menuHidingHandler2}
-					style={{ width: '33%', paddingRight: '3.5rem' }}
-					ref={menuRef}>
-					<Account></Account>
-				</WrapperIcon>
-				<WrapperIconCircle onClick={addBookHandler} ref={addBtn}>
-					<Add></Add>
-				</WrapperIconCircle>
-				<WrapperIcon style={{ width: '33%', paddingLeft: '3.5rem' }}>
-					<Leaderboard onClick={toLeaderboard}></Leaderboard>
-				</WrapperIcon>
-				<WrapperIconRight>
-					<AllBooksIcon onClick={toBooks} />
-				</WrapperIconRight>
-			</MenuStyled>
+			<Wrapper>
+				<UlList>
+					<LiElement ref={subMenuRef}>
+						<BtnElement onClick={subMenuHeightHandler}>
+							<Hamburger></Hamburger>
+							<span style={{ marginInline: '0.5rem' }}>Menu</span>
+							<DropdownIcon />
+						</BtnElement>
+						<SubMenu $height={subMenuHeight}>
+							<ul style={{ listStyle: 'none' }}>
+								<li>
+									<SubMenuBtn onClick={toHome}>
+										<span>Home</span>
+									</SubMenuBtn>
+								</li>
+								<li>
+									<SubMenuBtn onClick={activeComponent6}>
+										<span>Notfication</span>
+									</SubMenuBtn>
+								</li>
+								<li>
+									<SubMenuBtn onClick={activeComponent7}>
+										<span>About me</span>
+									</SubMenuBtn>
+								</li>
+								<li>
+									<SubMenuBtn onClick={activeComponent8}>
+										<span>Report bug</span>
+									</SubMenuBtn>
+								</li>
+								<li>
+									<SubMenuBtn
+										style={{ borderBottomRightRadius: '20px', borderBottom: 'none' }}
+										onClick={activeComponent9}>
+										<span>Logout</span>
+									</SubMenuBtn>
+								</li>
+							</ul>
+						</SubMenu>
+					</LiElement>
+					<LiElement ref={accountMenuRef}>
+						<BtnElement onClick={subAccountMenuHeightHandler}>
+							<Account></Account>
+							<span style={{ marginInline: '0.5rem' }}>Account</span>
+							<DropdownIcon />
+						</BtnElement>
+						<AccountSubMenu $height={accountSubMenuHeight}>
+							<ul style={{ listStyle: 'none' }}>
+								<li>
+									<AccountSubMenuBtn onClick={activeComponent1}>
+										<span>Change Password</span>
+									</AccountSubMenuBtn>
+								</li>
+								<li>
+									<AccountSubMenuBtn onClick={activeComponent2}>
+										<span>Change Email</span>
+									</AccountSubMenuBtn>
+								</li>
+								<li>
+									<AccountSubMenuBtn onClick={activeComponent3}>
+										<span style={{ whiteSpace: 'nowrap' }}>Change Nickname</span>
+									</AccountSubMenuBtn>
+								</li>
+								<li>
+									<AccountSubMenuBtn onClick={activeComponent4}>
+										<span>Change Avatar</span>
+									</AccountSubMenuBtn>
+								</li>
+								<li>
+									<AccountSubMenuBtn
+										onClick={activeComponent5}
+										style={{ borderBottom: 'none', borderRadius: '0px 0px 20px 20px' }}>
+										<span>Delete Account</span>
+									</AccountSubMenuBtn>
+								</li>
+							</ul>
+						</AccountSubMenu>
+					</LiElement>
+					<LiElement>
+						<BtnElement onClick={toLeaderboard}>
+							<Leaderboard></Leaderboard>
+							<span style={{ marginLeft: '0.5rem' }}>Leaderboards</span>
+						</BtnElement>
+					</LiElement>
+					<LiElement>
+						<BtnElement style={{ borderRadius: ' 0 10px 10px 0' }} onClick={toBooks}>
+							<AllBooksIcon></AllBooksIcon>
+							<span style={{ marginLeft: '0.5rem', whiteSpace: 'nowrap' }}>All books</span>
+						</BtnElement>
+					</LiElement>
+				</UlList>
+			</Wrapper>
 		</>
 	);
 };
@@ -718,5 +703,4 @@ ReportBug.propTypes = {
 Notifications.propTypes = {
 	resetComponent: PropTypes.func,
 };
-
-export default Menu;
+export default PcMenu;

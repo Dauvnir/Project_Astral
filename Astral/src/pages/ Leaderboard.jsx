@@ -9,13 +9,16 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import MoveToTop from '../components/MoveToTop';
+import { Paragraph } from '../components/Paragraph';
+import ImgCarouselWrapper from '../components/ImgCarouselWrapper';
+
 const LeaderboardWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding-inline: 1rem;
 	width: calc(100% + 3rem);
 	background-color: rgba(29, 37, 53, 0.7);
-	height: auto;
+	height: 100%;
 	position: relative;
 	z-index: 2;
 	margin-left: -1.5rem;
@@ -27,7 +30,7 @@ const LeaderboardHeadersWrapper = styled.div`
 	justify-content: space-between;
 	flex-direction: colums;
 	width: 100%;
-	height: 15%;
+	height: 5rem;
 `;
 
 const LeaderboardHeaderWrapper = styled.div`
@@ -123,6 +126,7 @@ const LeaderboardRow = ({ place, name, score }) => {
 		</>
 	);
 };
+
 const Leaderboard = () => {
 	let navigate = useNavigate();
 	const toLibrary = () => {
@@ -151,12 +155,30 @@ const Leaderboard = () => {
 	return (
 		<>
 			<MainBackground />
-
+			<div className='overlay'></div>
 			<Menu />
 			<WrapperFlex style={{ cursor: 'pointer', marginBottom: '1.5rem' }} onClick={toLibrary}>
 				<StyledLogo />
 			</WrapperFlex>
 			<Avatar />
+			<Paragraph
+				$textAlign='left'
+				$fontSize='clamp(2rem, 2vw + 1rem , 5rem)'
+				$fontWeight='600'
+				style={{ position: 'relative', zIndex: '2', marginTop: '1.5rem' }}>
+				Popular Today
+			</Paragraph>
+			<WrapperFlex
+				style={{
+					marginBottom: '1.5rem',
+					width: 'calc(100% + 2rem)',
+					marginLeft: '-1rem',
+					overflow: 'visible',
+				}}>
+				<WrapperFlex $width='100%'>
+					<ImgCarouselWrapper></ImgCarouselWrapper>
+				</WrapperFlex>
+			</WrapperFlex>
 			<WrapperFlexResponsive $justifyContent='left' $margin='3rem  0 0  -1rem'>
 				<ButtonStyled onClick={ReviewsStateHandler} style={{ opacity: ReviewsState ? 1 : 0.5 }}>
 					<SpanStyled>Reviews Royale</SpanStyled>

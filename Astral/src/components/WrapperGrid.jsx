@@ -5,10 +5,11 @@ const WrapperGrid = styled.div`
 	position: relative;
 	z-index: 2;
 	width: 100%;
-	height: auto;
 	grid-template-columns: repeat(3, 33.33%);
+	grid-auto-rows: min-content;
 	grid-auto-flow: row;
-	row-gap: 1rem;
+	row-gap: 2rem;
+	padding-bottom: 5rem;
 	@media (min-width: 600px) {
 		grid-template-columns: repeat(4, 25%);
 	}

@@ -32,6 +32,7 @@ const LoginLayout = () => {
 	return (
 		<>
 			<MainBackground></MainBackground>
+			<div className='overlay'></div>
 			<WrapperMain>
 				<WrapperFlex
 					$margin=' 0 0 2rem 0'

@@ -16,6 +16,9 @@ import MoveToTop from '../components/MoveToTop';
 import SearchBar from '../components/SearchBar';
 import { IoSearchOutline } from 'react-icons/io5';
 import SearchBarConditional from '../components/SearchBarConditional';
+import { Paragraph } from '../components/Paragraph';
+import ImgCarouselWrapper from '../components/ImgCarouselWrapper';
+
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -23,7 +26,6 @@ const BookWrapper = styled.div`
 	background-color: rgba(29, 37, 53, 0.7);
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.56);
 	width: calc(100% + 2rem);
-	height: auto;
 	position: relative;
 	z-index: 3;
 	padding-block: 1rem;
@@ -179,11 +181,30 @@ const AllBooks = () => {
 	return (
 		<>
 			<MainBackground />
+			<div className='overlay'></div>
 			<Menu />
 			<WrapperFlex style={{ cursor: 'pointer', marginBottom: '1.5rem' }} onClick={toLibrary}>
 				<StyledLogo />
 			</WrapperFlex>
 			<Avatar />
+			<Paragraph
+				$textAlign='left'
+				$fontSize='clamp(2rem, 2vw + 1rem , 5rem)'
+				$fontWeight='600'
+				style={{ position: 'relative', zIndex: '2', marginTop: '1.5rem' }}>
+				Popular Today
+			</Paragraph>
+			<WrapperFlex
+				style={{
+					marginBottom: '1.5rem',
+					width: 'calc(100% + 2rem)',
+					marginLeft: '-1rem',
+					overflow: 'visible',
+				}}>
+				<WrapperFlex $width='100%'>
+					<ImgCarouselWrapper></ImgCarouselWrapper>
+				</WrapperFlex>
+			</WrapperFlex>
 			<BookWrapper
 				style={{ zIndex: '4', justifyContent: !hideElements ? 'center' : 'space-between' }}>
 				<Title style={{ display: hideElements ? 'block' : 'none' }}>All Books</Title>
@@ -243,7 +264,7 @@ const AllBooks = () => {
 				</div>
 			</BookWrapper>
 			<LineBreak style={{ margin: '0 0 0 -1rem', width: 'calc(100% + 2rem)' }}></LineBreak>
-			<BookWrapper style={{ marginTop: '0rem' }}>
+			<BookWrapper style={{ marginTop: '0rem', height: 'auto' }}>
 				<WrapperGrid style={{ paddingInline: '1rem' }}>
 					<Chapter></Chapter>
 					<Chapter></Chapter>

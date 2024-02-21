@@ -44,7 +44,6 @@ const BtnWrapper = styled.div`
 const MoveToTop = () => {
 	const ScrollToTop = () => {
 		document.body.scrollTo({ top: 0, behavior: 'smooth' });
-		console.log('click');
 	};
 	return (
 		<BtnWrapper>
