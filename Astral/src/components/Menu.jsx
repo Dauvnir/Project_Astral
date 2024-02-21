@@ -180,7 +180,6 @@ const WindowTemplateStyling = styled.div`
 	padding: 1rem;
 	box-shadow: rgba(0, 0, 0, 0.56) 0px 0px 10px 4px;
 	pointer-events: auto;
-	filter: none;
 `;
 const Image = styled.img`
 	position: relative;
