@@ -8,10 +8,12 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import RegistrationSuccess from './pages/RegistrationSuccess';
 import Library from './pages/Library';
+import AllBooks from './pages/AllBooks';
+import Leaderboard from './pages/ Leaderboard';
 
 const App = () => {
 	return (
-		<Routes>
+		<Routes scrollRestoration='manual'>
 			<Route path='/' element={<WelcomePage />} />
 			<Route path='/login' element={<LoginLayout />}>
 				<Route index element={<LoginPage />} />
@@ -27,7 +29,11 @@ const App = () => {
 					<Route path='registerSucces' element={<RegistrationSuccess />} />
 				</Route>
 			</Route>
-			<Route path='/library' element={<Library />} />
+			<Route path='/library'>
+				<Route index element={<Library />} />
+				<Route path='allBooks' element={<AllBooks />} />
+				<Route path='leaderboard' element={<Leaderboard />} />
+			</Route>
 		</Routes>
 	);
 };

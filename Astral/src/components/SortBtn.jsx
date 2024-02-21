@@ -1,27 +1,34 @@
+import { MdSort } from 'react-icons/md';
+import styled from 'styled-components';
+
+const SortStyled = styled(MdSort)`
+	color: rgba(217, 217, 217, 0.9);
+	width: 90%;
+	height: auto;
+`;
+const StyledDiv = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #afbfd5;
+	border-radius: 10px;
+	width: 56px;
+	height: 56px;
+	cursor: pointer;
+	&:hover {
+		background: rgba(217, 217, 217, 0.9);
+		transition: background linear 0.3s;
+		:is(svg) {
+			color: rgba(29, 37, 53, 1);
+			transition: color linear 0.3s;
+		}
+	}
+`;
 const SortBtn = () => {
 	return (
-		<div style={{ width: '56px', height: '56px', cursor: 'pointer' }}>
-			<svg
-				width='64'
-				height='64'
-				viewBox='0 0 64 64'
-				fill='none'
-				xmlns='http://www.w3.org/2000/svg'>
-				<rect
-					x='0.733398'
-					y='0.5'
-					width='54.5333'
-					height='54.5333'
-					rx='9.5'
-					fill='#1D2535'
-					stroke='#AFBFD5'
-				/>
-				<circle cx='15.7501' cy='40.0165' r='6.85' stroke='#E5E9F1' />
-				<circle cx='38.6166' cy='40.0165' r='6.85' stroke='#E5E9F1' />
-				<circle cx='15.7501' cy='15.5167' r='6.85' stroke='#E5E9F1' />
-				<circle cx='38.6166' cy='15.5167' r='6.85' stroke='#E5E9F1' />
-			</svg>
-		</div>
+		<StyledDiv>
+			<SortStyled></SortStyled>
+		</StyledDiv>
 	);
 };
 

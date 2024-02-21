@@ -5,7 +5,7 @@ export const BackgroundWrapper = styled.div`
 	position: relative;
 	z-index: 2;
 	width: clamp(15rem, 85% + 1rem, 35rem);
-	height: auto;
+	min-height: 15rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;

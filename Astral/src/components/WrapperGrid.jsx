@@ -5,10 +5,11 @@ const WrapperGrid = styled.div`
 	position: relative;
 	z-index: 2;
 	width: 100%;
-	height: auto;
 	grid-template-columns: repeat(3, 33.33%);
+	grid-auto-rows: min-content;
 	grid-auto-flow: row;
-	row-gap: 1rem;
+	row-gap: 2rem;
+	padding-bottom: 5rem;
 	@media (min-width: 600px) {
 		grid-template-columns: repeat(4, 25%);
 	}
@@ -19,6 +20,18 @@ const WrapperGrid = styled.div`
 
 	@media (min-width: 1100px) {
 		grid-template-columns: repeat(6, calc(100% / 6));
+	}
+	@media (min-width: 1300px) {
+		grid-template-columns: repeat(7, calc(100% / 7));
+	}
+	@media (min-width: 1500px) {
+		grid-template-columns: repeat(8, calc(100% / 8));
+	}
+	@media (min-width: 1700px) {
+		grid-template-columns: repeat(9, calc(100% / 9));
+	}
+	@media (min-width: 1900px) {
+		grid-template-columns: repeat(10, calc(100% / 10));
 	}
 `;
 

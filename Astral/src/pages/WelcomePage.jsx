@@ -11,6 +11,7 @@ import Footer from '../components/Footer';
 import Form from '../components/Form';
 import MoveToTopBtn from '../components/MoveToTopBtn';
 import { WrapperFlex } from '../components/WrapperFlex';
+import { useNavigate } from 'react-router-dom';
 
 const ResponsiveWrapperFlex = styled(WrapperFlex)`
 	flex-wrap: wrap;
@@ -23,10 +24,16 @@ const ResponsiveWrapperFlex = styled(WrapperFlex)`
 `;
 
 const WelcomePage = () => {
+	let navigate = useNavigate();
+	const toWelcomePage = () => {
+		let path = `/`;
+		navigate(path);
+	};
 	return (
 		<>
 			<MainBackground></MainBackground>
-			<WrapperFlex $margin=' 0 0 2rem 0'>
+			<div className='overlay'></div>
+			<WrapperFlex $margin=' 0 0 2rem 0' onClick={toWelcomePage} style={{ cursor: 'pointer' }}>
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
 			<WelcomeMsg></WelcomeMsg>

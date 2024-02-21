@@ -3,12 +3,16 @@ import styled, { keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 const slider = keyframes`
 	to{
-		transform: translateX(calc(-50%  - 0.5rem))
+		transform: translateX(calc(-50%  - 0.5rem));
+		-webkit-transform: translateX((calc(-50%  - 0.5rem)));
+		-moz-transform: translateX((calc(-50%  - 0.5rem)));
 	}	
 `;
 const slider2 = keyframes`
 	to{
-		transform: translateX(calc(-50%  - 1rem))
+		transform: translateX(calc(-50%  - 1rem));
+		-webkit-transform: translateX((calc(-50%  - 1rem)));
+		-moz-transform: translateX((calc(-50%  - 1rem)));
 	}	
 `;
 
@@ -17,8 +21,6 @@ const StyledImgCarouselWrapper = styled.div`
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	padding-top: 2rem;
-	padding-bottom: 14rem;
 	height: 14rem;
 	overflow: hidden;
 	position: relative;
@@ -35,19 +37,22 @@ const StyledImgCarouselElements = styled.ul`
 	z-index: 2;
 	align-items: flex-start;
 	white-space: nowrap;
-	height: auto;
+	height: 100%;
 	gap: 1rem;
 	margin-bottom: 1rem;
-	animation: ${slider} 60s linear infinite reverse; // variable for reverse can be created
+	animation: ${slider} 120s linear infinite reverse; // variable for reverse can be created
+	-webkit-animation: ${slider} 120s linear infinite reverse;
+	-moz-animation: ${slider} 120s linear infinite reverse;
 	width: max-content;
 	pointer-events: none;
-
 	&:hover {
 		animation-play-state: paused, running;
 	}
 	@media (min-width: 801px) {
 		gap: 2rem;
-		animation: ${slider2} 60s linear infinite reverse;
+		animation: ${slider2} 120s linear infinite reverse;
+		-webkit-animation: ${slider2} 120s linear infinite reverse;
+		-moz-animation: ${slider2} 120s linear infinite reverse;
 	}
 `;
 
@@ -61,6 +66,7 @@ const StyledImgCarouselElement = styled.li`
 	height: 12rem;
 	transform: scale(1);
 	pointer-events: auto;
+	margin-block: auto;
 	&:hover {
 		transform: scale(1.1);
 		z-index: 3;

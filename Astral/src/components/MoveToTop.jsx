@@ -1,11 +1,26 @@
 import styled from 'styled-components';
 
 const ArrowBtn = styled.svg`
+	position: absolute;
+	z-index: 3;
+	right: -10px;
+	bottom: 80px;
 	cursor: pointer;
 	overflow: visible;
 	width: 40px;
 	height: 40px;
 	fill: none;
+	&:hover {
+		transition: all ease 0.5s;
+		:is(circle) {
+			fill: rgba(217, 217, 217, 0.9);
+			transition: fill ease 0.5s;
+		}
+		:is(path) {
+			stroke: rgba(29, 37, 53, 0.9);
+			transition: stroke ease 0.5s;
+		}
+	}
 	circle {
 		fill: #1d2535;
 		filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.56));
@@ -14,22 +29,21 @@ const ArrowBtn = styled.svg`
 		stroke: #e5e9f1;
 		stroke-width: 2;
 	}
+	@media (min-width: 680px) {
+		bottom: 20px;
+	}
 `;
 const BtnWrapper = styled.div`
 	display: flex;
 	position: relative;
 	justify-content: flex-end;
 	align-items: center;
-	z-index: 2;
 	width: 100%;
-	height: auto;
-	margin-bottom: 1.5rem;
+	background-color: rgba(29, 37, 53, 0.7);
 `;
-
-const MoveToTopBtn = () => {
+const MoveToTop = () => {
 	const ScrollToTop = () => {
 		document.body.scrollTo({ top: 0, behavior: 'smooth' });
-		console.log('click');
 	};
 	return (
 		<BtnWrapper>
@@ -41,4 +55,4 @@ const MoveToTopBtn = () => {
 	);
 };
 
-export default MoveToTopBtn;
+export default MoveToTop;

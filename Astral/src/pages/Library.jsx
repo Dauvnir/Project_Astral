@@ -12,6 +12,10 @@ import WrapperGrid from '../components/WrapperGrid';
 import Chapter from '../components/Chapter';
 import Footer from '../components/Footer';
 import Menu from '../components/Menu';
+import { useNavigate } from 'react-router-dom';
+import Avatar from '../components/Avatar';
+import MoveToTop from '../components/MoveToTop';
+
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -53,7 +57,7 @@ const ModifiedWrapperFlexBtn = styled(WrapperFlex)`
 	gap: 1rem;
 	justify-content: flex-start;
 	transform: scale(0.9);
-	margin-right: -0.25rem;
+	margin-right: 0.25rem;
 	@media (min-width: 501px) {
 		transform: scale(1);
 		margin-right: 1rem;
@@ -63,15 +67,22 @@ const ModifiedWrapperFlexBtn = styled(WrapperFlex)`
 		margin-right: 2rem;
 	}
 `;
+
 const Library = () => {
+	let navigate = useNavigate();
+	const toLibrary = () => {
+		let path = `/library`;
+		navigate(path);
+	};
 	return (
 		<>
 			<MainBackground></MainBackground>
+			<div className='overlay'></div>
 			<Menu></Menu>
-			<WrapperFlex>
+			<WrapperFlex style={{ cursor: 'pointer', marginBottom: '1.5rem' }} onClick={toLibrary}>
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
-			<WrapperFlex style={{ backgroundColor: 'red', height: '5rem' }}></WrapperFlex>
+			<Avatar />
 			<Paragraph
 				$textAlign='left'
 				$fontSize='clamp(2rem, 2vw + 1rem , 5rem)'
@@ -117,6 +128,7 @@ const Library = () => {
 					<Chapter></Chapter>
 				</WrapperGrid>
 			</ChapterWrapper>
+			<MoveToTop></MoveToTop>
 			<Footer />
 		</>
 	);
