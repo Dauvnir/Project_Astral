@@ -108,6 +108,7 @@ const SubMenuBtn = styled(BtnElement)`
 `;
 const AccountSubMenuBtn = styled(SubMenuBtn)`
 	width: 12.1rem;
+	white-space: nowrap;
 `;
 const StyledTextarea = styled.textarea`
 	width: 100%;
@@ -135,15 +136,15 @@ const WindowTemplateStyling = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
-	position: absolute;
+	position: fixed;
 	z-index: 5;
 	width: clamp(15rem, 80%, 30rem);
 	height: auto;
 	margin: 0 auto;
 	background-color: rgba(29, 37, 53, 1);
 	left: 50%;
-	top: -20%;
-	transform: translate3D(-50%, 20%, 0);
+	top: 50%;
+	transform: translate(-50%, -50%);
 	border-radius: 10%;
 	padding: 1rem;
 	box-shadow: rgba(0, 0, 0, 0.56) 0px 0px 10px 4px;
@@ -320,7 +321,7 @@ const Notifications = ({ resetComponent }) => {
 	return (
 		<>
 			{manageState ? (
-				<WindowTemplateStyling style={{ top: '40%' }}>
+				<WindowTemplateStyling>
 					<Paragraph $fontSize='2rem' $fontWeight='500' $margin='0 auto 1rem auto'>
 						Notifications settings
 					</Paragraph>

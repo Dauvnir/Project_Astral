@@ -13,6 +13,8 @@ const AvatarNickname = styled.p`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	position: relative;
+	z-index: 3;
 	width: 70%;
 	height: 100%;
 	background: rgba(29, 37, 53, 0.7);
@@ -38,6 +40,7 @@ const AvatarImage = styled.img`
 	background: url('/src/assets/avatar.jpeg') no-repeat center center / cover;
 `;
 const AdjustedWrapper = styled(WrapperFlex)`
+	position: static;
 	z-index: 3;
 	margin: 3rem 0 3rem -1rem;
 	height: 5rem;
