@@ -9,11 +9,19 @@ const getManhwaVoid = async () => {
 		headless: false,
 		defaultViewport: null,
 	});
-	let i = 2;
+	let i = 1;
 	let conditionMet = false;
 	const scrapedData = [];
+	let websiteUrl = ' ';
+	let z = 0;
 	do {
-		let websiteUrl = `https://void-scans.com/projects/page/${i}/`;
+		if (z === 1) {
+			websiteUrl = `https://void-scans.com/projects/page/${i}/`;
+		}
+		if (z === 0) {
+			websiteUrl = `https://void-scans.com/projects`;
+			z++;
+		}
 		try {
 			//go to page
 			const page = await browser.newPage();
@@ -23,6 +31,7 @@ const getManhwaVoid = async () => {
 			await page.goto(websiteUrl, {
 				// load, domcontentloaded,  networkidle0
 				waitUntil: ['networkidle2', 'load'],
+				timeout: 0,
 			});
 			await new Promise((resolve) => setTimeout(resolve, 2000)); //delaying code by 2sec
 
@@ -45,8 +54,12 @@ const getManhwaVoid = async () => {
 			});
 
 			if (manhwa.length === 0) {
-				conditionMet = true;
 				console.log('No manhwa found on this page.');
+				z++;
+				console.log(z);
+				if (z === 2) {
+					conditionMet = true;
+				}
 			}
 
 			scrapedData.push(...manhwa);
