@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-const getManhwaAsura = async () => {
+export const getManhwaAsura = async () => {
 	//create browser
 	const browser = await puppeteer.launch({
 		headless: true,
