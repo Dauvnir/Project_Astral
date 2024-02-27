@@ -21,7 +21,7 @@ const scrollPageToBottom = async (page) => {
 	});
 };
 
-const getManhwaNightScraper = async () => {
+export const getManhwaNight = async () => {
 	//create browser
 	const browser = await puppeteer.launch({
 		headless: true,
@@ -41,6 +41,7 @@ const getManhwaNightScraper = async () => {
 			await page.goto(websiteUrl, {
 				// load, domcontentloaded,  networkidle0
 				waitUntil: ['load', 'networkidle2'],
+				timeout: 0,
 			});
 
 			await scrollPageToBottom(page);
@@ -58,7 +59,7 @@ const getManhwaNightScraper = async () => {
 					const websiteUrl = anchorElement.href;
 					const srcImg = anchorElement.querySelector('div.limit img').getAttribute('src');
 					const chapter = anchorElement.querySelector('div.bigor div.adds div.epxs').innerText;
-					const scanlationSite = 'Nightscans';
+					const scanlationSite = 'Night';
 
 					return { scanlationSite, title, srcImg, websiteUrl, chapter };
 				});
@@ -66,22 +67,19 @@ const getManhwaNightScraper = async () => {
 
 			if (manhwa.length === 0) {
 				conditionMet = true;
-				console.log('No manhwa found on this page.');
 			}
 
 			scrapedData.push(...manhwa);
 
 			await page.close();
 		} catch (err) {
-			console.log('This is Nightscans scraper');
+			console.log('This is Nightscans scraper error');
 			console.error(err);
 		}
 		i++;
 	} while (!conditionMet);
 	await browser.close();
 
-	console.log(scrapedData);
+	console.log('Finished scraping data on Night.');
 	return scrapedData;
 };
-
-getManhwaNightScraper();

@@ -6,10 +6,16 @@
 		<title>Asura Scraper Data</title>
 	</head>
 	<body>
-		<h1>Asura Scraper Data</h1>
+		<h1>Scraper Data</h1>
 		<ul>
 			<% data.forEach(item => { %>
-			<li><%= item.title %></li>
+			<li>
+				<%= item.scanlationSite %> <br />
+				<%= item.title %> <br />
+				<%= item.srcImg %> <br />
+				<%= item.websiteUrl %> <br />
+				<%=item.chapter %>
+			</li>
 			<!-- Assuming each item in the data has a 'title' property -->
 			<% }); %>
 		</ul>

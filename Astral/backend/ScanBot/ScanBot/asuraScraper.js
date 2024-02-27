@@ -20,6 +20,7 @@ export const getManhwaAsura = async () => {
 			await page.goto(websiteUrl, {
 				// load, domcontentloaded,  networkidle0
 				waitUntil: ['networkidle2', 'load'],
+				timeout: 0,
 			});
 			await new Promise((resolve) => setTimeout(resolve, 2000)); //delaying code by 2sec
 
@@ -43,22 +44,19 @@ export const getManhwaAsura = async () => {
 
 			if (manhwa.length === 0) {
 				conditionMet = true;
-				console.log('No manhwa found on this page.');
 			}
 
 			scrapedData.push(...manhwa);
 
 			await page.close();
 		} catch (err) {
-			console.log('This is Asura scraper');
+			console.log('This is Asura scraper error');
 			console.error(err);
 		}
 		i++;
 	} while (!conditionMet);
 	await browser.close();
 
-	console.log(scrapedData);
+	console.log('Finished scraping data on Asura.');
 	return scrapedData;
 };
-
-getManhwaAsura();

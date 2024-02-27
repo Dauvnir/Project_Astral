@@ -3,7 +3,7 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 puppeteerExtra.use(StealthPlugin()); ////cloudflare bypass and blocking by sites
 
-const getManhwaReaper = async () => {
+export const getManhwaReaper = async () => {
 	//create browser
 	const browser = await puppeteerExtra.launch({
 		headless: true,
@@ -23,6 +23,7 @@ const getManhwaReaper = async () => {
 			await page.goto(websiteUrl, {
 				// load, domcontentloaded,  networkidle0 / options
 				waitUntil: ['networkidle2', 'load'],
+				timeout: 0,
 			});
 			await new Promise((resolve) => setTimeout(resolve, 2000)); //delaying code by 2sec
 			// fetch data
@@ -51,20 +52,18 @@ const getManhwaReaper = async () => {
 
 			if (manhwa.length === 0) {
 				conditionMet = true;
-				console.log('No manhwa found on this page.');
 			}
 
 			await page.close();
 		} catch (err) {
-			console.log('This is Reaper scraper');
+			console.log('This is Reaper scraper error');
 			console.error(err);
 		}
 		i++;
 	} while (!conditionMet);
 	await browser.close();
 
-	console.log(scrapedData);
+	console.log('Finished scraping data on Reaper.');
+
 	return scrapedData;
 };
-
-getManhwaReaper();

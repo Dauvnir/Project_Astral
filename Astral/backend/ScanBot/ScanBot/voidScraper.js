@@ -3,10 +3,10 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 puppeteerExtra.use(StealthPlugin()); //cloudflare bypass and blocking by sites
 
-const getManhwaVoid = async () => {
+export const getManhwaVoid = async () => {
 	//create browser
 	const browser = await puppeteerExtra.launch({
-		headless: false,
+		headless: true,
 		defaultViewport: null,
 	});
 	let i = 1;
@@ -16,10 +16,10 @@ const getManhwaVoid = async () => {
 	let z = 0;
 	do {
 		if (z === 1) {
-			websiteUrl = `https://void-scans.com/projects/page/${i}/`;
+			websiteUrl = `https://hivescans.com/projects/page/${i}/`;
 		}
 		if (z === 0) {
-			websiteUrl = `https://void-scans.com/projects`;
+			websiteUrl = `https://hivescans.com/projects/`;
 			z++;
 		}
 		try {
@@ -47,16 +47,14 @@ const getManhwaVoid = async () => {
 
 					const srcImg = anchorElement.querySelector('div.limit img').getAttribute('src');
 					const chapter = anchorElement.querySelector('div.bigor div.adds div.epxs').innerText;
-					const scanlationSite = 'Voidscans';
+					const scanlationSite = 'Void';
 
 					return { scanlationSite, title, srcImg, websiteUrl, chapter };
 				});
 			});
 
 			if (manhwa.length === 0) {
-				console.log('No manhwa found on this page.');
 				z++;
-				console.log(z);
 				if (z === 2) {
 					conditionMet = true;
 				}
@@ -66,15 +64,14 @@ const getManhwaVoid = async () => {
 
 			await page.close();
 		} catch (err) {
-			console.log('This is Voidscan scraper');
+			console.log('This is Voidscan scraper error');
 			console.error(err);
 		}
 		i++;
 	} while (!conditionMet);
 	await browser.close();
 
-	console.log(scrapedData);
+	console.log('Finished scraping data on Void.');
+
 	return scrapedData;
 };
-
-getManhwaVoid();

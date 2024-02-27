@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-const getManhwaFlame = async () => {
+export const getManhwaFlame = async () => {
 	//create browser
 	const browser = await puppeteer.launch({
 		headless: true,
@@ -16,7 +16,8 @@ const getManhwaFlame = async () => {
 			websiteUrl = `https://flamecomics.com/series/?page=${i}&type=manhwa`; // Initial URL
 		}
 		if (z === 1) {
-			websiteUrl = `https://flamecomics.com/series/?page=${i}&status=&type=manhua&order=`; // Updated URL
+			z++;
+			websiteUrl = `https://flamecomics.com/series/?status=&type=manhua&order=`; // Updated URL
 		}
 		try {
 			//go to page
@@ -27,6 +28,7 @@ const getManhwaFlame = async () => {
 			await page.goto(websiteUrl, {
 				// load, domcontentloaded,  networkidle0
 				waitUntil: ['networkidle2', 'load'],
+				timeout: 0,
 			});
 			await new Promise((resolve) => setTimeout(resolve, 2000)); //delaying code by 2sec
 
@@ -51,7 +53,7 @@ const getManhwaFlame = async () => {
 						const websiteUrl = anchorElement.href;
 
 						const srcImg = anchorElement.querySelector('div.limit img').getAttribute('src');
-						const scanlationSite = 'FlameComic';
+						const scanlationSite = 'Flame';
 
 						const chapterInformation = await getChapterInformation(websiteUrl);
 						return { scanlationSite, title, srcImg, websiteUrl, chapterInformation };
@@ -60,29 +62,26 @@ const getManhwaFlame = async () => {
 			});
 
 			if (manhwa.length === 0) {
-				console.log('No manhwa found on this page.');
 				z++;
-				console.log(z);
 				i = 0;
 				if (z === 2) {
 					conditionMet = true;
 				}
 			}
+			if (z === 2) {
+				conditionMet = true;
+			}
 
 			scrapedData.push(...manhwa);
 			await page.close();
 		} catch (err) {
-			console.log('This is Flame scraper');
+			console.log('This is Flame scraper error');
 			console.error(err);
 		}
 		i++;
 	} while (!conditionMet);
 	await browser.close();
 
-	console.log(scrapedData);
+	console.log('Finished scraping data on Flame.');
 	return scrapedData;
 };
-
-getManhwaFlame()
-	.then((data) => console.log(data))
-	.catch((err) => console.error(err)); // Logging the data or handling errors
