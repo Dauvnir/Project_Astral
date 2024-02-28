@@ -56,6 +56,30 @@ const getManhwaByScanlationAndSearch = async (req, res) => {
 		res.status(500).send("Internal Server Error");
 	}
 };
+//PATCH manhwa all chapter
+const patchManhwaChapterAll = async (req, res) => {
+	try {
+		const { scanlation, search } = req.params;
+		const updateManhwa = await pool.query(
+			`UPDATE manhwa
+			SET chapter = $1
+			WHERE scanlation_site = $2 AND title = $3
+			RETURNING *;`,
+			[scanlation, search]
+		);
+
+		if (updateManhwa.rows.length === 0) {
+			return res.status(404).json({ message: "Manhwa not found" });
+		}
+
+		res.json(updateManhwa.rows);
+	} catch (error) {
+		console.error(error.message);
+		res.status(500).send("Internal Server Error");
+	}
+};
+//PATCH manhwa all chapter by scanlation site
+
 //PATCH manhwa chapter -ver.manual
 const patchManhwaChapter = async (req, res) => {
 	try {
@@ -134,7 +158,7 @@ const addAllManhwa = async (req, res) => {
 		}
 
 		console.log("Data inserted successfully into the database.");
-		res.status(200).send("Data inserted successfully into the database.");
+		// res.status(200).send("Data inserted successfully into the database.");
 	} catch (error) {
 		console.error("Error:", error);
 		res.status(500).send("Internal Server Error");
@@ -147,6 +171,7 @@ module.exports = {
 	getManhwaByScanlation,
 	getManhwaByScanlationAndSearch,
 	patchManhwaChapter,
+	patchManhwaChapterAll,
 	addManhwa,
 	addAllManhwa,
 };

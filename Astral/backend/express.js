@@ -4,12 +4,6 @@ const pool = require("./db");
 const manhwaRoutes = require("./routes");
 const app = express();
 
-//middleware
-app.use(cors());
-app.use(express.json());
-
-app.use("/manhwas", manhwaRoutes);
-
 // Connecting to database
 pool
 	.connect()
@@ -22,6 +16,14 @@ pool
 	.catch((error) => {
 		console.error("Error connecting to the database:", error);
 	});
+
+//middleware
+app.use(cors());
+app.use(express.json());
+app.use("/manhwas/methods/addAll", (req, res) => {
+	res.status(403).send("Forbidden");
+});
+app.use("/manhwas", manhwaRoutes);
 
 process.on("exit", () => {
 	pool.end();
