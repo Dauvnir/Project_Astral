@@ -7,6 +7,7 @@ router.get("/:search", manhwaController.getManhwaBySearch);
 router.get("/site/:scanlation", manhwaController.getManhwaByScanlation);
 router.get("/site/:scanlation/:search", manhwaController.getManhwaByScanlationAndSearch);
 router.patch("/methods/patch/:scanlation/:search", manhwaController.patchManhwaChapter);
+router.patch("/methods/patch/all", manhwaController.patchManhwaChapterAll);
 router.post("/methods/add", manhwaController.addManhwa);
 router.post("/methods/addAll", manhwaController.addAllManhwa);
 

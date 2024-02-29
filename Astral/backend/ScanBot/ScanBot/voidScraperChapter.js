@@ -1,13 +1,13 @@
 import puppeteer from "puppeteer";
 
-export const getManhwaFlameChapter = async () => {
+export const getManhwaVoidChapter = async () => {
 	//create browser
 	const browser = await puppeteer.launch({
 		headless: true,
 		defaultViewport: null,
 	});
 	const scrapedData = [];
-	const websiteUrl = "https://flamecomics.com/";
+	const websiteUrl = "https://hivescans.com/";
 	try {
 		//go to page
 		const page = await browser.newPage();
@@ -22,17 +22,15 @@ export const getManhwaFlameChapter = async () => {
 
 		// fetch data
 		const manhwa = await page.evaluate(() => {
-			const manhwaList = document.querySelectorAll("div.bs.styletere > div.bsx");
+			const manhwaList = document.querySelectorAll("div.uta");
 			return Promise.all(
 				Array.from(manhwaList).map(async (manhuaData) => {
-					const chapter = manhuaData.querySelector(
-						"div.bigor > div:nth-child(2) > a:first-child > div > div:first-child"
-					).innerText;
-					const title = manhuaData.querySelector("a").getAttribute("title");
-					const websiteUrl = manhuaData.querySelector("a").href;
-					const srcImg = manhuaData.querySelector("a > div.limit > img").getAttribute("src");
-					const scanlationSite = "Flame";
-					return { scanlationSite, title, chapter, websiteUrl, srcImg };
+					const chapter = manhuaData.querySelector("div.luf > ul > li:first-child > a").innerText;
+					const title = manhuaData.querySelector("div.luf > a").getAttribute("title");
+					const websiteUrl = manhuaData.querySelector("div.luf > a").href;
+					const srcImg = manhuaData.querySelector("div.imgu > a > img").getAttribute("src");
+					const scanlationSite = "Void";
+					return { scanlationSite, title, chapter, srcImg, websiteUrl };
 				})
 			);
 		});
@@ -40,11 +38,11 @@ export const getManhwaFlameChapter = async () => {
 		scrapedData.push(...manhwa);
 		await page.close();
 	} catch (err) {
-		console.log("This is Flame scraper error");
+		console.log("This is Void scraper error");
 		console.error(err);
 	}
 	await browser.close();
 
-	console.log("Finished scraping data on Flame.");
+	console.log("Finished scraping data on Void.");
 	return scrapedData;
 };

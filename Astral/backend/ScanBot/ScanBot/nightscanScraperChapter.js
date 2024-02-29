@@ -1,13 +1,34 @@
 import puppeteer from "puppeteer";
 
-export const getManhwaFlameChapter = async () => {
+const scrollPageToBottom = async (page) => {
+	await page.evaluate(async () => {
+		await new Promise((resolve) => {
+			let totalHeight = 0;
+			const distance = 100; // Scroll distance
+			const delay = 100; // Delay between scrolls
+
+			const timer = setInterval(() => {
+				const scrollHeight = document.body.scrollHeight;
+				window.scrollBy(0, distance);
+				totalHeight += distance;
+
+				if (totalHeight >= scrollHeight) {
+					clearInterval(timer);
+					resolve();
+				}
+			}, delay);
+		});
+	});
+};
+
+export const getManhwaNightChapter = async () => {
 	//create browser
 	const browser = await puppeteer.launch({
 		headless: true,
 		defaultViewport: null,
 	});
 	const scrapedData = [];
-	const websiteUrl = "https://flamecomics.com/";
+	const websiteUrl = "https://night-scans.com/manga/?order=update";
 	try {
 		//go to page
 		const page = await browser.newPage();
@@ -18,20 +39,19 @@ export const getManhwaFlameChapter = async () => {
 			waitUntil: ["networkidle2", "load"], // load, domcontentloaded,  networkidle0,  networkidle2
 			timeout: 0,
 		});
+		await scrollPageToBottom(page);
 		await new Promise((resolve) => setTimeout(resolve, 2000)); //delaying code by 2sec
 
 		// fetch data
 		const manhwa = await page.evaluate(() => {
-			const manhwaList = document.querySelectorAll("div.bs.styletere > div.bsx");
+			const manhwaList = document.querySelectorAll("div.bsx");
 			return Promise.all(
 				Array.from(manhwaList).map(async (manhuaData) => {
-					const chapter = manhuaData.querySelector(
-						"div.bigor > div:nth-child(2) > a:first-child > div > div:first-child"
-					).innerText;
+					const chapter = manhuaData.querySelector("div.bigor > div.adds > div.epxs").innerText;
 					const title = manhuaData.querySelector("a").getAttribute("title");
 					const websiteUrl = manhuaData.querySelector("a").href;
-					const srcImg = manhuaData.querySelector("a > div.limit > img").getAttribute("src");
-					const scanlationSite = "Flame";
+					const srcImg = manhuaData.querySelector("a > div > img").getAttribute("src");
+					const scanlationSite = "Night";
 					return { scanlationSite, title, chapter, websiteUrl, srcImg };
 				})
 			);
@@ -45,6 +65,6 @@ export const getManhwaFlameChapter = async () => {
 	}
 	await browser.close();
 
-	console.log("Finished scraping data on Flame.");
+	console.log("Finished scraping data on Night.");
 	return scrapedData;
 };
