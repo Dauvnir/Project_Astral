@@ -1,9 +1,24 @@
 import puppeteerExtra from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
+async function checkInternetConnection() {
+    try {
+        await fetch('https://www.google.com', { mode: 'no-cors' });
+        return true;
+    } catch (error) {
+        throw new Error('No internet connection.');
+    }
+}
+
 puppeteerExtra.use(StealthPlugin()); ////cloudflare bypass and blocking by sites
 
 export const getManhwaReaper = async () => {
+	try {
+        await checkInternetConnection();
+    } catch (error) {
+        console.error(error.message);
+        throw error; // Throw the error to stop further execution
+    }
 	//create browser
 	const browser = await puppeteerExtra.launch({
 		headless: true,

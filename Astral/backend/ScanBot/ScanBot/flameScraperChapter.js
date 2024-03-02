@@ -1,6 +1,19 @@
 import puppeteer from "puppeteer";
-
+async function checkInternetConnection() {
+    try {
+        await fetch('https://www.google.com', { mode: 'no-cors' });
+        return true;
+    } catch (error) {
+        throw new Error('No internet connection.');
+    }
+}
 export const getManhwaFlameChapter = async () => {
+	try {
+        await checkInternetConnection();
+    } catch (error) {
+        console.error(error.message);
+        throw error; // Throw the error to stop further execution
+    }
 	//create browser
 	const browser = await puppeteer.launch({
 		headless: true,

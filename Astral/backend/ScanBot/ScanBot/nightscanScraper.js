@@ -1,6 +1,19 @@
 import puppeteer from 'puppeteer';
-
+async function checkInternetConnection() {
+    try {
+        await fetch('https://www.google.com', { mode: 'no-cors' });
+        return true;
+    } catch (error) {
+        throw new Error('No internet connection.');
+    }
+}
 const scrollPageToBottom = async (page) => {
+	try {
+        await checkInternetConnection();
+    } catch (error) {
+        console.error(error.message);
+        throw error; // Throw the error to stop further execution
+    }
 	await page.evaluate(async () => {
 		await new Promise((resolve) => {
 			let totalHeight = 0;

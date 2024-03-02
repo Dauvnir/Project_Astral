@@ -59,14 +59,14 @@ const getManhwaByScanlationAndSearch = async (req, res) => {
 //PATCH manhwa all chapter + insert new one if appeard
 const patchManhwaChapterAll = async (req, res) => {
 	try {
-		// const { getManhwaAsuraChapter } = await import("./ScanBot/ScanBot/asuraScraperChapter.js");
+		const { getManhwaAsuraChapter } = await import("./ScanBot/ScanBot/asuraScraperChapter.js");
 		const { getManhwaVoidChapter } = await import("./ScanBot/ScanBot/voidScraperChapter.js");
 		const { getManhwaFlameChapter } = await import("./ScanBot/ScanBot/flameScraperChapter.js");
 		const { getManhwaNightChapter } = await import("./ScanBot/ScanBot/nightscanScraperChapter.js");
 		const { getManhwaReaperChapter } = await import("./ScanBot/ScanBot/reaperScraperChapter.js");
 
-		// console.log("Starting asura");
-		// const dataAsura = await getManhwaAsuraChapter();
+		console.log("Starting asura");
+		const dataAsura = await getManhwaAsuraChapter();
 
 		console.log("Starting dataVoid");
 		const dataVoid = await getManhwaVoidChapter();
@@ -80,7 +80,7 @@ const patchManhwaChapterAll = async (req, res) => {
 		console.log("Starting dataReaper");
 		const dataReaper = await getManhwaReaperChapter();
 
-		const data = dataFlame.concat(dataVoid, dataNight, dataReaper); //add later asura
+		const data = dataFlame.concat(dataVoid, dataNight, dataReaper, dataAsura); 
 
 		const updateQuery = `UPDATE manhwa
 			SET chapter = $1
@@ -96,6 +96,7 @@ const patchManhwaChapterAll = async (req, res) => {
 		for (const { scanlationSite, title, chapter, srcImg, websiteUrl } of data) {
 			const result = await pool.query(updateQuery, [chapter, scanlationSite, title]);
 			updatedRows.push(result.rows[0]);
+			console.log(`Updated manhwa inserted: ${title}, ${chapter}, ${scanlationSite}`);
 			const check = await pool.query(selectQuery, [scanlationSite, title]);
 			if (check.rows.length === 0) {
 				try {
@@ -107,7 +108,7 @@ const patchManhwaChapterAll = async (req, res) => {
 						websiteUrl,
 						chapter,
 					]);
-					console.log(`New manhwa inserted: ${title}`);
+					console.log(`New manhwa inserted: ${title}, ${chapter}, ${scanlationSite}`);
 				} catch (error) {
 					console.error(`Error inserting new manhwa ${title}: ${error.message}`);
 				}

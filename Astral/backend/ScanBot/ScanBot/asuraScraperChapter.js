@@ -7,41 +7,20 @@ async function checkInternetConnection() {
         throw new Error('No internet connection.');
     }
 }
-const scrollPageToBottom = async (page) => {
+export const getManhwaAsuraChapter = async () => {
 	try {
         await checkInternetConnection();
     } catch (error) {
         console.error(error.message);
         throw error; // Throw the error to stop further execution
     }
-	await page.evaluate(async () => {
-		await new Promise((resolve) => {
-			let totalHeight = 0;
-			const distance = 100; // Scroll distance
-			const delay = 100; // Delay between scrolls
-
-			const timer = setInterval(() => {
-				const scrollHeight = document.body.scrollHeight;
-				window.scrollBy(0, distance);
-				totalHeight += distance;
-
-				if (totalHeight >= scrollHeight) {
-					clearInterval(timer);
-					resolve();
-				}
-			}, delay);
-		});
-	});
-};
-
-export const getManhwaNightChapter = async () => {
 	//create browser
 	const browser = await puppeteer.launch({
 		headless: true,
 		defaultViewport: null,
 	});
 	const scrapedData = [];
-	const websiteUrl = "https://night-scans.com/manga/?order=update";
+	const websiteUrl = "https://asuratoon.com/";
 	try {
 		//go to page
 		const page = await browser.newPage();
@@ -52,20 +31,19 @@ export const getManhwaNightChapter = async () => {
 			waitUntil: ["networkidle2", "load"], // load, domcontentloaded,  networkidle0,  networkidle2
 			timeout: 0,
 		});
-		await scrollPageToBottom(page);
 		await new Promise((resolve) => setTimeout(resolve, 2000)); //delaying code by 2sec
 
 		// fetch data
 		const manhwa = await page.evaluate(() => {
-			const manhwaList = document.querySelectorAll("div.bsx");
+			const manhwaList = document.querySelectorAll("div.uta");
 			return Promise.all(
 				Array.from(manhwaList).map(async (manhuaData) => {
-					const chapter = manhuaData.querySelector("div.bigor > div.adds > div.epxs").innerText;
-					const title = manhuaData.querySelector("a").getAttribute("title");
-					const websiteUrl = manhuaData.querySelector("a").href;
-					const srcImg = manhuaData.querySelector("a > div > img").getAttribute("src");
-					const scanlationSite = "Night";
-					return { scanlationSite, title, chapter, websiteUrl, srcImg };
+					const chapter = manhuaData.querySelector("div.luf > ul > li:first-child > a").innerText;
+					const title = manhuaData.querySelector("div.luf > a").getAttribute("title");
+					const websiteUrl = manhuaData.querySelector("div.luf > a").href;
+					const srcImg = manhuaData.querySelector("div.imgu > a > img").getAttribute("src");
+					const scanlationSite = "Asura";
+					return { scanlationSite, title, chapter, srcImg, websiteUrl };
 				})
 			);
 		});
@@ -73,11 +51,11 @@ export const getManhwaNightChapter = async () => {
 		scrapedData.push(...manhwa);
 		await page.close();
 	} catch (err) {
-		console.log("This is Night scraper error");
+		console.log("This is Asura scraper error");
 		console.error(err);
 	}
 	await browser.close();
 
-	console.log("Finished scraping data on Night.");
+	console.log("Finished scraping data on Asura.");
 	return scrapedData;
 };
