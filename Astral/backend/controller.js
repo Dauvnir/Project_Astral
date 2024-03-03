@@ -59,41 +59,41 @@ const getManhwaByScanlationAndSearch = async (req, res) => {
 //PATCH manhwa all chapter + insert new one if appeard based on scanlation
 const patchManhwaChapterAllScanlation = async (req, res) => {
 	try {
-		const { scanlation } = req.params;
 		let data;
 		let scraperModule;
+		const { scanlation } = req.params;
 		console.log(scanlation);
-		switch (scanlation){
-			case 'Asura': 
-				console.log("Starting asura");
-				scraperModule = await import("./ScanBot/ScanBot/asuraScraperChapter.js")
-				data = await scraperModule.getManhwaAsuraChapter()
+		switch (scanlation.toLowerCase()) {
+			case "asura":
+				console.log("Starting dataAsura");
+				scraperModule = await import("./ScanBot/ScanBot/asuraScraperChapter.js");
+				data = await scraperModule.getManhwaAsuraChapter();
 				break;
-			case 'Flame':
+			case "flame":
 				console.log("Starting dataFlame");
 				scraperModule = await import("./ScanBot/ScanBot/flameScraperChapter.js");
 				data = await scraperModule.getManhwaFlameChapter();
 				break;
-			case 'Void':
+			case "void":
 				console.log("Starting dataVoid");
 				scraperModule = await import("./ScanBot/ScanBot/voidScraperChapter.js");
-				data= await scraperModule.getManhwaVoidChapter();
+				data = await scraperModule.getManhwaVoidChapter();
 				break;
-			case 'Night':
+			case "night":
 				console.log("Starting dataNight");
 				scraperModule = await import("./ScanBot/ScanBot/nightscanScraperChapter.js");
 				data = await scraperModule.getManhwaNightChapter();
 				break;
-			case 'Reaper':
+			case "reaper":
 				console.log("Starting dataReaper");
 				scraperModule = await import("./ScanBot/ScanBot/reaperScraperChapter.js");
 				data = await scraperModule.getManhwaReaperChapter();
 				break;
 			default:
-				console.error('Not found scanlation site');
+				console.error("Not found scanlation site");
 				return res.status(404).send("Not found scanlation site");
-			}
-			
+		}
+
 		const updateQuery = `UPDATE manhwa
 			SET chapter = $1
 			WHERE scanlation_site = $2 AND title = $3
@@ -158,7 +158,7 @@ const patchManhwaChapterAll = async (req, res) => {
 		console.log("Starting dataReaper");
 		const dataReaper = await getManhwaReaperChapter();
 
-		const data = dataFlame.concat(dataVoid, dataNight, dataReaper, dataAsura); 
+		const data = dataFlame.concat(dataVoid, dataNight, dataReaper, dataAsura);
 
 		const updateQuery = `UPDATE manhwa
 			SET chapter = $1
@@ -200,25 +200,6 @@ const patchManhwaChapterAll = async (req, res) => {
 	}
 };
 
-//PATCH manhwa chapter -ver.manual
-const patchManhwaChapter = async (req, res) => {
-	try {
-		const { chapter } = req.body;
-		const { scanlation, search } = req.params;
-		const updateManhwa = await pool.query(
-			`UPDATE manhwa
-			SET chapter = $1
-			WHERE scanlation_site = $2 AND title ILIKE $3 || '%'
-			RETURNING *;`,
-			[chapter, scanlation, search]
-		);
-
-		res.json(updateManhwa.rows);
-	} catch (error) {
-		console.error(error.message);
-		res.status(500).send("Internal Server Error");
-	}
-};
 // ADD new manhwa - ver.manual
 const addManhwa = async (req, res) => {
 	try {
@@ -285,7 +266,6 @@ module.exports = {
 	getManhwaBySearch,
 	getManhwaByScanlation,
 	getManhwaByScanlationAndSearch,
-	patchManhwaChapter,
 	patchManhwaChapterAll,
 	patchManhwaChapterAllScanlation,
 	addManhwa,
