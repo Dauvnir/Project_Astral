@@ -56,6 +56,84 @@ const getManhwaByScanlationAndSearch = async (req, res) => {
 		res.status(500).send("Internal Server Error");
 	}
 };
+//PATCH manhwa all chapter + insert new one if appeard based on scanlation
+const patchManhwaChapterAllScanlation = async (req, res) => {
+	try {
+		const { scanlation } = req.params;
+		let data;
+		let scraperModule;
+		console.log(scanlation);
+		switch (scanlation){
+			case 'Asura': 
+				console.log("Starting asura");
+				scraperModule = await import("./ScanBot/ScanBot/asuraScraperChapter.js")
+				data = await scraperModule.getManhwaAsuraChapter()
+				break;
+			case 'Flame':
+				console.log("Starting dataFlame");
+				scraperModule = await import("./ScanBot/ScanBot/flameScraperChapter.js");
+				data = await scraperModule.getManhwaFlameChapter();
+				break;
+			case 'Void':
+				console.log("Starting dataVoid");
+				scraperModule = await import("./ScanBot/ScanBot/voidScraperChapter.js");
+				data= await scraperModule.getManhwaVoidChapter();
+				break;
+			case 'Night':
+				console.log("Starting dataNight");
+				scraperModule = await import("./ScanBot/ScanBot/nightscanScraperChapter.js");
+				data = await scraperModule.getManhwaNightChapter();
+				break;
+			case 'Reaper':
+				console.log("Starting dataReaper");
+				scraperModule = await import("./ScanBot/ScanBot/reaperScraperChapter.js");
+				data = await scraperModule.getManhwaReaperChapter();
+				break;
+			default:
+				console.error('Not found scanlation site');
+				return res.status(404).send("Not found scanlation site");
+			}
+			
+		const updateQuery = `UPDATE manhwa
+			SET chapter = $1
+			WHERE scanlation_site = $2 AND title = $3
+			RETURNING *;`;
+
+		const selectQuery = `SELECT  * FROM manhwa WHERE scanlation_site = $1 AND title = $2;`;
+		const insertQuery = `INSERT INTO manhwa(scanlation_site, title, srcimg, websiteurl, chapter)
+		VALUES ($1, $2, $3, $4, $5)
+		RETURNING *;`;
+		const updatedRows = [];
+
+		for (const { scanlationSite, title, chapter, srcImg, websiteUrl } of data) {
+			const result = await pool.query(updateQuery, [chapter, scanlationSite, title]);
+			updatedRows.push(result.rows[0]);
+			console.log(`Updated manhwa inserted: ${title}, ${chapter}, ${scanlationSite}`);
+			const check = await pool.query(selectQuery, [scanlationSite, title]);
+			if (check.rows.length === 0) {
+				try {
+					// eslint-disable-next-line no-unused-vars
+					const newManhwa = await pool.query(insertQuery, [
+						scanlationSite,
+						title,
+						srcImg,
+						websiteUrl,
+						chapter,
+					]);
+					console.log(`New manhwa inserted: ${title}, ${chapter}, ${scanlationSite}`);
+				} catch (error) {
+					console.error(`Error inserting new manhwa ${title}: ${error.message}`);
+				}
+			}
+		}
+		console.log("Data inserted successfully into the database.");
+		res.json(updatedRows);
+	} catch (error) {
+		console.error(`Error in patchManhwaChapterAll: ${error.message}`);
+		res.status(500).send("Internal Server Error");
+	}
+};
+
 //PATCH manhwa all chapter + insert new one if appeard
 const patchManhwaChapterAll = async (req, res) => {
 	try {
@@ -209,6 +287,7 @@ module.exports = {
 	getManhwaByScanlationAndSearch,
 	patchManhwaChapter,
 	patchManhwaChapterAll,
+	patchManhwaChapterAllScanlation,
 	addManhwa,
 	addAllManhwa,
 };
