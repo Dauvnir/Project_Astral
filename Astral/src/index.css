@@ -8,11 +8,6 @@ body {
 	width: 100vw;
 	height: 100vh;
 }
-html {
-	overflow-y: scroll;
-	scrollbar-width: none;
-	-ms-overflow-style: none;
-}
 
 #root {
 	width: 100%;

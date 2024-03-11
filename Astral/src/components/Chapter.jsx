@@ -1,4 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import PropTypes from "prop-types";
+
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -23,9 +25,7 @@ const Wrapper = styled.div`
 const ChapterInformationWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
 	flex-direction: column;
-	gap: 1rem;
 	flex-wrap: wrap;
 	width: 6rem;
 	height: 7rem;
@@ -45,12 +45,13 @@ const ChapterInformationWrapper = styled.div`
 	}
 	@media (min-width: 1000px) {
 		width: 9rem;
-		height: 10rem;
+		height: 12rem;
 	}
 `;
 const ChapterInformation = styled.button`
 	width: 100%;
-	height: 35%;
+	height: 50%;
+	padding: 0.5rem;
 	background: rgba(7, 9, 13, 0.5);
 	backdrop-filter: blur(2px);
 	border-radius: 5px;
@@ -78,17 +79,17 @@ const Span = styled.span`
 	font-weight: 400;
 	line-height: normal;
 `;
-const Label = styled.label`
-	color: #afbfd5;
-	text-align: center;
-	font-family: Lato;
-	font-size: 0.725rem;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-	padding-block: 0.5rem;
-	cursor: pointer;
-`;
+// const Label = styled.label`
+// 	color: #afbfd5;
+// 	text-align: center;
+// 	font-family: Lato;
+// 	font-size: 0.725rem;
+// 	font-style: normal;
+// 	font-weight: 400;
+// 	line-height: normal;
+// 	padding-block: 0.5rem;
+// 	cursor: pointer;
+// `;
 const Image = styled.img`
 	height: 100%;
 	width: 100%;
@@ -110,31 +111,30 @@ const ScalingWrap = styled.div`
 		transform: scale(1);
 	} */
 `;
-const Chapter = () => {
+const Chapter = ({ imageUrl, title, srcUrl, chapterNumber }) => {
 	return (
 		<>
 			<ScalingWrap>
 				<Wrapper>
-					<Image
-						src='https://img.asuracomics.com/unsafe/fit-in/720x936/https://asuratoon.com/wp-content/uploads/2022/09/EstateDevCover01.png'
-						loading='lazy'
-					/>
+					<Image src={imageUrl} loading="lazy" alt={title} href={srcUrl} />
 				</Wrapper>
 				<ChapterInformationWrapper>
-					<ChapterInformation id='chapter'>
-						<Span>Chapter 26</Span>
-						<br />
-						<Label htmlFor='chapter'>50 mins ago</Label>
+					<ChapterInformation id="chapter">
+						<Span>{title}</Span>
 					</ChapterInformation>
-					<ChapterInformation id='chapter'>
-						<Span>Chapter 26</Span>
-						<br />
-						<Label htmlFor='chapter'>50 mins ago</Label>
+					<ChapterInformation id="chapter">
+						<Span>{chapterNumber}</Span>
 					</ChapterInformation>
 				</ChapterInformationWrapper>
 			</ScalingWrap>
 		</>
 	);
+};
+Chapter.propTypes = {
+	imageUrl: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
+	srcUrl: PropTypes.string.isRequired,
+	chapterNumber: PropTypes.string,
 };
 
 export default Chapter;

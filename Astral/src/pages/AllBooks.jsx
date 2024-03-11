@@ -1,24 +1,24 @@
-import { useNavigate } from 'react-router-dom';
-import StyledLogo from '../components/LogoHeader';
-import MainBackground from '../components/MainBackground';
-import Menu from '../components/Menu';
-import { WrapperFlex } from '../components/WrapperFlex';
-import Avatar from '../components/Avatar';
-import styled from 'styled-components';
-import { LineBreak } from '../components/LineBreak';
-import Footer from '../components/Footer';
-import WrapperGrid from '../components/WrapperGrid';
-import Chapter from '../components/Chapter';
-import { GoListUnordered } from 'react-icons/go';
-import { SortList } from '../components/SortList';
-import { useState, useEffect, useRef } from 'react';
-import MoveToTop from '../components/MoveToTop';
-import SearchBar from '../components/SearchBar';
-import { IoSearchOutline } from 'react-icons/io5';
-import SearchBarConditional from '../components/SearchBarConditional';
-import { Paragraph } from '../components/Paragraph';
-import ImgCarouselWrapper from '../components/ImgCarouselWrapper';
-
+import { useNavigate } from "react-router-dom";
+import StyledLogo from "../components/LogoHeader";
+import MainBackground from "../components/MainBackground";
+import Menu from "../components/Menu";
+import { WrapperFlex } from "../components/WrapperFlex";
+import Avatar from "../components/Avatar";
+import styled from "styled-components";
+import { LineBreak } from "../components/LineBreak";
+import Footer from "../components/Footer";
+import WrapperGrid from "../components/WrapperGrid";
+import Chapter from "../components/Chapter";
+import { GoListUnordered } from "react-icons/go";
+import { SortList } from "../components/SortList";
+import { useState, useEffect, useRef } from "react";
+import MoveToTop from "../components/MoveToTop";
+import SearchBar from "../components/SearchBar";
+import { IoSearchOutline } from "react-icons/io5";
+import SearchBarConditional from "../components/SearchBarConditional";
+import { Paragraph } from "../components/Paragraph";
+import ImgCarouselWrapper from "../components/ImgCarouselWrapper";
+import axios from "axios";
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -131,6 +131,19 @@ const SearchStyled = styled(IoSearchOutline)`
 `;
 
 const AllBooks = () => {
+	const [manhwasListAll, setManhwasListAll] = useState([]);
+
+	useEffect(() => {
+		axios
+			.get("http://localhost:3000/manhwas")
+			.then((response) => {
+				console.log(response);
+				setManhwasListAll(response.data);
+			})
+			.catch((error) => {
+				console.error("Error fetching data", error);
+			});
+	}, []);
 	let navigate = useNavigate();
 	const toLibrary = () => {
 		let path = `/library`;
@@ -156,9 +169,9 @@ const AllBooks = () => {
 				setMenuSortClosed((prev) => !prev);
 			}
 		};
-		document.addEventListener('mousedown', handler);
+		document.addEventListener("mousedown", handler);
 		return () => {
-			document.removeEventListener('mousedown', handler);
+			document.removeEventListener("mousedown", handler);
 		};
 	}, []);
 	useEffect(() => {
@@ -167,9 +180,9 @@ const AllBooks = () => {
 				setHideElements(true);
 			}
 		};
-		document.addEventListener('mousedown', searchhandler);
+		document.addEventListener("mousedown", searchhandler);
 		return () => {
-			document.removeEventListener('mousedown', searchhandler);
+			document.removeEventListener("mousedown", searchhandler);
 		};
 	}, []);
 
@@ -181,59 +194,59 @@ const AllBooks = () => {
 	return (
 		<>
 			<MainBackground />
-			<div className='overlay'></div>
+			<div className="overlay"></div>
 			<Menu />
-			<WrapperFlex style={{ cursor: 'pointer', marginBottom: '1.5rem' }} onClick={toLibrary}>
+			<WrapperFlex style={{ cursor: "pointer", marginBottom: "1.5rem" }} onClick={toLibrary}>
 				<StyledLogo />
 			</WrapperFlex>
 			<Avatar />
 			<Paragraph
-				$textAlign='left'
-				$fontSize='clamp(2rem, 2vw + 1rem , 5rem)'
-				$fontWeight='600'
-				style={{ position: 'relative', zIndex: '2', marginTop: '1.5rem' }}>
+				$textAlign="left"
+				$fontSize="clamp(2rem, 2vw + 1rem , 5rem)"
+				$fontWeight="600"
+				style={{ position: "relative", zIndex: "2", marginTop: "1.5rem" }}>
 				Popular Today
 			</Paragraph>
 			<WrapperFlex
 				style={{
-					marginBottom: '1.5rem',
-					width: 'calc(100% + 2rem)',
-					marginLeft: '-1rem',
-					overflow: 'visible',
+					marginBottom: "1.5rem",
+					width: "calc(100% + 2rem)",
+					marginLeft: "-1rem",
+					overflow: "visible",
 				}}>
-				<WrapperFlex $width='100%'>
+				<WrapperFlex $width="100%">
 					<ImgCarouselWrapper></ImgCarouselWrapper>
 				</WrapperFlex>
 			</WrapperFlex>
 			<BookWrapper
-				style={{ zIndex: '4', justifyContent: !hideElements ? 'center' : 'space-between' }}>
-				<Title style={{ display: hideElements ? 'block' : 'none' }}>All Books</Title>
+				style={{ zIndex: "4", justifyContent: !hideElements ? "center" : "space-between" }}>
+				<Title style={{ display: hideElements ? "block" : "none" }}>All Books</Title>
 				<div
 					style={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyItems: 'center',
-						width: !hideElements ? '100%' : 'auto',
+						display: "flex",
+						alignItems: "center",
+						justifyItems: "center",
+						width: !hideElements ? "100%" : "auto",
 					}}>
 					{windowSize.current[0] > 518 ? (
-						<SearchBar style={{ marginRight: '1rem' }}></SearchBar>
+						<SearchBar style={{ marginRight: "1rem" }}></SearchBar>
 					) : null}
 					<SearchBarConditional ref={searchBar} hideElements={hideElements} />
 					{windowSize.current[0] < 518 ? (
 						<SearchBtn
 							style={{
-								borderRadius: menuSortHeight === 0 ? '10px' : '10px 10px 0px 0px',
-								display: hideElements ? 'flex' : 'none',
+								borderRadius: menuSortHeight === 0 ? "10px" : "10px 10px 0px 0px",
+								display: hideElements ? "flex" : "none",
 							}}
 							onClick={hideElementsHandler}>
 							<SearchStyled />
 						</SearchBtn>
 					) : null}
-					<div style={{ position: 'relative', display: hideElements ? 'flex' : 'none' }}>
+					<div style={{ position: "relative", display: hideElements ? "flex" : "none" }}>
 						<StyledDiv
 							ref={sortMenuBtnRef}
 							onClick={menuSortHandler}
-							style={{ borderRadius: menuSortHeight === 0 ? '10px' : '10px 10px 0px 0px' }}>
+							style={{ borderRadius: menuSortHeight === 0 ? "10px" : "10px 10px 0px 0px" }}>
 							<SortStyled></SortStyled>
 						</StyledDiv>
 						<SortList $height={menuSortHeight} ref={sortMenuRef}>
@@ -253,7 +266,7 @@ const AllBooks = () => {
 										<SpanStyled>Sort by rating</SpanStyled>
 									</ButtonStyled>
 								</LiStyled>
-								<LiStyled style={{ borderBottom: 'none' }}>
+								<LiStyled style={{ borderBottom: "none" }}>
 									<ButtonStyled>
 										<SpanStyled>Sort by chapters</SpanStyled>
 									</ButtonStyled>
@@ -263,23 +276,20 @@ const AllBooks = () => {
 					</div>
 				</div>
 			</BookWrapper>
-			<LineBreak style={{ margin: '0 0 0 -1rem', width: 'calc(100% + 2rem)' }}></LineBreak>
-			<BookWrapper style={{ marginTop: '0rem', height: 'auto' }}>
-				<WrapperGrid style={{ paddingInline: '1rem' }}>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
+			<LineBreak style={{ margin: "0 0 0 -1rem", width: "calc(100% + 2rem)" }}></LineBreak>
+			<BookWrapper style={{ marginTop: "0rem", height: "auto" }}>
+				<WrapperGrid style={{ paddingInline: "1rem" }}>
+					{manhwasListAll.map(
+						({ scanlation_site, title, srcimg, websiteUrl, chapter, manhwa_id }) => (
+							<Chapter
+								key={manhwa_id}
+								scanlationSite={scanlation_site}
+								title={title}
+								imageUrl={srcimg}
+								websiteUrl={websiteUrl}
+								chapterNumber={chapter}></Chapter>
+						)
+					)}
 				</WrapperGrid>
 			</BookWrapper>
 			<MoveToTop />

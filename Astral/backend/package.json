@@ -5,11 +5,12 @@
 	"main": "express.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"devStart": "nodemon express.js"
+		"devStart": "nodemon --max-old-space-size=8192 express.js"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"canvas": "^2.11.2",
 		"cors": "^2.8.5",
 		"ejs": "^3.1.9",
 		"express": "^4.18.2",

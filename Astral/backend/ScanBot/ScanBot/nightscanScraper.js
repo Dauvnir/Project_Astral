@@ -1,19 +1,19 @@
-import puppeteer from 'puppeteer';
+import puppeteer from "puppeteer";
 async function checkInternetConnection() {
-    try {
-        await fetch('https://www.google.com', { mode: 'no-cors' });
-        return true;
-    } catch (error) {
-        throw new Error('No internet connection.');
-    }
+	try {
+		await fetch("https://www.google.com", { mode: "no-cors" });
+		return true;
+	} catch (error) {
+		throw new Error("No internet connection.");
+	}
 }
 const scrollPageToBottom = async (page) => {
 	try {
-        await checkInternetConnection();
-    } catch (error) {
-        console.error(error.message);
-        throw error; // Throw the error to stop further execution
-    }
+		await checkInternetConnection();
+	} catch (error) {
+		console.error(error.message);
+		throw error; // Throw the error to stop further execution
+	}
 	await page.evaluate(async () => {
 		await new Promise((resolve) => {
 			let totalHeight = 0;
@@ -49,11 +49,11 @@ export const getManhwaNight = async () => {
 			//go to page
 			const page = await browser.newPage();
 			await page.setUserAgent(
-				'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
+				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
 			);
 			await page.goto(websiteUrl, {
 				// load, domcontentloaded,  networkidle0
-				waitUntil: ['load', 'networkidle2'],
+				waitUntil: ["load", "networkidle2"],
 				timeout: 0,
 			});
 
@@ -64,15 +64,15 @@ export const getManhwaNight = async () => {
 			// fetch data
 			const manhwa = await page.evaluate(() => {
 				//get elements with quote class, object
-				const manhwaList = document.querySelectorAll('div.bsx');
+				const manhwaList = document.querySelectorAll("div.bsx");
 				//fetching all sub elements,  map() created new array that contains these two information as keys
 				return Array.from(manhwaList).map((manhuaData) => {
-					const anchorElement = manhuaData.querySelector('a');
-					const title = anchorElement.getAttribute('title');
+					const anchorElement = manhuaData.querySelector("a");
+					const title = anchorElement.getAttribute("title");
 					const websiteUrl = anchorElement.href;
-					const srcImg = anchorElement.querySelector('div.limit img').getAttribute('src');
-					const chapter = anchorElement.querySelector('div.bigor div.adds div.epxs').innerText;
-					const scanlationSite = 'Night';
+					const srcImg = anchorElement.querySelector("div.limit img").getAttribute("src");
+					const chapter = anchorElement.querySelector("div.bigor div.adds div.epxs").innerText;
+					const scanlationSite = "Night";
 
 					return { scanlationSite, title, srcImg, websiteUrl, chapter };
 				});
@@ -86,13 +86,70 @@ export const getManhwaNight = async () => {
 
 			await page.close();
 		} catch (err) {
-			console.log('This is Nightscans scraper error');
+			console.log("This is Nightscans scraper error");
 			console.error(err);
 		}
 		i++;
 	} while (!conditionMet);
-	await browser.close();
+	const base64DataArray = [];
+	let websiteUrl = "https://night-scans.com/";
+	try {
+		//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		const page2 = await browser.newPage();
+		await page2.setUserAgent(
+			"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+		);
+		await page2.goto(websiteUrl, {
+			waitUntil: ["networkidle2", "load"], // load, domcontentloaded,  networkidle0,  networkidle2
+			timeout: 0,
+		});
+		//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		for (let srcImg of scrapedData.map((item) => item.srcImg)) {
+			const page2 = await browser.newPage();
+			await page2.goto(srcImg, {
+				waitUntil: ["networkidle2", "load"],
+				timeout: 0,
+			});
+			const base64Data = await page2.evaluate(() => {
+				let src = document.querySelector("img").getAttribute("src");
 
-	console.log('Finished scraping data on Night.');
+				async function parseToURIFormat(blobObject) {
+					const reader = new FileReader();
+					reader.readAsDataURL(blobObject);
+					// eslint-disable-next-line no-unused-vars
+					return new Promise((resolve, reject) => {
+						reader.onload = (event) => {
+							resolve(event.target.result);
+						};
+					});
+				}
+
+				async function srcImgToBlob(url) {
+					const response = await fetch(url);
+					const blob = await response.blob();
+					const uri = await parseToURIFormat(blob);
+					return uri;
+				}
+
+				let base64Image = srcImgToBlob(src);
+				console.log(base64Image);
+				return base64Image;
+			});
+			base64DataArray.push(base64Data);
+			await page2.close();
+		}
+	} catch (error) {
+		console.error(error);
+	}
+
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	await browser.close();
+	console.log("Finished scraping data on Night.");
+	for (let i = 0; i < scrapedData.length; i++) {
+		if (i < base64DataArray.length) {
+			scrapedData[i].srcImg = base64DataArray[i];
+		}
+	}
+	console.log(scrapedData);
 	return scrapedData;
 };

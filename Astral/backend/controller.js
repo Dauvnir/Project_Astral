@@ -66,8 +66,8 @@ const patchManhwaChapterAllScanlation = async (req, res) => {
 		switch (scanlation.toLowerCase()) {
 			case "asura":
 				console.log("Starting dataAsura");
-				scraperModule = await import("./ScanBot/ScanBot/asuraScraperChapter.js");
-				data = await scraperModule.getManhwaAsuraChapter();
+				scraperModule = await import("./ScanBot/ScanBot/asuraScraperChapter..js");
+				data = await scraperModule.getManhwaAsura();
 				break;
 			case "flame":
 				console.log("Starting dataFlame");
@@ -162,7 +162,7 @@ const patchManhwaChapterAll = async (req, res) => {
 
 		const updateQuery = `UPDATE manhwa
 			SET chapter = $1
-			WHERE scanlation_site = $2 AND title = $3
+			WHERE scanlation_site = $3 AND title = $4
 			RETURNING *;`;
 
 		const selectQuery = `SELECT  * FROM manhwa WHERE scanlation_site = $1 AND title = $2;`;
@@ -260,7 +260,6 @@ const addAllManhwa = async (req, res) => {
 		res.status(500).send("Internal Server Error");
 	}
 };
-
 module.exports = {
 	getAllManhwa,
 	getManhwaBySearch,
