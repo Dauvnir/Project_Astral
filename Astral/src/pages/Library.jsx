@@ -1,20 +1,20 @@
-import MainBackground from '../components/MainBackground';
-import StyledLogo from '../components/LogoHeader';
-import { WrapperFlex } from '../components/WrapperFlex';
-import { Paragraph } from '../components/Paragraph';
-import ImgCarouselWrapper from '../components/ImgCarouselWrapper';
-import { LineBreak } from '../components/LineBreak';
-import styled from 'styled-components';
-import LockBtn from '../components/LockBtn';
-import SortBtn from '../components/SortBtn';
-import BookmarkBtn from '../components/BookmarkBtn';
-import WrapperGrid from '../components/WrapperGrid';
-import Chapter from '../components/Chapter';
-import Footer from '../components/Footer';
-import Menu from '../components/Menu';
-import { useNavigate } from 'react-router-dom';
-import Avatar from '../components/Avatar';
-import MoveToTop from '../components/MoveToTop';
+import MainBackground from "../components/MainBackground";
+import StyledLogo from "../components/LogoHeader";
+import { WrapperFlex } from "../components/WrapperFlex";
+import { Paragraph } from "../components/Paragraph";
+import ImgCarouselWrapper from "../components/ImgCarouselWrapper";
+import { LineBreak } from "../components/LineBreak";
+import styled from "styled-components";
+import LockBtn from "../components/LockBtn";
+import SortBtn from "../components/SortBtn";
+import BookmarkBtn from "../components/BookmarkBtn";
+import WrapperGrid from "../components/WrapperGrid";
+// import Chapter from "../components/Chapter";
+import Footer from "../components/Footer";
+import Menu from "../components/Menu";
+import { useNavigate } from "react-router-dom";
+import Avatar from "../components/Avatar";
+import MoveToTop from "../components/MoveToTop";
 
 const BookWrapper = styled.div`
 	display: flex;
@@ -77,33 +77,33 @@ const Library = () => {
 	return (
 		<>
 			<MainBackground></MainBackground>
-			<div className='overlay'></div>
+			<div className="overlay"></div>
 			<Menu></Menu>
-			<WrapperFlex style={{ cursor: 'pointer', marginBottom: '1.5rem' }} onClick={toLibrary}>
+			<WrapperFlex style={{ cursor: "pointer", marginBottom: "1.5rem" }} onClick={toLibrary}>
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
 			<Avatar />
 			<Paragraph
-				$textAlign='left'
-				$fontSize='clamp(2rem, 2vw + 1rem , 5rem)'
-				$fontWeight='600'
-				style={{ position: 'relative', zIndex: '2', marginTop: '1.5rem' }}>
+				$textAlign="left"
+				$fontSize="clamp(2rem, 2vw + 1rem , 5rem)"
+				$fontWeight="600"
+				style={{ position: "relative", zIndex: "2", marginTop: "1.5rem" }}>
 				Popular Today
 			</Paragraph>
 			<WrapperFlex
 				style={{
-					marginBottom: '1.5rem',
-					width: 'calc(100% + 2rem)',
-					marginLeft: '-1rem',
-					overflow: 'visible',
+					marginBottom: "1.5rem",
+					width: "calc(100% + 2rem)",
+					marginLeft: "-1rem",
+					overflow: "visible",
 				}}>
-				<WrapperFlex $width='100%'>
+				<WrapperFlex $width="100%">
 					<ImgCarouselWrapper></ImgCarouselWrapper>
 				</WrapperFlex>
 			</WrapperFlex>
 			<BookWrapper>
 				<ModifiedWrapperFlex>
-					<Paragraph $fontSize='clamp(2rem, 2vw + 1rem , 5rem)' $textAlign='left' $fontWeight='600'>
+					<Paragraph $fontSize="clamp(2rem, 2vw + 1rem , 5rem)" $textAlign="left" $fontWeight="600">
 						Library
 					</Paragraph>
 				</ModifiedWrapperFlex>
@@ -114,9 +114,10 @@ const Library = () => {
 				</ModifiedWrapperFlexBtn>
 			</BookWrapper>
 			<LineBreak
-				style={{ margin: '0 0 0 -1rem', width: 'calc(100% + 2rem)', height: '2px' }}></LineBreak>
+				style={{ margin: "0 0 0 -1rem", width: "calc(100% + 2rem)", height: "2px" }}></LineBreak>
 			<ChapterWrapper>
 				<WrapperGrid>
+					{/* <Chapter></Chapter>
 					<Chapter></Chapter>
 					<Chapter></Chapter>
 					<Chapter></Chapter>
@@ -124,8 +125,7 @@ const Library = () => {
 					<Chapter></Chapter>
 					<Chapter></Chapter>
 					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
+					<Chapter></Chapter> */}
 				</WrapperGrid>
 			</ChapterWrapper>
 			<MoveToTop></MoveToTop>

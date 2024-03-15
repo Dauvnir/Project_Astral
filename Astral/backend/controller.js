@@ -56,6 +56,18 @@ const getManhwaByScanlationAndSearch = async (req, res) => {
 		res.status(500).send("Internal Server Error");
 	}
 };
+//GET ALL IMAGES
+const getManhwaImages = async (req, res) => {
+	try {
+		const querySelectAllImages = await pool.query(
+			`SELECT manhwa_id, srcimg FROM manhwa WHERE scanlation_site = 'Asura'  ;`
+		);
+		res.json(querySelectAllImages.rows);
+	} catch (error) {
+		console.error("Error:", error);
+		res.status(500).send("Internal Server Error");
+	}
+};
 //PATCH manhwa all chapter + insert new one if appeard based on scanlation
 const patchManhwaChapterAllScanlation = async (req, res) => {
 	try {
@@ -265,6 +277,7 @@ module.exports = {
 	getManhwaBySearch,
 	getManhwaByScanlation,
 	getManhwaByScanlationAndSearch,
+	getManhwaImages,
 	patchManhwaChapterAll,
 	patchManhwaChapterAllScanlation,
 	addManhwa,

@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { IoSearchOutline } from 'react-icons/io5';
-import { forwardRef, useState } from 'react';
-import PropTypes from 'prop-types';
+import styled from "styled-components";
+import { IoSearchOutline } from "react-icons/io5";
+import { forwardRef, useState } from "react";
+import PropTypes from "prop-types";
 
 const StyledInput = styled.input`
 	width: 100%;
@@ -30,21 +30,25 @@ const SearchBarConditional = forwardRef(({ hideElements }, ref) => {
 	return (
 		<div
 			ref={ref}
-			style={{ margin: 'auto', display: !hideElements ? 'flex' : 'none', width: '80%' }}>
+			style={{ margin: "auto", display: !hideElements ? "flex" : "none", width: "80%" }}>
 			<StyledInput
-				type='text'
-				placeholder='Search for a series'
+				type="text"
+				placeholder="Search for a series"
 				onFocus={() => setIsInputFocused(true)}
 				onBlur={() => setIsInputFocused(false)}
-				style={{ marginRight: !hideElements ? '0rem' : '-2rem' }}
+				style={{ marginRight: !hideElements ? "0rem" : "-2rem", marginBottom: "1rem" }}
 			/>
 			<SearchSvg
-				style={{ opacity: isInputFocused ? 0 : 1, marginLeft: !hideElements ? '-1rem' : '-3rem' }}
+				style={{
+					opacity: isInputFocused ? 0 : 1,
+					marginLeft: !hideElements ? "-1rem" : "-3rem",
+					marginBottom: "1.5rem",
+				}}
 			/>
 		</div>
 	);
 });
-SearchBarConditional.displayName = 'SearchBarConditional';
+SearchBarConditional.displayName = "SearchBarConditional";
 SearchBarConditional.propTypes = {
 	hideElements: PropTypes.bool.isRequired,
 };

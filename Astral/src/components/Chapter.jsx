@@ -131,9 +131,9 @@ const Chapter = ({ imageUrl, title, srcUrl, chapterNumber }) => {
 	);
 };
 Chapter.propTypes = {
-	imageUrl: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	srcUrl: PropTypes.string.isRequired,
+	imageUrl: PropTypes.string,
+	title: PropTypes.string,
+	srcUrl: PropTypes.string,
 	chapterNumber: PropTypes.string,
 };
 
