@@ -20,6 +20,8 @@ const MenuExtendedStyling = styled.div`
 	background: rgba(29, 37, 53, 1);
 	overflow: visible;
 	box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.56);
+	transition: all 0.3s ease;
+
 	@media (min-width: 1200px) {
 		display: none;
 	}
@@ -31,7 +33,7 @@ const UlList = styled.ul`
 	list-style: none;
 	overflow: hidden;
 	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
-	transition: all 1s ease;
+	transition: all 0.3s ease;
 	@media (min-width: 550px) {
 		height: ${(props) => (props.$toggleValue ? 23 : 0)}rem;
 	}
@@ -164,7 +166,7 @@ const MenuExtendedAccount = () => {
 					</LiElement>
 				</UlList>
 			</MenuExtendedStyling>
-			{activeComponent === "ChangePassword" && < ChangePassword/>}
+			{activeComponent === "ChangePassword" && <ChangePassword />}
 			{activeComponent === "ChangeEmail" && <ChangeEmail />}
 			{activeComponent === "ChangeNickname" && <ChangeNickname />}
 			{activeComponent === "ChangeAvatar" && <ChangeAvatar />}

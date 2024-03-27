@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledFooter = styled.footer`
 	position: relative;
 	z-index: 2;
-	width: calc(100% + 2rem);
+	width: calc(100vw + 2rem);
 	margin-left: -1rem;
 	height: auto;
 	padding: 0.5rem 0.5rem;

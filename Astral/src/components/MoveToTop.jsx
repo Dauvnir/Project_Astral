@@ -34,12 +34,18 @@ const ArrowBtn = styled.svg`
 	}
 `;
 const BtnWrapper = styled.div`
-	display: flex;
-	position: relative;
-	justify-content: flex-end;
-	align-items: center;
+	display: block;
+	position: fixed;
+	right: 1.65vw;
+	bottom: 7vh;
+	margin-right: 0.5rem;
+	z-index: 4;
 	width: 100%;
 	background-color: rgba(29, 37, 53, 0.7);
+	@media (min-width: 550px) {
+		right: 0;
+		margin-right: 0.75rem;
+	}
 `;
 const MoveToTop = () => {
 	const ScrollToTop = () => {

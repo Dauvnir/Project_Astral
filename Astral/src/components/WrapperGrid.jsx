@@ -1,21 +1,24 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const WrapperGrid = styled.div`
 	display: grid;
 	position: relative;
 	z-index: 2;
 	width: 100%;
-	grid-template-columns: repeat(3, 33.33%);
-	grid-auto-rows: min-content;
+	grid-template-columns: repeat(2, 50%);
 	grid-auto-flow: row;
-	row-gap: 2rem;
+	row-gap: 2.5rem;
+	padding-top: 2rem;
 	padding-bottom: 5rem;
+	@media (min-width: 450px) {
+		grid-template-columns: repeat(3, 33.33%);
+	}
 	@media (min-width: 600px) {
 		grid-template-columns: repeat(4, 25%);
 	}
 	@media (min-width: 850px) {
 		grid-template-columns: repeat(5, 20%);
-		row-gap: 2.5rem;
+		row-gap: 4rem;
 	}
 
 	@media (min-width: 1100px) {

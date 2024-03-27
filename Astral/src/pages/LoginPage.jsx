@@ -1,9 +1,11 @@
-import { StyledBtn } from '../components/Btn';
-import { BackgroundWrapper } from '../components/BackgroundWrapper';
-import { StyledText } from '../components/StyledTextForBtn';
-import { WrapperFlex } from '../components/WrapperFlex';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { StyledBtn } from "../components/Btn";
+import { BackgroundWrapper } from "../components/BackgroundWrapper";
+import { StyledText } from "../components/StyledTextForBtn";
+import { WrapperFlex } from "../components/WrapperFlex";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { initializeDatabase } from "../DatabaseLocal";
 
 const ResponsiveBackgroundWrapper = styled(BackgroundWrapper)`
 	height: 40%;
@@ -21,23 +23,26 @@ const CenteredStyledText = styled(StyledText)`
 	justify-content: center; /* Center horizontally            https://youtu.be/iLmBy-HKIAw?list=PL-FULmdOpaU1wtXMOIM5-KzXnASlHBJFv&t=708*/
 `;
 const LoginPage = () => {
+	useEffect(() => {
+		initializeDatabase();
+	}, []);
 	return (
 		<>
-			<ResponsiveBackgroundWrapper $flexDirection='row'>
-				<WrapperFlex $overflow='visible' $margin='0 0 1rem 0'>
-					<StyledBtn $margin='0 1rem 0  0 '>
-						<Link to='/login/logIn' style={{ textDecoration: 'none' }}>
+			<ResponsiveBackgroundWrapper $flexDirection="row">
+				<WrapperFlex $overflow="visible" $margin="0 0 1rem 0">
+					<StyledBtn $margin="0 1rem 0  0 ">
+						<Link to="/login/logIn" style={{ textDecoration: "none" }}>
 							<CenteredStyledText>Login</CenteredStyledText>
 						</Link>
 					</StyledBtn>
 					<StyledBtn>
-						<Link to='/login/signUp' style={{ textDecoration: 'none' }}>
+						<Link to="/login/signUp" style={{ textDecoration: "none" }}>
 							<CenteredStyledText>Sign Up</CenteredStyledText>
 						</Link>
 					</StyledBtn>
 				</WrapperFlex>
-				<WrapperFlex $justifyContent='center' $overflow='visible'>
-					<Link to='/library'>
+				<WrapperFlex $justifyContent="center" $overflow="visible">
+					<Link to="/library">
 						<StyledBtn>
 							<StyledText>Guest</StyledText>
 						</StyledBtn>

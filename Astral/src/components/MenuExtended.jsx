@@ -31,13 +31,13 @@ const UlList = styled.ul`
 	list-style: none;
 	overflow: hidden;
 	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
-	transition: all 1s ease;
 	@media (min-width: 550px) {
 		height: ${(props) => (props.$toggleValue ? 23 : 0)}rem;
 	}
 	@media (min-width: 1200px) {
 		display: none;
 	}
+	transition: height 0.3s ease;
 `;
 const LiElement = styled.li`
 	padding: 1rem;

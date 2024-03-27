@@ -60,7 +60,7 @@ const getManhwaByScanlationAndSearch = async (req, res) => {
 const getManhwaImages = async (req, res) => {
 	try {
 		const querySelectAllImages = await pool.query(
-			`SELECT manhwa_id, srcimg FROM manhwa WHERE scanlation_site = 'Asura'  ;`
+			`SELECT manhwa_id, title, chapter, scanlation_site,  websiteurl, srcimg FROM manhwa WHERE scanlation_site = 'Asura'  ;`
 		);
 		res.json(querySelectAllImages.rows);
 	} catch (error) {

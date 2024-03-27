@@ -18,7 +18,7 @@ export const getManhwaAsura = async () => {
 	}
 	//create browser
 	const browser = await puppeteer.launch({
-		headless: false,
+		headless: true,
 		defaultViewport: null,
 	});
 	let i = 1;
