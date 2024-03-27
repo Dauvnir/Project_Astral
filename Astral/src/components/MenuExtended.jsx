@@ -37,7 +37,7 @@ const UlList = styled.ul`
 	@media (min-width: 1200px) {
 		display: none;
 	}
-	transition: height 0.3s ease;
+	transition: all 0.3s ease;
 `;
 const LiElement = styled.li`
 	padding: 1rem;

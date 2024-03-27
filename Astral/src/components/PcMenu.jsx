@@ -91,7 +91,7 @@ const SubMenu = styled.div`
 	left: 0;
 	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
 	overflow: hidden;
-	transition: height 0.5s ease;
+	transition: height 0.4s ease;
 `;
 
 const AccountSubMenu = styled.div`
@@ -101,7 +101,7 @@ const AccountSubMenu = styled.div`
 	left: 0;
 	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
 	overflow: hidden;
-	transition: height 0.5s ease;
+	transition: height 0.4s ease;
 `;
 const SubMenuBtn = styled(BtnElement)`
 	width: 10.45rem;
@@ -118,7 +118,7 @@ const UlListSubMenu = styled.ul`
 	list-style: none;
 	overflow: hidden;
 	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
-	transition: all 1s ease;
+	transition: all 0.4s ease;
 `;
 const PcMenu = () => {
 	let navigate = useNavigate();
