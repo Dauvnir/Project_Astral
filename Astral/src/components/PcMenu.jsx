@@ -54,6 +54,7 @@ const Wrapper = styled.div`
 	@media (max-width: 1199px) {
 		display: none;
 	}
+	padding-left: 1rem;
 `;
 const Hamburger = styled(RxHamburgerMenu)`
 	display: inline-block;
@@ -184,7 +185,7 @@ const PcMenu = () => {
 	const handleClick = (componentName) => {
 		setActiveComponent(componentName);
 		setToggleValue((prev) => !prev);
-		setToggleValue2((prev) => !prev);
+		setToggleValue2(false);
 	};
 	const [activeComponent2, setActiveComponent2] = useState(null);
 	const handleClick2 = (componentName) => {

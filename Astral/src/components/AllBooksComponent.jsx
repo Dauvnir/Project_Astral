@@ -122,11 +122,11 @@ const BookWrapper = styled.div`
 	justify-content: space-between;
 	background-color: rgba(29, 37, 53, 0.7);
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.56);
-	width: calc(100% + 2rem);
+	width: 100vw;
 	position: relative;
 	z-index: 4;
 	padding-block: 1rem;
-	margin-left: -1rem;
+
 	margin-top: 3rem;
 	@media (max-width: 519px) {
 		justify-content: space-between;

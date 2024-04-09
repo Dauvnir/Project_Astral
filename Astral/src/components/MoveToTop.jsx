@@ -2,9 +2,6 @@ import styled from "styled-components";
 
 const ArrowBtn = styled.svg`
 	position: absolute;
-	z-index: 3;
-	right: -10px;
-	bottom: 80px;
 	cursor: pointer;
 	overflow: visible;
 	width: 40px;
@@ -29,32 +26,28 @@ const ArrowBtn = styled.svg`
 		stroke: #e5e9f1;
 		stroke-width: 2;
 	}
-	@media (min-width: 680px) {
-		bottom: 20px;
-	}
 `;
 const BtnWrapper = styled.div`
 	display: block;
 	position: fixed;
-	right: 1.65vw;
-	bottom: 7vh;
-	margin-right: 0.5rem;
+	height: 40px;
+	width: 40px;
+	right: 0.25rem;
+	bottom: 7rem;
 	z-index: 4;
-	width: 100%;
-	background-color: rgba(29, 37, 53, 0.7);
-	@media (min-width: 550px) {
-		right: 0;
-		margin-right: 0.75rem;
+	@media (min-width: 680px) {
+		bottom: 3rem;
 	}
 `;
 const MoveToTop = () => {
 	const ScrollToTop = () => {
-		window.scrollTo({ top: 0, behavior: "smooth" });
-		console.log("click");
+		const anchor = document.getElementById("top");
+		anchor.href = "#top";
+		anchor.click();
 	};
 	return (
-		<BtnWrapper>
-			<ArrowBtn viewBox="0 0 40 40" onClick={() => ScrollToTop()}>
+		<BtnWrapper onClick={() => ScrollToTop()}>
+			<ArrowBtn viewBox="0 0 40 40">
 				<circle cx="20" cy="20" r="19.5" />
 				<path d="M10 24L20 14L30 24" />
 			</ArrowBtn>

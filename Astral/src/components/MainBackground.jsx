@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
 const animStar = keyframes`
 	0% {
@@ -168,7 +168,7 @@ const Stars1 = styled.div`
 		1144px 60px #fff;
 
 	&:after {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 2000px;
 		width: 1px;
@@ -372,7 +372,7 @@ const Stars2 = styled.div`
 		986px 1529px #fff, 1667px 1137px #fff;
 
 	&:after {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 2000px;
 		width: 2px;
@@ -453,7 +453,7 @@ const Stars3 = styled.div`
 		617px 880px #fff, 240px 403px #fff;
 
 	&:after {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 2000px;
 		width: 3px;

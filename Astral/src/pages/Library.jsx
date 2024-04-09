@@ -21,34 +21,26 @@ const BookWrapper = styled.div`
 	justify-content: space-between;
 	background-color: rgba(29, 37, 53, 0.7);
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.56);
-	width: calc(100% + 2rem);
+	width: 100vw;
 	height: auto;
 	position: relative;
 	z-index: 2;
 	padding-block: 1rem;
-	margin-left: -1rem;
 `;
 const ChapterWrapper = styled.div`
 	background-color: rgba(29, 37, 53, 0.7);
-	width: calc(100% + 2rem);
+	width: 100vw;
 	height: auto;
 	flex-grow: 1;
 	position: relative;
 	z-index: 2;
 	padding: 1rem 1rem;
-	margin-left: -1rem;
 	overflow: hidden;
 `;
 const ModifiedWrapperFlex = styled(WrapperFlex)`
 	overflow: visible;
 	width: auto;
 	margin-left: 1rem;
-	@media (min-width: 501px) {
-		margin-left: 1rem;
-	}
-	@media (min-width: 801px) {
-		margin-left: 2rem;
-	}
 `;
 const ModifiedWrapperFlexBtn = styled(WrapperFlex)`
 	overflow: visible;
@@ -75,10 +67,13 @@ const Library = () => {
 	};
 	return (
 		<>
+			<a id="top"></a>
 			<MainBackground></MainBackground>
 			<div className="overlay"></div>
 			<Menu></Menu>
-			<WrapperFlex style={{ cursor: "pointer", marginBottom: "1.5rem" }} onClick={toLibrary}>
+			<WrapperFlex
+				style={{ cursor: "pointer", marginBottom: "1.5rem", marginTop: "1rem" }}
+				onClick={toLibrary}>
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
 			<Avatar />
@@ -86,14 +81,13 @@ const Library = () => {
 				$textAlign="left"
 				$fontSize="clamp(2rem, 2vw + 1rem , 5rem)"
 				$fontWeight="600"
-				style={{ position: "relative", zIndex: "2", marginTop: "1.5rem" }}>
+				style={{ position: "relative", zIndex: "2", marginTop: "1.5rem", marginLeft: "1rem" }}>
 				Popular Today
 			</Paragraph>
 			<WrapperFlex
 				style={{
 					marginBottom: "1.5rem",
-					width: "calc(100% + 2rem)",
-					marginLeft: "-1rem",
+					width: "100vw",
 					overflow: "visible",
 				}}>
 				<WrapperFlex $width="100%">
@@ -112,8 +106,7 @@ const Library = () => {
 					<BookmarkBtn></BookmarkBtn>
 				</ModifiedWrapperFlexBtn>
 			</BookWrapper>
-			<LineBreak
-				style={{ margin: "0 0 0 -1rem", width: "calc(100% + 2rem)", height: "2px" }}></LineBreak>
+			<LineBreak style={{ width: "100vw", height: "2px", margin: "0" }}></LineBreak>
 			<ChapterWrapper>
 				<WrapperGrid>
 					{/* <Chapter></Chapter>

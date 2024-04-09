@@ -7,12 +7,11 @@ const LeaderboardWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding-inline: 1rem;
-	width: calc(100% + 3rem);
+	width: 100vw;
 	background-color: rgba(29, 37, 53, 0.7);
 	height: 100%;
 	position: relative;
 	z-index: 2;
-	margin-left: -1.5rem;
 	/* margin-top: 2rem; */
 `;
 const LeaderboardHeadersWrapper = styled.div`
@@ -33,9 +32,9 @@ const LeaderboardHeaderWrapper = styled.div`
 `;
 const WrapperFlexResponsive = styled(WrapperFlex)`
 	/* width: clamp(15rem, 80vw, 43rem); */
-	width: calc(100% + 2rem);
+	width: 100vw;
 	justify-content: left;
-	margin: 3rem 0 0 -1rem;
+	margin: 3rem 0 0 0rem;
 	overflow: visible;
 	height: 4rem;
 	@media (min-width: 600px) {
@@ -132,7 +131,7 @@ const LeaderBoardComponent = () => {
 	};
 	return (
 		<>
-			<WrapperFlexResponsive $justifyContent="left" $margin="3rem  0 0  -1rem">
+			<WrapperFlexResponsive $justifyContent="left" $margin="3rem  0 0 0">
 				<ButtonStyled onClick={ReviewsStateHandler} style={{ opacity: ReviewsState ? 1 : 0.5 }}>
 					<SpanStyled>Reviews Royale</SpanStyled>
 				</ButtonStyled>

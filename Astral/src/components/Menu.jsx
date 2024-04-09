@@ -27,7 +27,7 @@ const MenuStyled = styled.div`
 	height: 4rem;
 	left: 50%;
 	transform: translateX(-50%);
-	bottom: 2rem;
+	bottom: 0rem;
 	border-radius: 20px;
 	background: rgba(29, 37, 53, 1);
 	overflow: visible;

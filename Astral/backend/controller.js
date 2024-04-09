@@ -32,7 +32,7 @@ const getManhwaByScanlation = async (req, res) => {
 	try {
 		const { scanlation } = req.params;
 		const querySelectAllScanlation = await pool.query(
-			`SELECT * FROM manhwa WHERE scanlation_site = $1;`,
+			`SELECT manhwa_id, title, chapter FROM manhwa WHERE scanlation_site = $1;`,
 			[scanlation]
 		);
 		res.json(querySelectAllScanlation.rows);
@@ -41,7 +41,19 @@ const getManhwaByScanlation = async (req, res) => {
 		res.status(500).send("Internal Server Error");
 	}
 };
-
+const getManhwaBasedOnId = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const querySelectManhwaBasedOnId = await pool.query(
+			`SELECT manhwa_id, title, chapter, scanlation_site,  srcimg, websiteurl FROM manhwa WHERE manhwa_id = $1;`,
+			[id]
+		);
+		res.json(querySelectManhwaBasedOnId.rows);
+	} catch (error) {
+		console.error("Error:", error);
+		res.status(500).send("Internal Server Error");
+	}
+};
 //GET all manhwa based on scanlation site + searching
 const getManhwaByScanlationAndSearch = async (req, res) => {
 	try {
@@ -74,12 +86,11 @@ const patchManhwaChapterAllScanlation = async (req, res) => {
 		let data;
 		let scraperModule;
 		const { scanlation } = req.params;
-		console.log(scanlation);
 		switch (scanlation.toLowerCase()) {
 			case "asura":
 				console.log("Starting dataAsura");
-				scraperModule = await import("./ScanBot/ScanBot/asuraScraperChapter..js");
-				data = await scraperModule.getManhwaAsura();
+				scraperModule = await import("./ScanBot/ScanBot/asuraScraperChapter.js");
+				data = await scraperModule.getManhwaAsuraChapter();
 				break;
 			case "flame":
 				console.log("Starting dataFlame");
@@ -278,6 +289,7 @@ module.exports = {
 	getManhwaByScanlation,
 	getManhwaByScanlationAndSearch,
 	getManhwaImages,
+	getManhwaBasedOnId,
 	patchManhwaChapterAll,
 	patchManhwaChapterAllScanlation,
 	addManhwa,

@@ -98,11 +98,9 @@ export const getManhwaAsuraChapter = async () => {
 				}
 
 				let base64Image = srcImgToBlob(src);
-				console.log(base64Image);
 				return base64Image;
 			});
 			base64DataArray.push(base64Data);
-			console.log(base64DataArray);
 			await page2.close();
 		}
 	} catch (error) {

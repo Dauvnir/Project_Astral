@@ -10,6 +10,8 @@ const WrapperGrid = styled.div`
 	row-gap: 2.5rem;
 	padding-top: 2rem;
 	padding-bottom: 5rem;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
 	@media (min-width: 450px) {
 		grid-template-columns: repeat(3, 33.33%);
 	}

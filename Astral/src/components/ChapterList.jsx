@@ -3,9 +3,9 @@ import { database } from "../DatabaseLocal";
 import Chapter from "./Chapter";
 import { useLiveQuery } from "dexie-react-hooks";
 import PacmanLoader from "react-spinners/PacmanLoader";
-import { useEffect } from "react";
 import PropTypes from "prop-types";
-
+import { compareMetaData } from "../DatabaseLocal";
+import { useEffect } from "react";
 const StyledDiv = styled.div`
 	display: flex;
 	align-items: center;
@@ -16,11 +16,13 @@ const StyledDiv = styled.div`
 `;
 
 const ChapterList = ({ sortMethod, inputValue }) => {
+	const unmountTime = 60000;
 	useEffect(() => {
-		const handleLoad = async () => {
-			await database.open();
-		};
-		handleLoad();
+		const interval = setInterval(async () => {
+			await compareMetaData();
+		}, unmountTime);
+
+		return () => clearInterval(interval);
 	}, []);
 
 	const fetchData = async () => {
@@ -37,7 +39,6 @@ const ChapterList = ({ sortMethod, inputValue }) => {
 
 	const fetchDataAndClose = async () => {
 		const data = await fetchData();
-		database.close();
 		return data;
 	};
 

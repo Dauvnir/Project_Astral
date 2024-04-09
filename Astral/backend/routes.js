@@ -5,6 +5,7 @@ const manhwaController = require("./controller");
 router.get("/", manhwaController.getAllManhwa);
 router.get("/images", manhwaController.getManhwaImages);
 router.get("/:search", manhwaController.getManhwaBySearch);
+router.get("/manual/:id", manhwaController.getManhwaBasedOnId);
 router.get("/site/:scanlation", manhwaController.getManhwaByScanlation);
 router.get("/site/:scanlation/:search", manhwaController.getManhwaByScanlationAndSearch);
 router.patch("/methods/patch/all", manhwaController.patchManhwaChapterAll);
