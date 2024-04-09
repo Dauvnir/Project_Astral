@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const ArrowBtn = styled.svg`
 	cursor: pointer;
@@ -28,14 +28,13 @@ const BtnWrapper = styled.div`
 
 const MoveToTopBtn = () => {
 	const ScrollToTop = () => {
-		document.body.scrollTo({ top: 0, behavior: 'smooth' });
-		console.log('click');
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	};
 	return (
 		<BtnWrapper>
-			<ArrowBtn viewBox='0 0 40 40' onClick={ScrollToTop}>
-				<circle cx='20' cy='20' r='19.5' />
-				<path d='M10 24L20 14L30 24' />
+			<ArrowBtn viewBox="0 0 40 40" onClick={() => ScrollToTop()}>
+				<circle cx="20" cy="20" r="19.5" />
+				<path d="M10 24L20 14L30 24" />
 			</ArrowBtn>
 		</BtnWrapper>
 	);
