@@ -24,7 +24,8 @@ const AllBooks = () => {
 			<div className="overlay"></div>
 			<Menu />
 			<WrapperFlex
-				style={{ cursor: "pointer", marginBottom: "1.5rem", marginTop: "1rem" }}
+				$width="clamp(10rem, 95%, 50rem)"
+				style={{ cursor: "pointer", margin: " 1rem auto 2rem auto" }}
 				onClick={toLibrary}>
 				<StyledLogo />
 			</WrapperFlex>

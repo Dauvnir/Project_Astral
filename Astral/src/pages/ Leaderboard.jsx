@@ -24,10 +24,10 @@ const Leaderboard = () => {
 			<div className="overlay"></div>
 			<Menu />
 			<WrapperFlex
+				$width="clamp(10rem, 95%, 50rem)"
 				style={{
 					cursor: "pointer",
-					marginBottom: "1.5rem",
-					marginTop: "1rem",
+					margin: " 1rem auto 2rem auto",
 				}}
 				onClick={toLibrary}>
 				<StyledLogo />

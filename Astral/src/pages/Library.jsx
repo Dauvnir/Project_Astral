@@ -72,8 +72,9 @@ const Library = () => {
 			<div className="overlay"></div>
 			<Menu></Menu>
 			<WrapperFlex
-				style={{ cursor: "pointer", marginBottom: "1.5rem", marginTop: "1rem" }}
-				onClick={toLibrary}>
+				style={{ cursor: "pointer", margin: "1rem auto 1.5rem auto" }}
+				onClick={toLibrary}
+				$width="clamp(10rem, 95%, 50rem)">
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
 			<Avatar />

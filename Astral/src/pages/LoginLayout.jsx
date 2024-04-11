@@ -1,10 +1,10 @@
-import MainBackground from '../components/MainBackground';
-import StyledLogo from '../components/LogoHeader';
-import { Outlet, useLocation, Link, useNavigate } from 'react-router-dom';
-import { StyledText } from '../components/StyledTextForBtn';
-import { StyledBtn } from '../components/Btn';
-import { WrapperFlex } from '../components/WrapperFlex';
-import styled from 'styled-components';
+import MainBackground from "../components/MainBackground";
+import StyledLogo from "../components/LogoHeader";
+import { Outlet, useLocation, Link, useNavigate } from "react-router-dom";
+import { StyledText } from "../components/StyledTextForBtn";
+import { StyledBtn } from "../components/Btn";
+import { WrapperFlex } from "../components/WrapperFlex";
+import styled from "styled-components";
 
 const WrapperMain = styled.div`
 	display: flex;
@@ -32,21 +32,22 @@ const LoginLayout = () => {
 	return (
 		<>
 			<MainBackground></MainBackground>
-			<div className='overlay'></div>
+			<div className="overlay"></div>
 			<WrapperMain>
 				<WrapperFlex
-					$margin=' 0 0 2rem 0'
-					style={{ overflow: 'visible', cursor: 'pointer' }}
-					onClick={toWelcomePage}>
+					$margin=" 1rem auto 2rem auto"
+					style={{ overflow: "visible", cursor: "pointer" }}
+					onClick={toWelcomePage}
+					$width="clamp(10rem, 95%, 50rem)">
 					<StyledLogo></StyledLogo>
 				</WrapperFlex>
 				<Wrapper>
 					<Outlet />
-					{pathname == '/login/logIn/forgottenPswd/succes' ||
-					pathname == '/login/signUp/registerSucces' ? null : (
-						<WrapperFlex $overflow='visible' $height='20%' style={{ alignItems: 'end' }}>
-							<Link to={pathname != '/login' ? '/login' : '/'}>
-								<StyledBtn $margin='0 0 1.5rem 0'>
+					{pathname == "/login/logIn/forgottenPswd/succes" ||
+					pathname == "/login/signUp/registerSucces" ? null : (
+						<WrapperFlex $overflow="visible" $height="20%" style={{ alignItems: "end" }}>
+							<Link to={pathname != "/login" ? "/login" : "/"}>
+								<StyledBtn $margin="0 0 1.5rem 0">
 									<StyledText>BACK</StyledText>
 								</StyledBtn>
 							</Link>
