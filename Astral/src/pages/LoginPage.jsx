@@ -4,8 +4,6 @@ import { StyledText } from "../components/StyledTextForBtn";
 import { WrapperFlex } from "../components/WrapperFlex";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { initializeDatabase } from "../DatabaseLocal";
 
 const ResponsiveBackgroundWrapper = styled(BackgroundWrapper)`
 	height: 40%;
@@ -20,12 +18,9 @@ const CenteredStyledText = styled(StyledText)`
 	height: 100%;
 	display: flex;
 	align-items: center; /* Center vertically */
-	justify-content: center; /* Center horizontally            https://youtu.be/iLmBy-HKIAw?list=PL-FULmdOpaU1wtXMOIM5-KzXnASlHBJFv&t=708*/
+	justify-content: center; /* Center horizontally */
 `;
 const LoginPage = () => {
-	useEffect(() => {
-		initializeDatabase();
-	}, []);
 	return (
 		<>
 			<ResponsiveBackgroundWrapper $flexDirection="row">

@@ -15,6 +15,7 @@ import Menu from "../components/Menu";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import MoveToTop from "../components/MoveToTop";
+import PopulatingDatabase from "../components/PopulatingDatabase";
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -67,6 +68,7 @@ const Library = () => {
 	};
 	return (
 		<>
+			<PopulatingDatabase></PopulatingDatabase>
 			<a id="top"></a>
 			<MainBackground></MainBackground>
 			<div className="overlay"></div>

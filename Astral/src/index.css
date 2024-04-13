@@ -4,6 +4,10 @@
 	box-sizing: border-box;
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
 html,
 body {
 	width: 100vw;
@@ -16,12 +20,14 @@ body {
 	scrollbar-width: none;
 	-ms-overflow-style: none;
 	overflow-x: hidden;
-	scroll-behavior: smooth;
 }
 #root::-webkit-scrollbar {
 	display: none;
 }
 body.disableInteractions {
+	pointer-events: none;
+}
+.disableInteractions {
 	pointer-events: none;
 }
 .overlay {
@@ -34,4 +40,9 @@ body.disableInteractions {
 	-webkit-backdrop-filter: blur(1px);
 	-moz-backdrop-filter: blur(1px);
 	z-index: 1;
+}
+
+.overlay-visible * {
+	visibility: visible;
+	pointer-events: none;
 }
