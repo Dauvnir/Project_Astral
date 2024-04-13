@@ -72,7 +72,7 @@ const getManhwaByScanlationAndSearch = async (req, res) => {
 const getManhwaImages = async (req, res) => {
 	try {
 		const querySelectAllImages = await pool.query(
-			`SELECT manhwa_id, title, chapter, scanlation_site,  websiteurl, srcimg FROM manhwa WHERE scanlation_site = 'Asura'  ;`
+			`SELECT manhwa_id, title, chapter, scanlation_site,  websiteurl, srcimg FROM manhwa WHERE scanlation_site = 'Asura';`
 		);
 		res.json(querySelectAllImages.rows);
 	} catch (error) {
@@ -185,7 +185,7 @@ const patchManhwaChapterAll = async (req, res) => {
 
 		const updateQuery = `UPDATE manhwa
 			SET chapter = $1
-			WHERE scanlation_site = $3 AND title = $4
+			WHERE scanlation_site = $2 AND title = $3
 			RETURNING *;`;
 
 		const selectQuery = `SELECT  * FROM manhwa WHERE scanlation_site = $1 AND title = $2;`;
@@ -216,7 +216,6 @@ const patchManhwaChapterAll = async (req, res) => {
 			}
 		}
 		console.log("Data inserted successfully into the database.");
-		res.json(updatedRows);
 	} catch (error) {
 		console.error(`Error in patchManhwaChapterAll: ${error.message}`);
 		res.status(500).send("Internal Server Error");

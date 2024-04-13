@@ -115,6 +115,6 @@ export const getManhwaAsuraChapter = async () => {
 			scrapedData[i].srcImg = base64DataArray[i];
 		}
 	}
-	console.log(scrapedData);
+	// console.log(scrapedData);
 	return scrapedData;
 };

@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
 const manhwaRoutes = require("./routes");
+const manhwaController = require("./controller");
 const app = express();
 
 // Connecting to database
@@ -24,6 +25,19 @@ app.use("/manhwas/methods/addAll", (req, res) => {
 	res.status(403).send("Forbidden");
 });
 app.use("/manhwas", manhwaRoutes);
+
+//update database every 2 hours
+setInterval(updateDB, 7200000); //7 200 000  it is 2 hour
+
+async function updateDB() {
+	try {
+		await manhwaController.patchManhwaChapterAll();
+		console.log("Database updated successfully.");
+	} catch (error) {
+		console.error("Error while updating database", error);
+		throw error;
+	}
+}
 
 process.on("exit", () => {
 	pool.end();
