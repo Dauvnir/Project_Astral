@@ -45,11 +45,52 @@ const ChapterList = ({ sortMethod, indexValue }) => {
 				.offset(startIndex)
 				.limit(pageSize)
 				.toArray();
+	} else if (sortMethod === "scanlation") {
+		manhwasQuery = () =>
+			database
+				.table("manhwas")
+				.orderBy("scanlation_site")
+				.offset(startIndex)
+				.limit(pageSize)
+				.toArray();
+	} else if (sortMethod === "chapter19") {
+		manhwasQuery = async () => {
+			let manhwas = await database.table("manhwas").toArray();
+
+			manhwas.sort((a, b) => {
+				const chapterA = extractNumericPart(a.chapter);
+				const chapterB = extractNumericPart(b.chapter);
+				return chapterA - chapterB;
+			});
+
+			manhwas = manhwas.slice(startIndex, startIndex + pageSize);
+
+			return manhwas;
+		};
+	} else if (sortMethod === "chapter91") {
+		manhwasQuery = async () => {
+			let manhwas = await database.table("manhwas").toArray();
+
+			manhwas.sort((a, b) => {
+				const chapterA = extractNumericPart(a.chapter);
+				const chapterB = extractNumericPart(b.chapter);
+				return chapterB - chapterA;
+			});
+
+			manhwas = manhwas.slice(startIndex, startIndex + pageSize);
+
+			return manhwas;
+		};
 	} else {
 		manhwasQuery = () => database.table("manhwas").offset(startIndex).limit(pageSize).toArray();
 	}
 
 	const manhwas = useLiveQuery(manhwasQuery, [startIndex, pageSize, sortMethod]);
+
+	function extractNumericPart(chapter) {
+		const match = chapter.match(/\d+/);
+		return match ? parseInt(match[0]) : Infinity;
+	}
 
 	if (manhwas) {
 		manhwas.map(async (manhwa) => {
