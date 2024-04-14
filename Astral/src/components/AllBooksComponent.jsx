@@ -216,7 +216,7 @@ const AllBooksComponent = ({ sortMethodHandler, sortInputHandler }) => {
 
 	return (
 		<BookWrapper>
-			<Title>All Books</Title>
+			<Title>Books</Title>
 			<SearchBar>
 				<StyledInput
 					type="text"

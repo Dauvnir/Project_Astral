@@ -6,6 +6,8 @@ import PacmanLoader from "react-spinners/PacmanLoader";
 import PropTypes from "prop-types";
 import { compareMetaData } from "../DatabaseLocal";
 import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 const StyledDiv = styled.div`
 	display: flex;
 	align-items: center;
@@ -14,8 +16,10 @@ const StyledDiv = styled.div`
 	height: 15rem;
 	padding: 1rem;
 `;
-
-const ChapterList = ({ sortMethod, inputValue }) => {
+// inputValue include to dependencies when adding sort function for input value
+const ChapterList = ({ sortMethod, indexValue }) => {
+	const pageSize = 50;
+	const [startIndex, setStartIndex] = useState(0);
 	const unmountTime = 60000;
 	useEffect(() => {
 		const interval = setInterval(async () => {
@@ -24,90 +28,84 @@ const ChapterList = ({ sortMethod, inputValue }) => {
 
 		return () => clearInterval(interval);
 	}, []);
+	useEffect(() => {
+		setStartIndex((indexValue - 1) * pageSize);
+	}, [indexValue]);
 
-	const fetchData = async () => {
-		await database.open();
-		const isOpen = database.isOpen();
-		if (isOpen) {
-			const data = await database.manhwas.toArray();
-			return data;
-		} else {
-			console.log("Brak polaczenia");
-			return null;
-		}
-	};
-
-	const fetchDataAndClose = async () => {
-		const data = await fetchData();
-		return data;
-	};
-
-	const manhwasAll = useLiveQuery(fetchDataAndClose);
-
-	let renderedChapters = null;
-	if (!manhwasAll) {
-		renderedChapters = (
-			<StyledDiv>
-				<PacmanLoader
-					color="#d9d9d9"
-					size={100}
-					cssOverride={{
-						opacity: 1,
-					}}
-				/>
-			</StyledDiv>
-		);
+	let manhwasQuery;
+	if (sortMethod === "nameAZ") {
+		manhwasQuery = () =>
+			database.table("manhwas").orderBy("title").offset(startIndex).limit(pageSize).toArray();
+	} else if (sortMethod === "nameZA") {
+		manhwasQuery = () =>
+			database
+				.table("manhwas")
+				.orderBy("title")
+				.reverse()
+				.offset(startIndex)
+				.limit(pageSize)
+				.toArray();
 	} else {
-		let sortedManhwas = manhwasAll;
-		if (sortMethod === "nameAZ") {
-			sortedManhwas = manhwasAll.slice().sort((a, b) => a.title.localeCompare(b.title));
-		}
-		if (sortMethod === "nameZA") {
-			sortedManhwas = manhwasAll.slice().sort((a, b) => b.title.localeCompare(a.title));
-		}
-		if (sortMethod === "scanlation") {
-			sortedManhwas = manhwasAll;
-			sortedManhwas = manhwasAll
-				.slice()
-				.sort((a, b) => a.scanlation_site.localeCompare(b.scanlation_site));
-		}
-		if (sortMethod === "chapter19") {
-			sortedManhwas = manhwasAll;
-			sortedManhwas = manhwasAll
-				.slice()
-				.sort((a, b) => a.chapter.localeCompare(b.chapter, undefined, { numeric: true }));
-		}
-		if (sortMethod === "chapter91") {
-			sortedManhwas = manhwasAll;
-			sortedManhwas = manhwasAll
-				.slice()
-				.sort((a, b) => b.chapter.localeCompare(a.chapter, undefined, { numeric: true }));
-		}
-
-		let filteredManhwas = sortedManhwas;
-
-		if (inputValue == "") {
-			filteredManhwas = sortedManhwas;
-		} else {
-			filteredManhwas = sortedManhwas.filter((manhwa) =>
-				manhwa.title.toLowerCase().includes(inputValue.toLowerCase())
-			);
-		}
-		renderedChapters = filteredManhwas.map((manhwa) => (
-			<Chapter
-				key={manhwa.manhwa_id}
-				srcUrl={manhwa.websiteurl}
-				imageUrl={manhwa.srcimg}
-				chapterNumber={manhwa.chapter}
-				title={manhwa.title}
-			/>
-		));
+		manhwasQuery = () => database.table("manhwas").offset(startIndex).limit(pageSize).toArray();
 	}
-	return <>{renderedChapters}</>;
-};
 
+	const manhwas = useLiveQuery(manhwasQuery, [startIndex, pageSize, sortMethod]);
+
+	if (manhwas) {
+		manhwas.map(async (manhwa) => {
+			if (manhwa.srcimg !== " ") {
+				return;
+			}
+			try {
+				await axios
+					.get(`http://localhost:3000/manhwas/images/${manhwa.manhwa_id}`)
+					.then((response) => {
+						const image = response.data[0];
+						return database
+							.table("manhwas")
+							.where("manhwa_id")
+							.equals(manhwa.manhwa_id)
+							.modify({ srcimg: image.srcimg });
+					})
+					.catch((error) => {
+						console.error("Error fetching data", error);
+						throw error;
+					});
+			} catch (error) {
+				console.error("Error fetching images:", error);
+			}
+		});
+	}
+
+	return (
+		<>
+			{!manhwas ? (
+				<StyledDiv>
+					<PacmanLoader
+						color="#d9d9d9"
+						size={100}
+						cssOverride={{
+							opacity: 1,
+						}}
+					/>
+				</StyledDiv>
+			) : (
+				manhwas.map((manhwa) => (
+					<Chapter
+						key={manhwa.manhwa_id}
+						srcUrl={manhwa.websiteurl}
+						imageUrl={manhwa.srcimg}
+						chapterNumber={manhwa.chapter}
+						title={manhwa.title}
+					/>
+				))
+			)}
+		</>
+	);
+};
 ChapterList.propTypes = {
 	sortMethod: PropTypes.string.isRequired,
 	inputValue: PropTypes.string,
+	indexValue: PropTypes.number.isRequired,
 };
 export default ChapterList;

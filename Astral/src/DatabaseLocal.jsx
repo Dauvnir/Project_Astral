@@ -14,8 +14,8 @@ export function isDatabasePopulated() {
 export async function populateDatabase(fetchedData) {
 	const check = await database.manhwas.toArray();
 	if (check.length == 0) {
-		return database.manhwas
-			.bulkPut(fetchedData)
+		return await database.manhwas
+			.bulkPut(fetchedData.map((item) => ({ ...item, srcimg: " " })))
 			.then(() => {
 				console.log("Database populated.");
 			})
@@ -29,17 +29,13 @@ export async function populateDatabase(fetchedData) {
 }
 
 export async function fetchDataAndPopulateDatabase() {
-	const controller = new AbortController();
 	return axios
 		.get("http://localhost:3000/manhwas/images")
 		.then(async (responseFromServer) => {
-			const data = responseFromServer.data;
+			const data = await responseFromServer.data;
 			//add Update time stamp
 			await database.metadata.put({ lastUpdate: new Date() });
-			return populateDatabase(data);
-		})
-		.then(() => {
-			controller.abort();
+			return await populateDatabase(data);
 		})
 		.catch((error) => {
 			console.error("Error fetching data", error);
@@ -47,14 +43,19 @@ export async function fetchDataAndPopulateDatabase() {
 		});
 }
 
-export function initializeDatabase() {
-	return isDatabasePopulated().then((isPopulated) => {
-		if (!isPopulated) {
-			return fetchDataAndPopulateDatabase();
-		} else {
-			console.log("Database is already populated");
-		}
-	});
+export async function initializeDatabase() {
+	try {
+		return await isDatabasePopulated().then(async (isPopulated) => {
+			if (!isPopulated) {
+				return await fetchDataAndPopulateDatabase();
+			} else {
+				console.log("Database is already populated");
+			}
+		});
+	} catch (error) {
+		console.error("Error while populating", error);
+		throw error;
+	}
 }
 
 export async function fetchDataFromDatabase() {
@@ -118,7 +119,7 @@ export async function compareDatabase() {
 export async function addNewRecordsToDatabase(filteredData) {
 	return (
 		database.manhwas
-			.bulkPut(filteredData)
+			.bulkPut(filteredData.map((item) => ({ ...item, srcimg: " " })))
 			// .then(() => console.log("New books added"))
 			.catch((error) => {
 				console.error("Error while adding new records to database: ", error);

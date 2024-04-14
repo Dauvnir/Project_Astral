@@ -45,7 +45,7 @@ const getManhwaBasedOnId = async (req, res) => {
 	try {
 		const { id } = req.params;
 		const querySelectManhwaBasedOnId = await pool.query(
-			`SELECT manhwa_id, title, chapter, scanlation_site,  srcimg, websiteurl FROM manhwa WHERE manhwa_id = $1;`,
+			`SELECT manhwa_id, title, chapter, scanlation_site, websiteurl FROM manhwa WHERE manhwa_id = $1;`,
 			[id]
 		);
 		res.json(querySelectManhwaBasedOnId.rows);
@@ -69,10 +69,22 @@ const getManhwaByScanlationAndSearch = async (req, res) => {
 	}
 };
 //GET ALL IMAGES
-const getManhwaImages = async (req, res) => {
+const getAllImages = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const querySelectImages = await pool.query(`SELECT srcimg FROM manhwa WHERE manhwa_id = $1;`, [
+			id,
+		]);
+		res.json(querySelectImages.rows);
+	} catch (error) {
+		console.error("Error:", error);
+		res.status(500).send("Internal Server Error");
+	}
+};
+const getManhwaData = async (req, res) => {
 	try {
 		const querySelectAllImages = await pool.query(
-			`SELECT manhwa_id, title, chapter, scanlation_site,  websiteurl, srcimg FROM manhwa WHERE scanlation_site = 'Asura';`
+			`SELECT manhwa_id, title, chapter, scanlation_site,  websiteurl FROM manhwa;`
 		);
 		res.json(querySelectAllImages.rows);
 	} catch (error) {
@@ -80,6 +92,7 @@ const getManhwaImages = async (req, res) => {
 		res.status(500).send("Internal Server Error");
 	}
 };
+
 //PATCH manhwa all chapter + insert new one if appeard based on scanlation
 const patchManhwaChapterAllScanlation = async (req, res) => {
 	try {
@@ -287,10 +300,11 @@ module.exports = {
 	getManhwaBySearch,
 	getManhwaByScanlation,
 	getManhwaByScanlationAndSearch,
-	getManhwaImages,
+	getManhwaData,
 	getManhwaBasedOnId,
 	patchManhwaChapterAll,
 	patchManhwaChapterAllScanlation,
 	addManhwa,
 	addAllManhwa,
+	getAllImages,
 };

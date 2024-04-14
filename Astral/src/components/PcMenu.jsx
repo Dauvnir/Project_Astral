@@ -290,7 +290,7 @@ const PcMenu = () => {
 					<LiElement>
 						<BtnElement style={{ borderRadius: " 0 10px 10px 0" }} onClick={toBooks}>
 							<AllBooksIcon></AllBooksIcon>
-							<span style={{ marginLeft: "0.5rem", whiteSpace: "nowrap" }}>All books</span>
+							<span style={{ marginLeft: "0.5rem", whiteSpace: "nowrap" }}>Books</span>
 						</BtnElement>
 					</LiElement>
 				</UlList>

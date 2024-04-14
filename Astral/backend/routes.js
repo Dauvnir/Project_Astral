@@ -3,7 +3,8 @@ const router = express.Router();
 const manhwaController = require("./controller");
 
 router.get("/", manhwaController.getAllManhwa);
-router.get("/images", manhwaController.getManhwaImages);
+router.get("/images", manhwaController.getManhwaData);
+router.get("/images/:id", manhwaController.getAllImages);
 router.get("/:search", manhwaController.getManhwaBySearch);
 router.get("/manual/:id", manhwaController.getManhwaBasedOnId);
 router.get("/site/:scanlation", manhwaController.getManhwaByScanlation);
