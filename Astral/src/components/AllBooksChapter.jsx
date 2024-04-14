@@ -61,7 +61,7 @@ const AllBooksChapter = () => {
 		setSortMethod(method);
 	};
 
-	const [inputValue, setInputValue] = useState("default");
+	const [inputValue, setInputValue] = useState(null);
 
 	const sortInputHandler = (value) => {
 		setInputValue(value);

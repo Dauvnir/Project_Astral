@@ -16,8 +16,8 @@ const StyledDiv = styled.div`
 	height: 15rem;
 	padding: 1rem;
 `;
-// inputValue include to dependencies when adding sort function for input value
-const ChapterList = ({ sortMethod, indexValue }) => {
+//  include to dependencies when adding sort function for input value
+const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 	const pageSize = 50;
 	const [startIndex, setStartIndex] = useState(0);
 	const unmountTime = 60000;
@@ -82,10 +82,22 @@ const ChapterList = ({ sortMethod, indexValue }) => {
 			return manhwas;
 		};
 	} else {
-		manhwasQuery = () => database.table("manhwas").offset(startIndex).limit(pageSize).toArray();
+		if (inputValue) {
+			manhwasQuery = () =>
+				database
+					.table("manhwas")
+					.toArray()
+					.then((manhwas) =>
+						manhwas.filter((manhwa) =>
+							manhwa.title.toLowerCase().match(new RegExp(inputValue.toLowerCase(), "g"))
+						)
+					);
+		} else {
+			manhwasQuery = () => database.table("manhwas").offset(startIndex).limit(pageSize).toArray();
+		}
 	}
 
-	const manhwas = useLiveQuery(manhwasQuery, [startIndex, pageSize, sortMethod]);
+	const manhwas = useLiveQuery(manhwasQuery, [startIndex, pageSize, sortMethod, inputValue]);
 
 	function extractNumericPart(chapter) {
 		const match = chapter.match(/\d+/);
