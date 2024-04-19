@@ -20,7 +20,7 @@ const BookWrapper = styled.div`
 `;
 const Pagination = styled.div`
 	width: 100%;
-	height: 3rem;
+	height: 4rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -28,6 +28,7 @@ const Pagination = styled.div`
 	position: relative;
 	z-index: 3;
 	gap: 1rem;
+	margin-bottom: 8rem;
 `;
 
 const Btn = styled.button`
@@ -70,6 +71,9 @@ const AllBooksChapter = () => {
 	const [indexValue, setIndexValue] = useState(1);
 
 	const indexValueHandler = (index) => {
+		const anchor = document.getElementById("top");
+		anchor.href = "#top";
+		anchor.click();
 		setIndexValue(index);
 	};
 	const [totalAmount, setTotalAmount] = useState(1);
@@ -84,6 +88,7 @@ const AllBooksChapter = () => {
 
 	return (
 		<>
+			<span></span>
 			<AllBooksComponent
 				sortMethodHandler={sortMethodHandler}
 				sortInputHandler={sortInputHandler}

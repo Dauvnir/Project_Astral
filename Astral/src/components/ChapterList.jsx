@@ -35,7 +35,12 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 	let manhwasQuery;
 	if (sortMethod === "nameAZ") {
 		manhwasQuery = () =>
-			database.table("manhwas").orderBy("title").offset(startIndex).limit(pageSize).toArray();
+			database
+				.table("manhwas")
+				.orderBy("title")
+				.offset(startIndex)
+				.limit(pageSize)
+				.toArray();
 	} else if (sortMethod === "nameZA") {
 		manhwasQuery = () =>
 			database
@@ -89,15 +94,23 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 					.toArray()
 					.then((manhwas) =>
 						manhwas.filter((manhwa) =>
-							manhwa.title.toLowerCase().match(new RegExp(inputValue.toLowerCase(), "g"))
+							manhwa.title
+								.toLowerCase()
+								.match(new RegExp(inputValue.toLowerCase(), "g"))
 						)
 					);
 		} else {
-			manhwasQuery = () => database.table("manhwas").offset(startIndex).limit(pageSize).toArray();
+			manhwasQuery = () =>
+				database.table("manhwas").offset(startIndex).limit(pageSize).toArray();
 		}
 	}
 
-	const manhwas = useLiveQuery(manhwasQuery, [startIndex, pageSize, sortMethod, inputValue]);
+	const manhwas = useLiveQuery(manhwasQuery, [
+		startIndex,
+		pageSize,
+		sortMethod,
+		inputValue,
+	]);
 
 	function extractNumericPart(chapter) {
 		const match = chapter.match(/\d+/);
@@ -148,8 +161,16 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 						key={manhwa.manhwa_id}
 						srcUrl={manhwa.websiteurl}
 						imageUrl={manhwa.srcimg}
-						chapterNumber={manhwa.chapter}
-						title={manhwa.title}
+						chapterNumber={
+							manhwa.chapter.length >= 11
+								? manhwa.chapter.slice(0, 11).replace(/\s+$/, "")
+								: manhwa.chapter
+						}
+						title={
+							manhwa.title.length >= 45
+								? manhwa.title.slice(0, 45).replace(/\s+$/, "") + "..."
+								: manhwa.title
+						}
 					/>
 				))
 			)}

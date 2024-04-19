@@ -30,7 +30,7 @@ export async function populateDatabase(fetchedData) {
 
 export async function fetchDataAndPopulateDatabase() {
 	return axios
-		.get("http://localhost:3000/manhwas/images")
+		.get("http://localhost:3000/manhwas/methods/get/manhwa")
 		.then(async (responseFromServer) => {
 			const data = await responseFromServer.data;
 			//add Update time stamp
@@ -60,7 +60,7 @@ export async function initializeDatabase() {
 
 export async function fetchDataFromDatabase() {
 	return axios
-		.get("http://localhost:3000/manhwas/site/Asura")
+		.get("http://localhost:3000/manhwas/methods/get/site/Asura")
 		.then((res) => {
 			const data = res.data;
 			console.log("Data downloaded from server");
@@ -131,10 +131,7 @@ export async function updateChapterNumber(filteredData) {
 	try {
 		await Promise.all(
 			filteredData.map(async (item) => {
-				await database.manhwas
-					.where("manhwa_id")
-					.equals(item.manhwa_id)
-					.modify({ chapter: item.chapter });
+				await database.manhwas.where("manhwa_id").equals(item.manhwa_id).modify({ chapter: item.chapter });
 			})
 		);
 		console.log("New chapters updated");
@@ -147,7 +144,7 @@ export async function updateChapterNumber(filteredData) {
 export async function selectiveBookFetchToAdd(newBook) {
 	const id = newBook.manhwa_id;
 	return axios
-		.get(`http://localhost:3000/manhwas/manual/${id}`)
+		.get(`http://localhost:3000/manhwas/methods/get/manhwa/${id}`)
 		.then((res) => {
 			const data = res.data;
 			// console.log("Data downloaded from server");
@@ -165,9 +162,7 @@ export async function compareMetaData() {
 	const newDateToCompare = new Date();
 	const timeDiffrence = newDateToCompare - lastElement;
 	const hoursDiffrence = timeDiffrence / (1000 * 60 * 60); // add *60 to have hours
-	console.log(
-		`Last Update: ${lastElement}. New time to compare: ${newDateToCompare}. Diffrence in time:${hoursDiffrence} minutes. Diffrence time:${timeDiffrence}`
-	);
+	console.log(`Last Update: ${lastElement}. New time to compare: ${newDateToCompare}. Diffrence in time:${hoursDiffrence} minutes. Diffrence time:${timeDiffrence}`);
 	if (hoursDiffrence > 2) {
 		console.log("Time for update");
 		await compareDatabase();
