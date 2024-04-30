@@ -3,10 +3,14 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const path = require("path");
+const corsOptions = require("./config/corsOptions");
+const credentials = require("./middleware/credentials");
 const PORT = process.env.PORT || 3500;
 const manhwaController = require("./controllers/controllerScanBot");
 const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
+const verifyJWT = require("./middleware/verifyJWT");
+const cookieParser = require("cookie-parser");
 
 // Connecting to database
 pool
@@ -24,32 +28,25 @@ pool
 
 //custom middleware logger
 app.use(logger);
-//
-
-//middleware
-const whitelist = ["https://localhost:3500", "https://localhost:5173"];
-const corsOptions = {
-	origin: (origin, callback) => {
-		if (whitelist.indexOf(origin) !== -1 || !origin) {
-			callback(null, true);
-		} else {
-			callback(new Error("Not allowed by CORS"));
-		}
-	},
-	optionsSuccessStatus: 200,
-};
+//Handle options credentials check - before CORS, and fetch cookies credentials requirement
+app.use(credentials);
 //Cross origin resource sharing
 app.use(cors(corsOptions));
 //middleware to handle urlencoded from data
 app.use(express.urlencoded({ extended: false }));
 //middleware for json
 app.use(express.json());
+//middleware for cookie
+app.use(cookieParser());
 //serve static files
 app.use(express.static(path.join(__dirname, "../src")));
 //routes
 app.use("/manhwas", require("./routes/routesScanBot"));
-app.use("/register", require("./routes/register"));
 app.use("/auth", require("./routes/authorized"));
+app.use("/refresh", require("./routes/refresh"));
+app.use("/logout", require("./routes/logout"));
+app.use(verifyJWT);
+app.use("/users", require("./routes/usersCRUD"));
 
 //update database every 2 hours
 setInterval(updateDB, 7200000); //7 200 000  it is 2 hour
@@ -64,7 +61,6 @@ async function updateDB() {
 }
 //
 
-// eslint-disable-next-line no-unused-vars
 app.use(errorHandler);
 
 process.on("exit", () => {

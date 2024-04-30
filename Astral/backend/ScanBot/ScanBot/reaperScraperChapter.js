@@ -25,7 +25,7 @@ export const getManhwaReaperChapter = async () => {
 		defaultViewport: null,
 	});
 	const scrapedData = [];
-	let websiteUrl = `https://reaperscans.com/latest/comics`;
+	const websiteUrl = `https://reaperscans.com/latest/comics`;
 	try {
 		//go to page
 		const page = await browser.newPage();
@@ -37,7 +37,7 @@ export const getManhwaReaperChapter = async () => {
 			waitUntil: ["networkidle2", "load"],
 			timeout: 0,
 		});
-		await new Promise((resolve) => setTimeout(resolve, 2000)); //delaying code by 2sec
+		await new Promise((resolve) => setTimeout(resolve, 5000)); //delaying code by 5sec
 		// fetch data
 		const manhwa = await page.evaluate(() => {
 			Object.defineProperty(navigator, "webdriver", {
@@ -47,12 +47,20 @@ export const getManhwaReaperChapter = async () => {
 			const manhwaList = document.querySelectorAll("div.grid > div.relative");
 			//fetching all sub elements,  map() created new array that contains these two information as keys
 			return Array.from(manhwaList).map((manhuaData) => {
-				const title = manhuaData.querySelector("div:nth-child(2) > div > p >  a").innerText;
-				const websiteUrl = manhuaData.querySelector("div:nth-child(2) > div > p > a").href;
+				const title = manhuaData.querySelector(
+					"div:nth-child(2) > div > p >  a"
+				).innerText;
+				const websiteUrl = manhuaData.querySelector(
+					"div:nth-child(2) > div > p > a"
+				).href;
 				const chapter = manhuaData
-					.querySelector("div:nth-child(2) > div:nth-child(1) > div > a:first-child")
+					.querySelector(
+						"div:nth-child(2) > div:nth-child(1) > div > a:first-child"
+					)
 					.childNodes[0].nodeValue.trim();
-				const srcImg = manhuaData.querySelector("div:nth-child(1) > a > img").getAttribute("src");
+				const srcImg = manhuaData
+					.querySelector("div:nth-child(1) > a > img")
+					.getAttribute("src");
 				const scanlationSite = "Reaper";
 
 				return { scanlationSite, title, chapter, websiteUrl, srcImg };

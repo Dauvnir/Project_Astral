@@ -143,6 +143,24 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 		});
 	}
 
+	// const uniqueScanlationSites = new Set();
+
+	// manhwas.forEach((manhwa) => {
+	// 	if (
+	// 		manhwa.scanlation_site &&
+	// 		!uniqueScanlationSites.has(manhwa.scanlation_site)
+	// 	) {
+	// 		uniqueScanlationSites.add(manhwa.scanlation_site);
+	// 	}
+	// });
+	// {uniqueScanlationSites.has(manhwa.scanlation_site) &&
+	// 	sortMethod == "scanlation" && (
+	// 		<>
+	// 			<span>{manhwa.scanlation_site}</span>
+	// 			{uniqueScanlationSites.delete(manhwa.scanlation_site)}
+	// 		</>
+	// 	)}
+
 	return (
 		<>
 			{!manhwas ? (
@@ -157,21 +175,24 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 				</StyledDiv>
 			) : (
 				manhwas.map((manhwa) => (
-					<Chapter
-						key={manhwa.manhwa_id}
-						srcUrl={manhwa.websiteurl}
-						imageUrl={manhwa.srcimg}
-						chapterNumber={
-							manhwa.chapter.length >= 11
-								? manhwa.chapter.slice(0, 11).replace(/\s+$/, "")
-								: manhwa.chapter
-						}
-						title={
-							manhwa.title.length >= 45
-								? manhwa.title.slice(0, 45).replace(/\s+$/, "") + "..."
-								: manhwa.title
-						}
-					/>
+					<>
+						<Chapter
+							key={manhwa.manhwa_id}
+							srcUrl={manhwa.websiteurl}
+							imageUrl={manhwa.srcimg}
+							scanlation={manhwa.scanlation_site}
+							chapterNumber={
+								manhwa.chapter.length >= 11
+									? manhwa.chapter.slice(0, 11).replace(/\s+$/, "")
+									: manhwa.chapter
+							}
+							title={
+								manhwa.title.length >= 45
+									? manhwa.title.slice(0, 45).replace(/\s+$/, "") + "..."
+									: manhwa.title
+							}
+						/>
+					</>
 				))
 			)}
 		</>

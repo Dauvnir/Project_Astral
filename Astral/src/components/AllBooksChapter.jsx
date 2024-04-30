@@ -96,10 +96,16 @@ const AllBooksChapter = () => {
 			<LineBreak style={{ margin: "0 0 0 0", width: "100vw" }}></LineBreak>
 			<BookWrapper style={{ marginTop: "0rem", height: "auto" }}>
 				<WrapperGrid>
-					<ChapterList sortMethod={sortMethod} inputValue={inputValue} indexValue={indexValue} />
+					<ChapterList
+						sortMethod={sortMethod}
+						inputValue={inputValue}
+						indexValue={indexValue}
+					/>
 				</WrapperGrid>
 				<Pagination>
-					<Btn onClick={() => indexValueHandler((prev) => prev - 1)} disabled={indexValue === 1}>
+					<Btn
+						onClick={() => indexValueHandler((prev) => prev - 1)}
+						disabled={indexValue === 1}>
 						<span>Previous page</span>
 					</Btn>
 					<Btn style={{ width: "2rem" }}>

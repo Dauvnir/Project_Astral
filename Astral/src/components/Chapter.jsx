@@ -73,10 +73,10 @@ const ScalingWrap = styled.div`
 		transform: scale(1.2);
 	}
 `;
-const Chapter = ({ imageUrl, title, srcUrl, chapterNumber }) => {
+const Chapter = ({ imageUrl, title, srcUrl, chapterNumber, scanlation }) => {
 	return (
 		<>
-			<ScalingWrap>
+			<ScalingWrap scanlation={scanlation}>
 				<Wrapper href={srcUrl} target="_blank">
 					<Image src={imageUrl} loading="lazy" alt={title} />
 				</Wrapper>
@@ -95,6 +95,7 @@ Chapter.propTypes = {
 	title: PropTypes.string,
 	srcUrl: PropTypes.string,
 	chapterNumber: PropTypes.string,
+	scanlation: PropTypes.string,
 };
 
 export default Chapter;
