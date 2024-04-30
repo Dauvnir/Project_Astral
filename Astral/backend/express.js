@@ -41,11 +41,12 @@ app.use(cookieParser());
 //serve static files
 app.use(express.static(path.join(__dirname, "../src")));
 //routes
-app.use("/manhwas", require("./routes/routesScanBot"));
 app.use("/auth", require("./routes/authorized"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
+app.use("/registration", require("./routes/registration"));
 app.use(verifyJWT);
+app.use("/manhwas", require("./routes/routesScanBot"));
 app.use("/users", require("./routes/usersCRUD"));
 
 //update database every 2 hours
