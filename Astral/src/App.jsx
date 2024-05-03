@@ -4,8 +4,6 @@ import LoginPage from "./pages/LoginPage";
 import LoginForm from "./pages/LoginForm";
 import LoginLayout from "./components/LoginLayout";
 import SignUpPage from "./pages/SignUpPage";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 import Library from "./pages/Library";
 import AllBooks from "./pages/AllBooks";
 import Leaderboard from "./pages/ Leaderboard";
@@ -16,12 +14,8 @@ const App = () => {
 			<Route path="/" element={<WelcomePage />} />
 			<Route path="/login" element={<LoginLayout />}>
 				<Route index element={<LoginPage />} />
-				<Route path="logIn">
+				<Route path="signIn">
 					<Route index element={<LoginForm />} />
-					<Route path="forgottenPswd">
-						<Route index element={<ForgotPassword />} />
-						<Route path="succes" element={<ResetPassword />}></Route>
-					</Route>
 				</Route>
 				<Route path="signUp">
 					<Route index element={<SignUpPage />} />

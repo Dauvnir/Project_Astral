@@ -349,7 +349,7 @@ const SignUpPage = () => {
 						<RegisteredParagraph>
 							Already registered? <br />
 							<span>
-								<Link to="/login/logIn" style={{ color: "inherit" }}>
+								<Link to="/login/signIn" style={{ color: "inherit" }}>
 									Sign In
 								</Link>
 							</span>

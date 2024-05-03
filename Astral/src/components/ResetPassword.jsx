@@ -1,27 +1,28 @@
-import { Link } from "react-router-dom";
 import { BackgroundWrapper } from "./BackgroundWrapper";
-import { StyledBtn } from "./Btn";
 import { LineBreak } from "./LineBreak";
 import { Paragraph } from "./Paragraph";
+import { StyledBtn } from "./Btn";
 import { StyledText } from "./StyledTextForBtn";
+import { Link } from "react-router-dom";
 import { WrapperFlex } from "./WrapperFlex";
 
-const RegistrationSuccess = () => {
+const ResetPassword = () => {
 	return (
 		<WrapperFlex $height="85%">
 			<BackgroundWrapper>
 				<Paragraph $fontSize="1.5rem" $fontWeight="600">
-					Congratulations!
+					Succes!
 				</Paragraph>
 				<LineBreak />
 				<Paragraph $fontSize="1.125rem" $fontWeight="500">
-					Your account has been successfully created. Please check your mailbox,
-					you are going to receive an email with confirmation link.
+					Your request to reset password were successful. The reset email should
+					be in delivered to your mailbox. If you have trouble to find it, check
+					spam folder.
 				</Paragraph>
 				<LineBreak />
 				<Link to="/login/signIn">
 					<StyledBtn>
-						<StyledText>Sign In</StyledText>
+						<StyledText>CONFIRM</StyledText>
 					</StyledBtn>
 				</Link>
 			</BackgroundWrapper>
@@ -29,4 +30,4 @@ const RegistrationSuccess = () => {
 	);
 };
 
-export default RegistrationSuccess;
+export default ResetPassword;

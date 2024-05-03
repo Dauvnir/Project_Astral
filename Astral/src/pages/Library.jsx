@@ -15,7 +15,6 @@ import Menu from "../components/Menu";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import MoveToTop from "../components/MoveToTop";
-import PopulatingDatabase from "../components/PopulatingDatabase";
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -68,7 +67,6 @@ const Library = () => {
 	};
 	return (
 		<>
-			<PopulatingDatabase></PopulatingDatabase>
 			<a id="top"></a>
 			<MainBackground></MainBackground>
 			<div className="overlay"></div>
@@ -84,7 +82,12 @@ const Library = () => {
 				$textAlign="left"
 				$fontSize="clamp(2rem, 2vw + 1rem , 5rem)"
 				$fontWeight="600"
-				style={{ position: "relative", zIndex: "2", marginTop: "1.5rem", marginLeft: "1rem" }}>
+				style={{
+					position: "relative",
+					zIndex: "2",
+					marginTop: "1.5rem",
+					marginLeft: "1rem",
+				}}>
 				Popular Today
 			</Paragraph>
 			<WrapperFlex
@@ -99,7 +102,10 @@ const Library = () => {
 			</WrapperFlex>
 			<BookWrapper>
 				<ModifiedWrapperFlex>
-					<Paragraph $fontSize="clamp(2rem, 2vw + 1rem , 5rem)" $textAlign="left" $fontWeight="600">
+					<Paragraph
+						$fontSize="clamp(2rem, 2vw + 1rem , 5rem)"
+						$textAlign="left"
+						$fontWeight="600">
 						Library
 					</Paragraph>
 				</ModifiedWrapperFlex>
@@ -109,7 +115,8 @@ const Library = () => {
 					<BookmarkBtn></BookmarkBtn>
 				</ModifiedWrapperFlexBtn>
 			</BookWrapper>
-			<LineBreak style={{ width: "100vw", height: "2px", margin: "0" }}></LineBreak>
+			<LineBreak
+				style={{ width: "100vw", height: "2px", margin: "0" }}></LineBreak>
 			<ChapterWrapper>
 				<WrapperGrid>
 					{/* <Chapter></Chapter>

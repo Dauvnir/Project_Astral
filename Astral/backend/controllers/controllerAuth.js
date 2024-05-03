@@ -51,7 +51,7 @@ const handleLogin = async (req, res) => {
 				secure: true,
 				maxAge: 24 * 60 * 60 * 1000, // one day only
 			});
-			res.json({ accessToken });
+			res.json({ roleIds, accessToken });
 		} else {
 			res.sendStatus(401); // Unauthorized
 		}
