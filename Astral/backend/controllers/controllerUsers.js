@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const ROLES_LIST = require("../config/roles_list.js");
 // eslint-disable-next-line no-unused-vars
 const getUsers = async (req, res) => {
-	const selectQuery = "SELECT * FROM users;";
+	const selectQuery = "SELECT user_id, username, password FROM users;";
 	try {
 		const userList = await pool.query(selectQuery);
 		console.log(userList);

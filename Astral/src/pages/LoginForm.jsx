@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import { BackgroundWrapper } from '../components/BackgroundWrapper';
-import { Paragraph } from '../components/Paragraph';
-import { WrapperFlex } from '../components/WrapperFlex';
-import { StyledBtn } from '../components/Btn';
-import { StyledText } from '../components/StyledTextForBtn';
-import { LineBreak } from '../components/LineBreak';
-import { StyledInput } from '../components/StyledInput';
-import { StyledForm } from '../components/StyledForm';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { BackgroundWrapper } from "../components/BackgroundWrapper";
+import { Paragraph } from "../components/Paragraph";
+import { WrapperFlex } from "../components/WrapperFlex";
+import { StyledBtn } from "../components/Btn";
+import { StyledText } from "../components/StyledTextForBtn";
+import { LineBreak } from "../components/LineBreak";
+import { StyledInput } from "../components/StyledInput";
+import { StyledForm } from "../components/StyledForm";
+import { Link } from "react-router-dom";
 
 const Checkbox = styled.input`
 	width: 1.5rem;
@@ -28,57 +28,67 @@ const LoginForm = () => {
 		<>
 			<BackgroundWrapper
 				style={{
-					width: 'clamp(20rem, 85% + 1rem, 35rem)',
-					margin: '0 0 1rem 0',
-					paddingInline: 'max(2rem, 3vw + 1rem)',
-					backdropFilter: 'blur(1px)',
-					overflow: 'visible',
+					width: "clamp(20rem, 85% + 1rem, 35rem)",
+					margin: "0 0 1rem 0",
+					paddingInline: "max(2rem, 3vw + 1rem)",
+					backdropFilter: "blur(1px)",
+					overflow: "visible",
 				}}>
-				<WrapperFlex $flexWrap='nowrap' $flexDirection='column' style={{ overflow: 'visible' }}>
-					<Paragraph $fontWeight='600' $fontSize='2rem'>
-						Login
+				<WrapperFlex
+					$flexWrap="nowrap"
+					$flexDirection="column"
+					style={{ overflow: "visible" }}>
+					<Paragraph $fontWeight="600" $fontSize="2rem">
+						Sign In
 					</Paragraph>
 					<LineBreak />
-					<StyledForm id='form1' method='post' action=''>
+					<StyledForm id="form1" method="post" action="">
 						<StyledInput
-							type='email'
+							type="email"
 							required
-							placeholder='E-mail'
-							style={{ margin: '0.5rem 0 2rem 0' }}
+							placeholder="E-mail"
+							style={{ margin: "0.5rem 0 2rem 0" }}
 						/>
 						<StyledInput
-							type='password'
+							type="password"
 							required
-							placeholder='Password'
-							style={{ marginBottom: '0.5rem' }}
+							placeholder="Password"
+							style={{ marginBottom: "0.5rem" }}
 						/>
 						<LineBreak />
-						<WrapperFlex $justifyContent='left' style={{ marginBlock: '-0.5rem' }}>
-							<Checkbox type='checkbox' id='Remember' placeholder='Password' value='True' />
+						<WrapperFlex
+							$justifyContent="left"
+							style={{ marginBlock: "-0.5rem" }}>
+							<Checkbox
+								type="checkbox"
+								id="Remember"
+								placeholder="Password"
+								value="True"
+							/>
 							<label
-								htmlFor='Remember'
+								htmlFor="Remember"
 								style={{
-									color: '#E5E9F1',
-									fontFamily: 'Lato',
-									fontSize: '1.125rem',
-									fontWeight: '500',
+									color: "#E5E9F1",
+									fontFamily: "Lato",
+									fontSize: "1.125rem",
+									fontWeight: "500",
 								}}>
 								Remember me
 							</label>
 						</WrapperFlex>
 						<LineBreak />
 						<Paragraph
-							$fontSize='1.125rem'
+							$fontSize="1.125rem"
 							style={{
-								paddingBottom: '1.5rem',
-								textDecoration: 'underline #d9d9d9',
-								cursor: 'pointer',
+								paddingBottom: "1.5rem",
+								textDecoration: "underline #d9d9d9",
+								cursor: "pointer",
 							}}>
-							<StyledLink to='forgottenPswd'>Forgot password?</StyledLink>
+							<StyledLink to="forgottenPswd">Forgot password?</StyledLink>
 						</Paragraph>
 					</StyledForm>
-					<StyledBtn form='form1' type='submit' value='Submit' $width='65%'>
-						<StyledText>LOGIN</StyledText>
+					<StyledBtn form="form1" type="submit" value="Submit" $width="65%">
+						<StyledText>Sign In</StyledText>
 					</StyledBtn>
 				</WrapperFlex>
 			</BackgroundWrapper>

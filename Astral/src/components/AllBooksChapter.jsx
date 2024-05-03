@@ -4,7 +4,7 @@ import WrapperGrid from "./WrapperGrid";
 import { LineBreak } from "./LineBreak";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { database } from "../DatabaseLocal";
+import { database } from "../api/DatabaseLocal";
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;

@@ -6,12 +6,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const ResponsiveBackgroundWrapper = styled(BackgroundWrapper)`
-	height: 40%;
 	width: clamp(20rem, 80vw + 1rem, 35rem);
-	position: sticky;
 	margin-inline: auto;
-	top: 50%;
-	transform: translateY(-50%);
+	margin-top: -5rem;
 `;
 const CenteredStyledText = styled(StyledText)`
 	width: 100%;

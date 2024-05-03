@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { initializeDatabase } from "../DatabaseLocal";
+import { initializeDatabase } from "../api/DatabaseLocal";
 import styled from "styled-components";
 import PacmanLoader from "react-spinners/PacmanLoader";
 const Overlay = styled.div`

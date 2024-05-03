@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { database } from "../DatabaseLocal";
+import { database } from "../api/DatabaseLocal";
 import Chapter from "./Chapter";
 import { useLiveQuery } from "dexie-react-hooks";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import PropTypes from "prop-types";
-import { compareMetaData } from "../DatabaseLocal";
+import { compareMetaData } from "../api/DatabaseLocal";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";

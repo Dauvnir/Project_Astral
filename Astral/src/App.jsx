@@ -2,11 +2,10 @@ import WelcomePage from "./pages/WelcomePage";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import LoginForm from "./pages/LoginForm";
-import LoginLayout from "./pages/LoginLayout";
+import LoginLayout from "./components/LoginLayout";
 import SignUpPage from "./pages/SignUpPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import RegistrationSuccess from "./pages/RegistrationSuccess";
 import Library from "./pages/Library";
 import AllBooks from "./pages/AllBooks";
 import Leaderboard from "./pages/ Leaderboard";
@@ -26,7 +25,6 @@ const App = () => {
 				</Route>
 				<Route path="signUp">
 					<Route index element={<SignUpPage />} />
-					<Route path="registerSucces" element={<RegistrationSuccess />} />
 				</Route>
 			</Route>
 			<Route path="/library">
