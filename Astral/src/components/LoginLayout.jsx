@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 const LoginLayout = () => {
 	let navigate = useNavigate();
 	const toWelcomePage = () => {
-		let path = `/`;
+		let path = `/welcome`;
 		navigate(path);
 	};
 	return (

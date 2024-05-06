@@ -124,12 +124,12 @@ const UlListSubMenu = styled.ul`
 const PcMenu = () => {
 	let navigate = useNavigate();
 	const toLeaderboard = () => {
-		let path = "/library/leaderboard";
+		let path = "/leaderboard";
 		navigate(path);
 	};
 	let navigate2 = useNavigate();
 	const toBooks = () => {
-		let path2 = "/library/allBooks";
+		let path2 = "/books";
 		navigate2(path2);
 	};
 	let navigate3 = useNavigate();
@@ -235,7 +235,10 @@ const PcMenu = () => {
 								</li>
 								<li>
 									<SubMenuBtn
-										style={{ borderBottomRightRadius: "20px", borderBottom: "none" }}
+										style={{
+											borderBottomRightRadius: "20px",
+											borderBottom: "none",
+										}}
 										onClick={() => handleClick("LogOut")}>
 										<span>Logout</span>
 									</SubMenuBtn>
@@ -249,32 +252,43 @@ const PcMenu = () => {
 							<span style={{ marginInline: "0.5rem" }}>Account</span>
 							<DropdownIcon />
 						</BtnElement>
-						<AccountSubMenu $toggleValue={toggleValue2} ref={accountMenuRefList}>
+						<AccountSubMenu
+							$toggleValue={toggleValue2}
+							ref={accountMenuRefList}>
 							<UlListSubMenu $toggleValue={toggleValue2}>
 								<li>
-									<AccountSubMenuBtn onClick={() => handleClick2("ChangePassword")}>
+									<AccountSubMenuBtn
+										onClick={() => handleClick2("ChangePassword")}>
 										<span>Change Password</span>
 									</AccountSubMenuBtn>
 								</li>
 								<li>
-									<AccountSubMenuBtn onClick={() => handleClick2("ChangeEmail")}>
+									<AccountSubMenuBtn
+										onClick={() => handleClick2("ChangeEmail")}>
 										<span>Change Email</span>
 									</AccountSubMenuBtn>
 								</li>
 								<li>
-									<AccountSubMenuBtn onClick={() => handleClick2("ChangeNickname")}>
-										<span style={{ whiteSpace: "nowrap" }}>Change Nickname</span>
+									<AccountSubMenuBtn
+										onClick={() => handleClick2("ChangeNickname")}>
+										<span style={{ whiteSpace: "nowrap" }}>
+											Change Nickname
+										</span>
 									</AccountSubMenuBtn>
 								</li>
 								<li>
-									<AccountSubMenuBtn onClick={() => handleClick2("ChangeAvatar")}>
+									<AccountSubMenuBtn
+										onClick={() => handleClick2("ChangeAvatar")}>
 										<span>Change Avatar</span>
 									</AccountSubMenuBtn>
 								</li>
 								<li>
 									<AccountSubMenuBtn
 										onClick={() => handleClick2("DeleteAccount")}
-										style={{ borderBottom: "none", borderRadius: "0px 0px 20px 20px" }}>
+										style={{
+											borderBottom: "none",
+											borderRadius: "0px 0px 20px 20px",
+										}}>
 										<span>Delete Account</span>
 									</AccountSubMenuBtn>
 								</li>
@@ -288,9 +302,13 @@ const PcMenu = () => {
 						</BtnElement>
 					</LiElement>
 					<LiElement>
-						<BtnElement style={{ borderRadius: " 0 10px 10px 0" }} onClick={toBooks}>
+						<BtnElement
+							style={{ borderRadius: " 0 10px 10px 0" }}
+							onClick={toBooks}>
 							<AllBooksIcon></AllBooksIcon>
-							<span style={{ marginLeft: "0.5rem", whiteSpace: "nowrap" }}>Books</span>
+							<span style={{ marginLeft: "0.5rem", whiteSpace: "nowrap" }}>
+								Books
+							</span>
 						</BtnElement>
 					</LiElement>
 				</UlList>

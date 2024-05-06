@@ -26,7 +26,7 @@ const ResponsiveWrapperFlex = styled(WrapperFlex)`
 const WelcomePage = () => {
 	let navigate = useNavigate();
 	const toWelcomePage = () => {
-		let path = `/`;
+		let path = "/welcome";
 		navigate(path);
 	};
 	return (

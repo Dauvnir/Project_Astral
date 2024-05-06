@@ -7,24 +7,33 @@ import SignUpPage from "./pages/SignUpPage";
 import Library from "./pages/Library";
 import AllBooks from "./pages/AllBooks";
 import Leaderboard from "./pages/ Leaderboard";
-
+import Layout from "./pages/Layout";
+import ErrorPage from "./pages/ErrorPage";
+import RequireAuth from "./components/RequireAuth";
+import Unauthorized from "./pages/Unauthorized";
 const App = () => {
 	return (
-		<Routes scrollRestoration="manual">
-			<Route path="/" element={<WelcomePage />} />
-			<Route path="/login" element={<LoginLayout />}>
-				<Route index element={<LoginPage />} />
-				<Route path="signIn">
-					<Route index element={<LoginForm />} />
+		<Routes>
+			<Route path="/" element={<Layout />}>
+				{/* public routes*/}
+				<Route index element={<WelcomePage />} />
+				<Route path="form" element={<LoginLayout />}>
+					<Route index element={<LoginPage />} />
+					<Route path="login" element={<LoginForm />} />
+					<Route path="register" element={<SignUpPage />} />
 				</Route>
-				<Route path="signUp">
-					<Route index element={<SignUpPage />} />
+
+				{/* Protected routes for users*/}
+				<Route element={<RequireAuth allowedRoles={[7213]} />}>
+					<Route path="library" element={<Library />} />
+					<Route path="books" element={<AllBooks />} />
+					<Route path="leaderboard" element={<Leaderboard />} />
 				</Route>
-			</Route>
-			<Route path="/library">
-				<Route index element={<Library />} />
-				<Route path="allBooks" element={<AllBooks />} />
-				<Route path="leaderboard" element={<Leaderboard />} />
+				{/* */}
+				<Route path="unauthorized" element={<LoginLayout />}>
+					<Route index element={<Unauthorized />} />
+				</Route>
+				<Route path="*" element={<ErrorPage />} />
 			</Route>
 		</Routes>
 	);

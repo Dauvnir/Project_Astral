@@ -7,10 +7,10 @@ import { LineBreak } from "../components/LineBreak";
 import { StyledInput } from "../components/StyledInput";
 import { StyledForm } from "../components/StyledForm";
 import { Link } from "react-router-dom";
-import { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useEffect } from "react";
 import SuccededLogIn from "../components/SuccedLogIn";
-import AuthContext from "../context/AuthProvider";
 import axios from "../api/axios";
+import useAuth from "../hooks/useAuth";
 
 const LOGIN_URL = "/auth";
 
@@ -48,7 +48,7 @@ const Uidnote = styled(Paragraph)`
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.56);
 `;
 const LoginForm = () => {
-	const { setAuth } = useContext(AuthContext);
+	const { setAuth } = useAuth();
 	const userRef = useRef();
 	const errRef = useRef();
 
@@ -148,7 +148,7 @@ const LoginForm = () => {
 						<RegisteredParagraph>
 							Need an Account? <br />
 							<span>
-								<Link to="/login/signUp" style={{ color: "inherit" }}>
+								<Link to="/form/register" style={{ color: "inherit" }}>
 									Sign Up
 								</Link>
 							</span>

@@ -22,12 +22,12 @@ const LoginPage = () => {
 			<ResponsiveBackgroundWrapper $flexDirection="row">
 				<WrapperFlex $overflow="visible" $margin="0 0 1rem 0">
 					<StyledBtn $margin="0 1rem 0  0 ">
-						<Link to="/login/signIn" style={{ textDecoration: "none" }}>
+						<Link to="login" style={{ textDecoration: "none" }}>
 							<CenteredStyledText>Sign In</CenteredStyledText>
 						</Link>
 					</StyledBtn>
 					<StyledBtn>
-						<Link to="/login/signUp" style={{ textDecoration: "none" }}>
+						<Link to="register" style={{ textDecoration: "none" }}>
 							<CenteredStyledText>Sign Up</CenteredStyledText>
 						</Link>
 					</StyledBtn>

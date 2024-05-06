@@ -19,7 +19,7 @@ const RegistrationSuccess = () => {
 					you are going to receive an email with confirmation link.
 				</Paragraph>
 				<LineBreak />
-				<Link to="/login/signIn">
+				<Link to="/form/login">
 					<StyledBtn>
 						<StyledText>Sign In</StyledText>
 					</StyledBtn>
