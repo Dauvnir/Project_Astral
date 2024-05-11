@@ -6,9 +6,8 @@ import { StyledText } from "../components/StyledTextForBtn";
 import { LineBreak } from "../components/LineBreak";
 import { StyledInput } from "../components/StyledInput";
 import { StyledForm } from "../components/StyledForm";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
-import SuccededLogIn from "../components/SuccedLogIn";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 
@@ -48,14 +47,16 @@ const Uidnote = styled(Paragraph)`
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.56);
 `;
 const LoginForm = () => {
-	const { setAuth } = useAuth();
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || "/";
+	const { setAuth, persist, setPersist } = useAuth();
 	const userRef = useRef();
 	const errRef = useRef();
 
 	const [user, setUser] = useState("");
 	const [pwd, setPwd] = useState("");
 	const [errMsg, setErrMsg] = useState("");
-	const [success, setSuccess] = useState(false);
 
 	useEffect(() => {
 		userRef.current.focus();
@@ -75,13 +76,13 @@ const LoginForm = () => {
 					withCredentials: true,
 				}
 			);
-			console.log(JSON.stringify(response?.data));
 			const accessToken = response?.data?.accessToken;
 			const roles = response?.data?.roles;
+			console.log(JSON.stringify(response?.data));
 			setAuth({ user, pwd, roles, accessToken });
 			setPwd("");
 			setUser("");
-			setSuccess(true);
+			navigate(from, { replace: true });
 		} catch (error) {
 			if (!error?.response) {
 				setErrMsg("No Server Response");
@@ -95,67 +96,94 @@ const LoginForm = () => {
 			errRef.current.focus();
 		}
 	};
+	const togglePersist = () => {
+		setPersist((prev) => !prev);
+	};
+	useEffect(() => {
+		localStorage.setItem("persist", persist);
+	}, [persist]);
 	return (
 		<>
-			{success ? (
-				<SuccededLogIn></SuccededLogIn>
-			) : (
-				<BackgroundWrapper
-					style={{
-						width: "clamp(20rem, 85% + 1rem, 35rem)",
-						margin: "0 0 1rem 0",
-						paddingInline: "max(2rem, 3vw + 1rem)",
-						backdropFilter: "blur(1px)",
-						overflow: "visible",
-					}}>
-					<section style={{ width: "100%" }}>
-						<Uidnote
-							ref={errRef}
-							style={{ display: errMsg ? "block" : "none" }}
-							aria-live="assertive">
-							{errMsg}
-						</Uidnote>
-						<Paragraph $fontWeight="600" $fontSize="2rem">
-							Sign In
-						</Paragraph>
+			<BackgroundWrapper
+				style={{
+					width: "clamp(20rem, 85% + 1rem, 35rem)",
+					margin: "0 0 1rem 0",
+					paddingInline: "max(2rem, 3vw + 1rem)",
+					backdropFilter: "blur(1px)",
+					overflow: "visible",
+				}}>
+				<section style={{ width: "100%" }}>
+					<Uidnote
+						ref={errRef}
+						style={{ display: errMsg ? "block" : "none" }}
+						aria-live="assertive">
+						{errMsg}
+					</Uidnote>
+					<Paragraph $fontWeight="600" $fontSize="2rem">
+						Sign In
+					</Paragraph>
+					<LineBreak />
+					<StyledForm onSubmit={handleSubmit}>
+						<LabelS htmlFor="username">Username:</LabelS>
+						<StyledInput
+							type="text"
+							id="username"
+							ref={userRef}
+							autoComplete="off"
+							onChange={(e) => setUser(e.target.value)}
+							value={user}
+							required
+							style={{ margin: "0.5rem 0 2rem 0" }}
+						/>
+						<LabelS htmlFor="password">Password:</LabelS>
+						<StyledInput
+							type="password"
+							id="password"
+							onChange={(e) => setPwd(e.target.value)}
+							value={pwd}
+							required
+							style={{ margin: "0rem 0 1rem 0" }}
+						/>
 						<LineBreak />
-						<StyledForm onSubmit={handleSubmit}>
-							<LabelS htmlFor="username">Username:</LabelS>
+						<div
+							style={{
+								width: "100%",
+								display: " flex",
+								justifyContent: "left",
+								alignItems: "center",
+								textAlign: "center",
+								flexDirection: "row",
+								marginBottom: "1rem",
+								cursor: "pointer",
+							}}>
 							<StyledInput
-								type="text"
-								id="username"
-								ref={userRef}
-								autoComplete="off"
-								onChange={(e) => setUser(e.target.value)}
-								value={user}
-								required
-								style={{ margin: "0.5rem 0 2rem 0" }}
+								type="checkbox"
+								id="persist"
+								onChange={togglePersist}
+								checked={persist}
+								style={{ width: "20px", height: "20px", cursor: "pointer" }}
 							/>
-							<LabelS htmlFor="password">Password:</LabelS>
-							<StyledInput
-								type="password"
-								id="password"
-								onChange={(e) => setPwd(e.target.value)}
-								value={pwd}
-								required
-								style={{ margin: "0rem 0 1rem 0" }}
-							/>
-							<LineBreak />
-							<StyledBtn $width="65%">
-								<StyledText>Sign In</StyledText>
-							</StyledBtn>
-						</StyledForm>
-						<RegisteredParagraph>
-							Need an Account? <br />
-							<span>
-								<Link to="/form/register" style={{ color: "inherit" }}>
-									Sign Up
-								</Link>
-							</span>
-						</RegisteredParagraph>
-					</section>
-				</BackgroundWrapper>
-			)}
+							<LabelS
+								htmlFor="persist"
+								style={{ margin: "0 0 0 0.5rem", cursor: "pointer" }}>
+								Trust This Device
+							</LabelS>
+						</div>
+						<StyledBtn $width="65%">
+							<StyledText>Sign In</StyledText>
+						</StyledBtn>
+					</StyledForm>
+
+					<RegisteredParagraph>
+						Need an Account? <br />
+						<span>
+							<Link to="/form/register" style={{ color: "inherit" }}>
+								Sign Up
+							</Link>
+						</span>
+					</RegisteredParagraph>
+				</section>
+			</BackgroundWrapper>
 		</>
 	);
 };

@@ -51,10 +51,10 @@ const Wrapper = styled.div`
 	position: relative;
 	z-index: 3;
 	box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
+	border-radius: 0 10px 10px 0;
 	@media (max-width: 1199px) {
 		display: none;
 	}
-	padding-left: 1rem;
 `;
 const Hamburger = styled(RxHamburgerMenu)`
 	display: inline-block;

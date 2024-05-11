@@ -29,9 +29,9 @@ const handleLogin = async (req, res) => {
 				 WHERE ur.user_id = $1;`,
 				[user_id]
 			);
-			const roleIds = queryRoles.rows.map((row) => row.role_id);
+			const roles = queryRoles.rows.map((row) => row.role_id);
 			const accessToken = jwt.sign(
-				{ UserInfo: { username: usernameDB, roles: roleIds } },
+				{ UserInfo: { username: usernameDB, roles: roles } },
 				process.env.ACCESS_TOKEN_SECRET,
 				{ expiresIn: "10m" } // set 10 minutes
 			);
@@ -51,7 +51,7 @@ const handleLogin = async (req, res) => {
 				secure: true,
 				maxAge: 24 * 60 * 60 * 1000, // one day only
 			});
-			res.json({ roleIds, accessToken });
+			res.json({ roles, accessToken });
 		} else {
 			res.sendStatus(401); // Unauthorized
 		}

@@ -1,4 +1,4 @@
-import { Paragraph } from "./Paragraph";
+import { Paragraph } from "../components/Paragraph";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -21,6 +21,7 @@ const Wrap = styled.div`
 
 const SuccededLogIn = () => {
 	const [isInitializing, setIsInitializing] = useState(true);
+
 	useEffect(() => {
 		async function fetchData() {
 			try {
@@ -34,6 +35,7 @@ const SuccededLogIn = () => {
 		}
 		fetchData();
 	}, []);
+
 	return (
 		<>
 			{isInitializing ? (
@@ -47,7 +49,7 @@ const SuccededLogIn = () => {
 					</Paragraph>
 				</Wrap>
 			) : (
-				<Navigate to="/library" replace={true} />
+				<Navigate to={"/library"} replace={true} />
 			)}
 		</>
 	);

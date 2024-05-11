@@ -19,7 +19,7 @@ const CenteredStyledText = styled(StyledText)`
 const LoginPage = () => {
 	return (
 		<>
-			<ResponsiveBackgroundWrapper $flexDirection="row">
+			<ResponsiveBackgroundWrapper>
 				<WrapperFlex $overflow="visible" $margin="0 0 1rem 0">
 					<StyledBtn $margin="0 1rem 0  0 ">
 						<Link to="login" style={{ textDecoration: "none" }}>
@@ -31,13 +31,6 @@ const LoginPage = () => {
 							<CenteredStyledText>Sign Up</CenteredStyledText>
 						</Link>
 					</StyledBtn>
-				</WrapperFlex>
-				<WrapperFlex $justifyContent="center" $overflow="visible">
-					<Link to="/library">
-						<StyledBtn>
-							<StyledText>Guest</StyledText>
-						</StyledBtn>
-					</Link>
 				</WrapperFlex>
 			</ResponsiveBackgroundWrapper>
 		</>

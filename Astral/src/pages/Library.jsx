@@ -15,6 +15,7 @@ import Menu from "../components/Menu";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import MoveToTop from "../components/MoveToTop";
+
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -60,9 +61,9 @@ const ModifiedWrapperFlexBtn = styled(WrapperFlex)`
 `;
 
 const Library = () => {
-	let navigate = useNavigate();
+	const navigate = useNavigate();
 	const toLibrary = () => {
-		let path = `/library`;
+		const path = `/library`;
 		navigate(path);
 	};
 	return (

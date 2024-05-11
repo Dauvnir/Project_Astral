@@ -11,12 +11,15 @@ import Layout from "./pages/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import RequireAuth from "./components/RequireAuth";
 import Unauthorized from "./pages/Unauthorized";
+import SuccededLogIn from "./pages/SuccedLogIn";
+import PersistentLogin from "./components/PersistentLogin";
+
 const App = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>
 				{/* public routes*/}
-				<Route index element={<WelcomePage />} />
+				<Route path="welcome" element={<WelcomePage />} />
 				<Route path="form" element={<LoginLayout />}>
 					<Route index element={<LoginPage />} />
 					<Route path="login" element={<LoginForm />} />
@@ -24,11 +27,26 @@ const App = () => {
 				</Route>
 
 				{/* Protected routes for users*/}
-				<Route element={<RequireAuth allowedRoles={[7213]} />}>
-					<Route path="library" element={<Library />} />
-					<Route path="books" element={<AllBooks />} />
-					<Route path="leaderboard" element={<Leaderboard />} />
+				<Route element={<PersistentLogin />}>
+					<Route element={<RequireAuth allowedRoles={[7213]} />}>
+						<Route path="/" element={<LoginLayout />}>
+							<Route index element={<SuccededLogIn />} />
+						</Route>
+					</Route>
+
+					<Route element={<RequireAuth allowedRoles={[7213]} />}>
+						<Route path="library" element={<Library />} />
+					</Route>
+
+					<Route element={<RequireAuth allowedRoles={[7213]} />}>
+						<Route path="books" element={<AllBooks />} />
+					</Route>
+
+					<Route element={<RequireAuth allowedRoles={[7213]} />}>
+						<Route path="leaderboard" element={<Leaderboard />} />
+					</Route>
 				</Route>
+
 				{/* */}
 				<Route path="unauthorized" element={<LoginLayout />}>
 					<Route index element={<Unauthorized />} />

@@ -104,11 +104,11 @@ const SignUpPage = () => {
 				headers: { "Content-Type": "application/json" },
 				withCredentials: true,
 			});
-			setSucces(true);
 			setEmail("");
 			setPwd("");
 			setUser("");
 			setMatchPwd("");
+			setSucces(true);
 		} catch (error) {
 			if (!error?.response) {
 				setErrMsg("No Server Response");

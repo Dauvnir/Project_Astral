@@ -30,13 +30,13 @@ const handleRefreshToken = async (req, res) => {
 					 WHERE ur.user_id = $1;`,
 					[user_id]
 				);
-				const roleIds = queryRoles.rows.map((row) => row.role_id);
+				const roles = queryRoles.rows.map((row) => row.role_id);
 				const accessToken = jwt.sign(
-					{ UserInfo: { username: decoded.username, roles: roleIds } },
+					{ UserInfo: { username: decoded.username, roles: roles } },
 					process.env.ACCESS_TOKEN_SECRET,
-					{ expiresIn: "10m" }
+					{ expiresIn: "10s" }
 				);
-				res.json({ accessToken });
+				res.json({ roles, accessToken });
 			}
 		);
 	} catch (error) {

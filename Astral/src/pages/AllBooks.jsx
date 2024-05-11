@@ -34,7 +34,12 @@ const AllBooks = () => {
 				$textAlign="left"
 				$fontSize="clamp(2rem, 2vw + 1rem , 5rem)"
 				$fontWeight="600"
-				style={{ position: "relative", zIndex: "2", marginTop: "1.5rem", marginLeft: "1rem" }}>
+				style={{
+					position: "relative",
+					zIndex: "2",
+					marginTop: "1.5rem",
+					marginLeft: "1rem",
+				}}>
 				Popular Today
 			</Paragraph>
 			<WrapperFlex
