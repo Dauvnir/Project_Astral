@@ -33,21 +33,14 @@ const PersistentLogin = () => {
 		const verifyRefreshToken = async () => {
 			try {
 				await refresh();
-				console.log("access token refreshed");
 			} catch (error) {
 				console.error(error);
 			} finally {
-				console.log("setting it as false");
 				setIsLoading(false);
 			}
 		};
 		!auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
 	}, []);
-
-	useEffect(() => {
-		console.log(`isLoading: ${isLoading}`);
-		console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
-	}, [isLoading]);
 
 	return (
 		<>

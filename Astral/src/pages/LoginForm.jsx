@@ -77,9 +77,7 @@ const LoginForm = () => {
 				}
 			);
 			const accessToken = response?.data?.accessToken;
-			const roles = response?.data?.roles;
-			console.log(JSON.stringify(response?.data));
-			setAuth({ user, pwd, roles, accessToken });
+			setAuth({ user, accessToken });
 			setPwd("");
 			setUser("");
 			navigate(from, { replace: true });
