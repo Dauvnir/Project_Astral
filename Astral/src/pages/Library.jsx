@@ -15,6 +15,7 @@ import Menu from "../components/Menu";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import MoveToTop from "../components/MoveToTop";
+
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -60,9 +61,9 @@ const ModifiedWrapperFlexBtn = styled(WrapperFlex)`
 `;
 
 const Library = () => {
-	let navigate = useNavigate();
+	const navigate = useNavigate();
 	const toLibrary = () => {
-		let path = `/library`;
+		const path = `/library`;
 		navigate(path);
 	};
 	return (
@@ -72,8 +73,9 @@ const Library = () => {
 			<div className="overlay"></div>
 			<Menu></Menu>
 			<WrapperFlex
-				style={{ cursor: "pointer", marginBottom: "1.5rem", marginTop: "1rem" }}
-				onClick={toLibrary}>
+				style={{ cursor: "pointer", margin: "1rem auto 1.5rem auto" }}
+				onClick={toLibrary}
+				$width="clamp(10rem, 95%, 50rem)">
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
 			<Avatar />
@@ -81,7 +83,12 @@ const Library = () => {
 				$textAlign="left"
 				$fontSize="clamp(2rem, 2vw + 1rem , 5rem)"
 				$fontWeight="600"
-				style={{ position: "relative", zIndex: "2", marginTop: "1.5rem", marginLeft: "1rem" }}>
+				style={{
+					position: "relative",
+					zIndex: "2",
+					marginTop: "1.5rem",
+					marginLeft: "1rem",
+				}}>
 				Popular Today
 			</Paragraph>
 			<WrapperFlex
@@ -96,7 +103,10 @@ const Library = () => {
 			</WrapperFlex>
 			<BookWrapper>
 				<ModifiedWrapperFlex>
-					<Paragraph $fontSize="clamp(2rem, 2vw + 1rem , 5rem)" $textAlign="left" $fontWeight="600">
+					<Paragraph
+						$fontSize="clamp(2rem, 2vw + 1rem , 5rem)"
+						$textAlign="left"
+						$fontWeight="600">
 						Library
 					</Paragraph>
 				</ModifiedWrapperFlex>
@@ -106,7 +116,8 @@ const Library = () => {
 					<BookmarkBtn></BookmarkBtn>
 				</ModifiedWrapperFlexBtn>
 			</BookWrapper>
-			<LineBreak style={{ width: "100vw", height: "2px", margin: "0" }}></LineBreak>
+			<LineBreak
+				style={{ width: "100vw", height: "2px", margin: "0" }}></LineBreak>
 			<ChapterWrapper>
 				<WrapperGrid>
 					{/* <Chapter></Chapter>

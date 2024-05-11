@@ -1,86 +1,186 @@
-import styled from 'styled-components';
-import { BackgroundWrapper } from '../components/BackgroundWrapper';
-import { Paragraph } from '../components/Paragraph';
-import { WrapperFlex } from '../components/WrapperFlex';
-import { StyledBtn } from '../components/Btn';
-import { StyledText } from '../components/StyledTextForBtn';
-import { LineBreak } from '../components/LineBreak';
-import { StyledInput } from '../components/StyledInput';
-import { StyledForm } from '../components/StyledForm';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { BackgroundWrapper } from "../components/BackgroundWrapper";
+import { Paragraph } from "../components/Paragraph";
+import { StyledBtn } from "../components/Btn";
+import { StyledText } from "../components/StyledTextForBtn";
+import { LineBreak } from "../components/LineBreak";
+import { StyledInput } from "../components/StyledInput";
+import { StyledForm } from "../components/StyledForm";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
+import axios from "../api/axios";
+import useAuth from "../hooks/useAuth";
 
-const Checkbox = styled.input`
-	width: 1.5rem;
-	height: 1.5rem;
-	margin-right: 1rem;
-	border-radius: 5px;
-	accent-color: #1d2535;
+const LOGIN_URL = "/auth";
+
+const RegisteredParagraph = styled(Paragraph)`
+	text-align: left;
+	font-weight: 600;
+	margin-top: 1.5rem;
+	font-size: 1.15rem;
+	text-decoration: none;
 `;
-const StyledLink = styled(Link)`
+const LabelS = styled.label`
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	flex-wrap: nowrap;
+	white-space: nowrap;
+	width: 100%;
+	text-align: left;
+	font-size: 1.25rem;
 	color: #d9d9d9;
-	transition: color 0.2s ease-in-out;
-	&:hover {
-		color: #afbfd5;
-	}
+	font-family: Lato;
+	font-style: normal;
+	line-height: normal;
+	font-weight: 600;
+	margin-bottom: 6px;
+`;
+const Uidnote = styled(Paragraph)`
+	text-align: left;
+	font-size: 1rem;
+	font-weight: 600;
+	margin-bottom: 1rem;
+	border-radius: 20px;
+	padding: 1rem;
+	background: #28344b;
+	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.56);
 `;
 const LoginForm = () => {
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || "/";
+	const { setAuth, persist, setPersist } = useAuth();
+	const userRef = useRef();
+	const errRef = useRef();
+
+	const [user, setUser] = useState("");
+	const [pwd, setPwd] = useState("");
+	const [errMsg, setErrMsg] = useState("");
+
+	useEffect(() => {
+		userRef.current.focus();
+	}, []);
+	useEffect(() => {
+		setErrMsg("");
+	}, [user, pwd]);
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post(
+				LOGIN_URL,
+				JSON.stringify({ user, pwd }),
+				{
+					headers: { "Content-Type": "application/json" },
+					withCredentials: true,
+				}
+			);
+			const accessToken = response?.data?.accessToken;
+			setAuth({ user, accessToken });
+			setPwd("");
+			setUser("");
+			navigate(from, { replace: true });
+		} catch (error) {
+			if (!error?.response) {
+				setErrMsg("No Server Response");
+			} else if (error.response?.status === 400) {
+				setErrMsg("Missing Username or Password");
+			} else if (error.response?.status === 401) {
+				setErrMsg("Unauthorized");
+			} else {
+				setErrMsg("Login Failed");
+			}
+			errRef.current.focus();
+		}
+	};
+	const togglePersist = () => {
+		setPersist((prev) => !prev);
+	};
+	useEffect(() => {
+		localStorage.setItem("persist", persist);
+	}, [persist]);
 	return (
 		<>
 			<BackgroundWrapper
 				style={{
-					width: 'clamp(20rem, 85% + 1rem, 35rem)',
-					margin: '0 0 1rem 0',
-					paddingInline: 'max(2rem, 3vw + 1rem)',
-					backdropFilter: 'blur(1px)',
-					overflow: 'visible',
+					width: "clamp(20rem, 85% + 1rem, 35rem)",
+					margin: "0 0 1rem 0",
+					paddingInline: "max(2rem, 3vw + 1rem)",
+					backdropFilter: "blur(1px)",
+					overflow: "visible",
 				}}>
-				<WrapperFlex $flexWrap='nowrap' $flexDirection='column' style={{ overflow: 'visible' }}>
-					<Paragraph $fontWeight='600' $fontSize='2rem'>
-						Login
+				<section style={{ width: "100%" }}>
+					<Uidnote
+						ref={errRef}
+						style={{ display: errMsg ? "block" : "none" }}
+						aria-live="assertive">
+						{errMsg}
+					</Uidnote>
+					<Paragraph $fontWeight="600" $fontSize="2rem">
+						Sign In
 					</Paragraph>
 					<LineBreak />
-					<StyledForm id='form1' method='post' action=''>
+					<StyledForm onSubmit={handleSubmit}>
+						<LabelS htmlFor="username">Username:</LabelS>
 						<StyledInput
-							type='email'
+							type="text"
+							id="username"
+							ref={userRef}
+							autoComplete="off"
+							onChange={(e) => setUser(e.target.value)}
+							value={user}
 							required
-							placeholder='E-mail'
-							style={{ margin: '0.5rem 0 2rem 0' }}
+							style={{ margin: "0.5rem 0 2rem 0" }}
 						/>
+						<LabelS htmlFor="password">Password:</LabelS>
 						<StyledInput
-							type='password'
+							type="password"
+							id="password"
+							onChange={(e) => setPwd(e.target.value)}
+							value={pwd}
 							required
-							placeholder='Password'
-							style={{ marginBottom: '0.5rem' }}
+							style={{ margin: "0rem 0 1rem 0" }}
 						/>
 						<LineBreak />
-						<WrapperFlex $justifyContent='left' style={{ marginBlock: '-0.5rem' }}>
-							<Checkbox type='checkbox' id='Remember' placeholder='Password' value='True' />
-							<label
-								htmlFor='Remember'
-								style={{
-									color: '#E5E9F1',
-									fontFamily: 'Lato',
-									fontSize: '1.125rem',
-									fontWeight: '500',
-								}}>
-								Remember me
-							</label>
-						</WrapperFlex>
-						<LineBreak />
-						<Paragraph
-							$fontSize='1.125rem'
+						<div
 							style={{
-								paddingBottom: '1.5rem',
-								textDecoration: 'underline #d9d9d9',
-								cursor: 'pointer',
+								width: "100%",
+								display: " flex",
+								justifyContent: "left",
+								alignItems: "center",
+								textAlign: "center",
+								flexDirection: "row",
+								marginBottom: "1rem",
+								cursor: "pointer",
 							}}>
-							<StyledLink to='forgottenPswd'>Forgot password?</StyledLink>
-						</Paragraph>
+							<StyledInput
+								type="checkbox"
+								id="persist"
+								onChange={togglePersist}
+								checked={persist}
+								style={{ width: "20px", height: "20px", cursor: "pointer" }}
+							/>
+							<LabelS
+								htmlFor="persist"
+								style={{ margin: "0 0 0 0.5rem", cursor: "pointer" }}>
+								Trust This Device
+							</LabelS>
+						</div>
+						<StyledBtn $width="65%">
+							<StyledText>Sign In</StyledText>
+						</StyledBtn>
 					</StyledForm>
-					<StyledBtn form='form1' type='submit' value='Submit' $width='65%'>
-						<StyledText>LOGIN</StyledText>
-					</StyledBtn>
-				</WrapperFlex>
+
+					<RegisteredParagraph>
+						Need an Account? <br />
+						<span>
+							<Link to="/form/register" style={{ color: "inherit" }}>
+								Sign Up
+							</Link>
+						</span>
+					</RegisteredParagraph>
+				</section>
 			</BackgroundWrapper>
 		</>
 	);

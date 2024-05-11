@@ -95,11 +95,11 @@ export const getManhwaVoidChapter = async () => {
 				}
 
 				let base64Image = srcImgToBlob(src);
-				console.log(base64Image);
+				// console.log(base64Image);
 				return base64Image;
 			});
 			base64DataArray.push(base64Data);
-			console.log(base64DataArray);
+			// console.log(base64DataArray);
 			await page2.close();
 		}
 	} catch (error) {
@@ -114,6 +114,6 @@ export const getManhwaVoidChapter = async () => {
 			scrapedData[i].srcImg = base64DataArray[i];
 		}
 	}
-	console.log(scrapedData);
+	// console.log(scrapedData);
 	return scrapedData;
 };

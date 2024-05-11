@@ -26,7 +26,7 @@ const ResponsiveWrapperFlex = styled(WrapperFlex)`
 const WelcomePage = () => {
 	let navigate = useNavigate();
 	const toWelcomePage = () => {
-		let path = `/`;
+		let path = "/welcome";
 		navigate(path);
 	};
 	return (
@@ -34,7 +34,11 @@ const WelcomePage = () => {
 			<a id="top"></a>
 			<MainBackground></MainBackground>
 			<div className="overlay"></div>
-			<WrapperFlex $margin=" 1rem 0 2rem 0" onClick={toWelcomePage} style={{ cursor: "pointer" }}>
+			<WrapperFlex
+				$margin=" 1rem auto 2rem auto"
+				onClick={toWelcomePage}
+				style={{ cursor: "pointer" }}
+				$width="clamp(10rem, 95%, 50rem)">
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
 			<WelcomeMsg></WelcomeMsg>

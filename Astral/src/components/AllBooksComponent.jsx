@@ -26,7 +26,7 @@ const StyledDiv = styled.div`
 const UlStyled = styled.ul`
 	z-index: 5;
 	list-style: none;
-	height: ${(props) => (props.$toggleValue ? "12rem" : "0rem")};
+	height: ${(props) => (props.$toggleValue ? "12.2rem" : "0rem")};
 	overflow: hidden;
 	position: absolute;
 	background: rgba(29, 37, 53, 1);
@@ -216,7 +216,7 @@ const AllBooksComponent = ({ sortMethodHandler, sortInputHandler }) => {
 
 	return (
 		<BookWrapper>
-			<Title>All Books</Title>
+			<Title>Books</Title>
 			<SearchBar>
 				<StyledInput
 					type="text"

@@ -125,13 +125,13 @@ const AllBooksIcon = styled(FaBook)`
 const Menu = () => {
 	let navigate = useNavigate();
 	const toBooks = () => {
-		let path = `/library/allBooks`;
+		let path = `/books`;
 		navigate(path);
 	};
 
 	let navigate2 = useNavigate();
 	const toLeaderboard = () => {
-		let path2 = "/library/leaderboard";
+		let path2 = "/leaderboard";
 		navigate2(path2);
 	};
 

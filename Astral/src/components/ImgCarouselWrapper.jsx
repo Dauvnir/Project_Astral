@@ -98,12 +98,16 @@ const ImgCarouselWrapper = () => {
 			<StyledImgCarouselElements>
 				{ImgLinks.map((links, index) => (
 					<StyledImgCarouselElement key={index}>
-						<StyledImgElement src={links.image} loading="lazy"></StyledImgElement>
+						<a href={links.src} target="_blank" rel="noreferrer">
+							<StyledImgElement src={links.image} loading="lazy"></StyledImgElement>
+						</a>
 					</StyledImgCarouselElement>
 				))}
 				{ImgLinks.map((links, index) => (
 					<StyledImgCarouselElement key={index}>
-						<StyledImgElement src={links.image} loading="lazy"></StyledImgElement>
+						<a href={links.src} target="_blank" rel="noreferrer">
+							<StyledImgElement src={links.image} loading="lazy"></StyledImgElement>
+						</a>
 					</StyledImgCarouselElement>
 				))}
 			</StyledImgCarouselElements>

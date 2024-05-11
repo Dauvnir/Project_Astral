@@ -24,7 +24,8 @@ const AllBooks = () => {
 			<div className="overlay"></div>
 			<Menu />
 			<WrapperFlex
-				style={{ cursor: "pointer", marginBottom: "1.5rem", marginTop: "1rem" }}
+				$width="clamp(10rem, 95%, 50rem)"
+				style={{ cursor: "pointer", margin: " 1rem auto 2rem auto" }}
 				onClick={toLibrary}>
 				<StyledLogo />
 			</WrapperFlex>
@@ -33,7 +34,12 @@ const AllBooks = () => {
 				$textAlign="left"
 				$fontSize="clamp(2rem, 2vw + 1rem , 5rem)"
 				$fontWeight="600"
-				style={{ position: "relative", zIndex: "2", marginTop: "1.5rem", marginLeft: "1rem" }}>
+				style={{
+					position: "relative",
+					zIndex: "2",
+					marginTop: "1.5rem",
+					marginLeft: "1rem",
+				}}>
 				Popular Today
 			</Paragraph>
 			<WrapperFlex

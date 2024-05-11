@@ -2,37 +2,56 @@ import WelcomePage from "./pages/WelcomePage";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import LoginForm from "./pages/LoginForm";
-import LoginLayout from "./pages/LoginLayout";
+import LoginLayout from "./components/LoginLayout";
 import SignUpPage from "./pages/SignUpPage";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import RegistrationSuccess from "./pages/RegistrationSuccess";
 import Library from "./pages/Library";
 import AllBooks from "./pages/AllBooks";
 import Leaderboard from "./pages/ Leaderboard";
+import Layout from "./pages/Layout";
+import ErrorPage from "./pages/ErrorPage";
+import RequireAuth from "./components/RequireAuth";
+import Unauthorized from "./pages/Unauthorized";
+import SuccededLogIn from "./pages/SuccedLogIn";
+import PersistentLogin from "./components/PersistentLogin";
 
 const App = () => {
 	return (
-		<Routes scrollRestoration="manual">
-			<Route path="/" element={<WelcomePage />} />
-			<Route path="/login" element={<LoginLayout />}>
-				<Route index element={<LoginPage />} />
-				<Route path="logIn">
-					<Route index element={<LoginForm />} />
-					<Route path="forgottenPswd">
-						<Route index element={<ForgotPassword />} />
-						<Route path="succes" element={<ResetPassword />}></Route>
+		<Routes>
+			<Route path="/" element={<Layout />}>
+				{/* public routes*/}
+				<Route path="welcome" element={<WelcomePage />} />
+				<Route path="form" element={<LoginLayout />}>
+					<Route index element={<LoginPage />} />
+					<Route path="login" element={<LoginForm />} />
+					<Route path="register" element={<SignUpPage />} />
+				</Route>
+
+				{/* Protected routes for users*/}
+				<Route element={<PersistentLogin />}>
+					<Route element={<RequireAuth allowedRoles={[7213]} />}>
+						<Route path="/" element={<LoginLayout />}>
+							<Route index element={<SuccededLogIn />} />
+						</Route>
+					</Route>
+
+					<Route element={<RequireAuth allowedRoles={[7213]} />}>
+						<Route path="library" element={<Library />} />
+					</Route>
+
+					<Route element={<RequireAuth allowedRoles={[7213]} />}>
+						<Route path="books" element={<AllBooks />} />
+					</Route>
+
+					<Route element={<RequireAuth allowedRoles={[7213]} />}>
+						<Route path="leaderboard" element={<Leaderboard />} />
 					</Route>
 				</Route>
-				<Route path="signUp">
-					<Route index element={<SignUpPage />} />
-					<Route path="registerSucces" element={<RegistrationSuccess />} />
+
+				{/* */}
+				<Route path="unauthorized" element={<LoginLayout />}>
+					<Route index element={<Unauthorized />} />
 				</Route>
-			</Route>
-			<Route path="/library">
-				<Route index element={<Library />} />
-				<Route path="allBooks" element={<AllBooks />} />
-				<Route path="leaderboard" element={<Leaderboard />} />
+				<Route path="*" element={<ErrorPage />} />
 			</Route>
 		</Routes>
 	);

@@ -8,7 +8,7 @@ const ChangeWindowTemplate = ({ closeHandler }) => {
 	return (
 		<>
 			<WrapperFlex $overflow="visible" $margin="1rem  0">
-				<BackButton closeHandler={closeHandler}></BackButton>
+				<BackButton closeHandler={closeHandler} />
 				<StyledBtn $width="45%" $margin="auto">
 					<Paragraph $fontSize="1.5rem" $fontWeight="600">
 						CONFIRM
