@@ -1,13 +1,4 @@
-const puppeteer = require("puppeteer-extra");
-
-async function encoder64(srcImg) {
-	const browser = await puppeteer.launch({
-		headless: true,
-	});
-	const page = await browser.newPage();
-	await page.goto(srcImg, {
-		waitUntil: ["networkidle2", "load"],
-	});
+const encoder64 = async (page) => {
 	const base = await page.evaluate(async () => {
 		let src = document.querySelector("img").getAttribute("src");
 		const parseToURIFormat = async (blobObject) => {
@@ -30,6 +21,6 @@ async function encoder64(srcImg) {
 		return image;
 	});
 	return base;
-}
+};
 
 module.exports = encoder64;
