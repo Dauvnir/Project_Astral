@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { StyledForm } from "../components/StyledForm";
-import ChangeWindowTemplate from "./ChangeWindowTemplate";
 import { Paragraph } from "./Paragraph";
 import { StyledInput } from "./StyledInput";
 import PropTypes from "prop-types";
 import { WrapperFlex } from "./WrapperFlex";
 import { useState } from "react";
 import { WindowTemplateStyling } from "./WindowTemplateStyling";
+import { StyledBtn } from "./Btn";
 
 const StyledTextarea = styled.textarea`
 	width: 100%;
@@ -31,11 +31,11 @@ const ExtendedParagraph = styled(Paragraph)`
 	font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
 `;
 
-const ReportBug = ({ closeHandler }) => {
+const ReportBug = ({ clearComponents }) => {
 	const [manageState, setManageState] = useState(true);
-
 	const handler = () => {
-		setManageState(closeHandler);
+		setManageState((prev) => !prev);
+		clearComponents();
 	};
 	return (
 		<>
@@ -70,14 +70,24 @@ const ReportBug = ({ closeHandler }) => {
 							</WrapDivForm>
 						</WrapperFlex>
 					</StyledForm>
-					<ChangeWindowTemplate closeHandler={() => handler()} />
+					<WrapperFlex $overflow="visible" $margin="1rem  0">
+						<StyledBtn $width="45%" $margin="auto" onClick={handler}>
+							<Paragraph $fontSize="1.5rem" $fontWeight="600">
+								BACK
+							</Paragraph>
+						</StyledBtn>
+						<StyledBtn $width="45%" $margin="auto">
+							<Paragraph $fontSize="1.5rem" $fontWeight="600">
+								CONFIRM
+							</Paragraph>
+						</StyledBtn>
+					</WrapperFlex>
 				</WindowTemplateStyling>
 			) : null}
 		</>
 	);
 };
 ReportBug.propTypes = {
-	resetComponent: PropTypes.func,
-	closeHandler: PropTypes.any,
+	clearComponents: PropTypes.func,
 };
 export default ReportBug;

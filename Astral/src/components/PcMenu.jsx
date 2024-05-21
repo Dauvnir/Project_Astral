@@ -192,17 +192,39 @@ const PcMenu = () => {
 		setActiveComponent2(componentName);
 		setToggleValue2((prev) => !prev);
 	};
+	const clearComponents = () => {
+		setActiveComponent(null);
+		setActiveComponent2(null);
+	};
 	return (
 		<>
-			{activeComponent2 === "ChangePassword" && <ChangePassword />}
-			{activeComponent2 === "ChangeEmail" && <ChangeEmail />}
-			{activeComponent2 === "ChangeNickname" && <ChangeNickname />}
-			{activeComponent2 === "ChangeAvatar" && <ChangeAvatar />}
-			{activeComponent2 === "DeleteAccount" && <DeleteAccount />}
-			{activeComponent === "Notifications" && <Notifications />}
-			{activeComponent === "ReportBug" && <ReportBug />}
-			{activeComponent === "AboutUs" && <AboutUs />}
-			{activeComponent === "LogOut" && <Logout />}
+			{activeComponent2 === "ChangePassword" && (
+				<ChangePassword clearComponents={clearComponents} />
+			)}
+			{activeComponent2 === "ChangeEmail" && (
+				<ChangeEmail clearComponents={clearComponents} />
+			)}
+			{activeComponent2 === "ChangeNickname" && (
+				<ChangeNickname clearComponents={clearComponents} />
+			)}
+			{activeComponent2 === "ChangeAvatar" && (
+				<ChangeAvatar clearComponents={clearComponents} />
+			)}
+			{activeComponent2 === "DeleteAccount" && (
+				<DeleteAccount clearComponents={clearComponents} />
+			)}
+			{activeComponent === "Notifications" && (
+				<Notifications clearComponents={clearComponents} />
+			)}
+			{activeComponent === "ReportBug" && (
+				<ReportBug clearComponents={clearComponents} />
+			)}
+			{activeComponent === "AboutUs" && (
+				<AboutUs clearComponents={clearComponents} />
+			)}
+			{activeComponent === "LogOut" && (
+				<Logout clearComponents={clearComponents} />
+			)}
 			<Wrapper>
 				<UlList>
 					<LiElement ref={subMenuRef}>

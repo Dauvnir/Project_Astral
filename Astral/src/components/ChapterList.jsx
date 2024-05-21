@@ -4,10 +4,9 @@ import Chapter from "./Chapter";
 import { useLiveQuery } from "dexie-react-hooks";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import PropTypes from "prop-types";
-import { compareMetaData } from "../api/DatabaseLocal";
 import { useEffect } from "react";
 import { useState } from "react";
-import axios from "axios";
+import { axiosPrivate } from "../api/axios";
 const StyledDiv = styled.div`
 	display: flex;
 	align-items: center;
@@ -20,14 +19,7 @@ const StyledDiv = styled.div`
 const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 	const pageSize = 50;
 	const [startIndex, setStartIndex] = useState(0);
-	const unmountTime = 60000;
-	useEffect(() => {
-		const interval = setInterval(async () => {
-			await compareMetaData();
-		}, unmountTime);
 
-		return () => clearInterval(interval);
-	}, []);
 	useEffect(() => {
 		setStartIndex((indexValue - 1) * pageSize);
 	}, [indexValue]);
@@ -123,8 +115,10 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 				return;
 			}
 			try {
-				await axios
-					.get(`http://localhost:3000/manhwas/images/${manhwa.manhwa_id}`)
+				await axiosPrivate
+					.get(
+						`http://localhost:3500/manhwas/methods/get/images/${manhwa.manhwa_id}`
+					)
 					.then((response) => {
 						const image = response.data[0];
 						return database

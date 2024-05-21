@@ -13,6 +13,7 @@ import RequireAuth from "./components/RequireAuth";
 import Unauthorized from "./pages/Unauthorized";
 import SuccededLogIn from "./pages/SuccedLogIn";
 import PersistentLogin from "./components/PersistentLogin";
+import UpdateDatabase from "./components/UpdateDatabase";
 
 const App = () => {
 	return (
@@ -32,18 +33,11 @@ const App = () => {
 						<Route path="/" element={<LoginLayout />}>
 							<Route index element={<SuccededLogIn />} />
 						</Route>
-					</Route>
-
-					<Route element={<RequireAuth allowedRoles={[7213]} />}>
-						<Route path="library" element={<Library />} />
-					</Route>
-
-					<Route element={<RequireAuth allowedRoles={[7213]} />}>
-						<Route path="books" element={<AllBooks />} />
-					</Route>
-
-					<Route element={<RequireAuth allowedRoles={[7213]} />}>
-						<Route path="leaderboard" element={<Leaderboard />} />
+						<Route element={<UpdateDatabase />}>
+							<Route path="library" element={<Library />} />
+							<Route path="books" element={<AllBooks />} />
+							<Route path="leaderboard" element={<Leaderboard />} />
+						</Route>
 					</Route>
 				</Route>
 

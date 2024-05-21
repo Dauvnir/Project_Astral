@@ -1,13 +1,15 @@
-import ChangeWindowTemplate from "./ChangeWindowTemplate";
 import { useState } from "react";
 import { WindowTemplateStyling } from "./WindowTemplateStyling";
 import PropTypes from "prop-types";
+import { WrapperFlex } from "./WrapperFlex";
+import { StyledBtn } from "./Btn";
+import { Paragraph } from "./Paragraph";
 
-const Notifications = ({ resetComponent, closeHandler }) => {
+const Notifications = ({ clearComponents }) => {
 	const [manageState, setManageState] = useState(true);
 	const handler = () => {
-		setManageState(closeHandler);
-		resetComponent(closeHandler);
+		setManageState((prev) => !prev);
+		clearComponents();
 	};
 	return (
 		<>
@@ -19,14 +21,24 @@ const Notifications = ({ resetComponent, closeHandler }) => {
 							<span>I dont have actually idea what should be there :D </span>
 						</p>
 					</div>
-					<ChangeWindowTemplate closeHandler={() => handler()} />
+					<WrapperFlex $overflow="visible" $margin="1rem  0">
+						<StyledBtn $width="45%" $margin="auto" onClick={handler}>
+							<Paragraph $fontSize="1.5rem" $fontWeight="600">
+								BACK
+							</Paragraph>
+						</StyledBtn>
+						<StyledBtn $width="45%" $margin="auto">
+							<Paragraph $fontSize="1.5rem" $fontWeight="600">
+								CONFIRM
+							</Paragraph>
+						</StyledBtn>
+					</WrapperFlex>
 				</WindowTemplateStyling>
 			) : null}
 		</>
 	);
 };
 Notifications.propTypes = {
-	resetComponent: PropTypes.func,
-	closeHandler: PropTypes.any,
+	clearComponents: PropTypes.func,
 };
 export default Notifications;
