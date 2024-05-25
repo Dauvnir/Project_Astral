@@ -1,15 +1,16 @@
 import Dexie from "dexie";
 import { axiosPrivate } from "./axios";
 
+//-------------------create database and table
 export const database = new Dexie("manhwa_list");
+
 database.version(1).stores({
 	manhwas:
 		"++i, manhwa_id, srcimg, scanlation_site, title, websiteUrl, chapter", // Define your Dexie schema
+	metadata: "++i, lastUpdate",
+	library: "++i, manhwa_id, user_chapter",
 });
-database.version(2).stores({
-	metadata: "i++, lastUpdate",
-});
-
+//--------------------------populated database
 export function isDatabasePopulated() {
 	return database.manhwas.count().then((countedValue) => countedValue > 0);
 }
@@ -38,6 +39,7 @@ export async function fetchDataAndPopulateDatabase() {
 			signal: controller.signal,
 		});
 		const data = response.data;
+		console.log(data);
 		await database.metadata.put({ lastUpdate: new Date() });
 		return await populateDatabase(data);
 	} catch (error) {
@@ -59,7 +61,7 @@ export async function initializeDatabase() {
 		throw error;
 	}
 }
-//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------update database
 export const connectToDatabase = async () => {
 	try {
 		await database.open();
@@ -76,8 +78,9 @@ export const connectToDatabase = async () => {
 };
 
 export async function fetchDataFromDatabase() {
-	const controller = new AbortController();
 	try {
+		const controller = new AbortController();
+
 		const response = await axiosPrivate.get("/manhwas/methods/get/manhwa", {
 			signal: controller.signal,
 		});
@@ -178,9 +181,6 @@ export async function compareMetaData() {
 	const newDateToCompare = new Date();
 	const timeDiffrence = newDateToCompare - lastElement;
 	const hoursDiffrence = timeDiffrence / (1000 * 60 * 60); // add *60 to have hours
-	console.log(
-		`Last Update: ${lastElement}. New time to compare: ${newDateToCompare}. Diffrence in time:${hoursDiffrence} minutes. Diffrence time:${timeDiffrence}`
-	);
 	if (hoursDiffrence > 2) {
 		console.log("Time for update");
 		await compareDatabase();

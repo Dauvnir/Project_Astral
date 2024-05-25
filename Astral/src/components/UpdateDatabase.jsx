@@ -5,7 +5,6 @@ import { useEffect } from "react";
 const UpdateDatabase = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-
 	const unmountTime = 60000;
 	useEffect(() => {
 		const interval = setInterval(async () => {

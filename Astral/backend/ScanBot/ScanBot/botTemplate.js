@@ -214,11 +214,8 @@ async function scrapData(choosedWebsite, encode) {
 		});
 		console.log("Finished encoding images.");
 	}
-	console.log(data[0]);
 	await page.close();
 	await browser.close();
 	return data;
 }
-
-scrapData("Asura", false);
 module.exports = scrapData;

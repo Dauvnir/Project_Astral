@@ -15,6 +15,7 @@ import Menu from "../components/Menu";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import MoveToTop from "../components/MoveToTop";
+import ChapterListForLibrary from "../components/ChapterListForLibrary";
 
 const BookWrapper = styled.div`
 	display: flex;
@@ -120,15 +121,7 @@ const Library = () => {
 				style={{ width: "100vw", height: "2px", margin: "0" }}></LineBreak>
 			<ChapterWrapper>
 				<WrapperGrid>
-					{/* <Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter>
-					<Chapter></Chapter> */}
+					<ChapterListForLibrary></ChapterListForLibrary>
 				</WrapperGrid>
 			</ChapterWrapper>
 			<MoveToTop></MoveToTop>

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { database } from "../api/DatabaseLocal";
-import Chapter from "./Chapter";
 import { useLiveQuery } from "dexie-react-hooks";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useState } from "react";
-import { axiosPrivate } from "../api/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { Suspense, lazy } from "react";
 const StyledDiv = styled.div`
 	display: flex;
 	align-items: center;
@@ -15,8 +15,11 @@ const StyledDiv = styled.div`
 	height: 15rem;
 	padding: 1rem;
 `;
+const Chapter = lazy(() => import("./Chapter"));
+
 //  include to dependencies when adding sort function for input value
 const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
+	const axiosPrivate = useAxiosPrivate();
 	const pageSize = 50;
 	const [startIndex, setStartIndex] = useState(0);
 
@@ -111,26 +114,20 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 
 	if (manhwas) {
 		manhwas.map(async (manhwa) => {
-			if (manhwa.srcimg !== " ") {
-				return;
-			}
 			try {
-				await axiosPrivate
-					.get(
-						`http://localhost:3500/manhwas/methods/get/images/${manhwa.manhwa_id}`
-					)
-					.then((response) => {
-						const image = response.data[0];
-						return database
-							.table("manhwas")
-							.where("manhwa_id")
-							.equals(manhwa.manhwa_id)
-							.modify({ srcimg: image.srcimg });
-					})
-					.catch((error) => {
-						console.error("Error fetching data", error);
-						throw error;
-					});
+				if (manhwa.srcimg !== " ") {
+					return;
+				} else {
+					const response = await axiosPrivate.get(
+						`/manhwas/methods/get/images/${manhwa.manhwa_id}`
+					);
+					const image = response.data[0];
+					return database
+						.table("manhwas")
+						.where("manhwa_id")
+						.equals(manhwa.manhwa_id)
+						.modify({ srcimg: image.srcimg });
+				}
 			} catch (error) {
 				console.error("Error fetching images:", error);
 			}
@@ -168,8 +165,8 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 					/>
 				</StyledDiv>
 			) : (
-				manhwas.map((manhwa) => (
-					<>
+				<Suspense fallback={<div>Loading chapters...</div>}>
+					{manhwas.map((manhwa) => (
 						<Chapter
 							key={manhwa.manhwa_id}
 							srcUrl={manhwa.websiteurl}
@@ -186,8 +183,8 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 									: manhwa.title
 							}
 						/>
-					</>
-				))
+					))}
+				</Suspense>
 			)}
 		</>
 	);

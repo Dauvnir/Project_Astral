@@ -14,6 +14,7 @@ import Unauthorized from "./pages/Unauthorized";
 import SuccededLogIn from "./pages/SuccedLogIn";
 import PersistentLogin from "./components/PersistentLogin";
 import UpdateDatabase from "./components/UpdateDatabase";
+import AddLibrary from "./components/AddLibrary";
 
 const App = () => {
 	return (
@@ -33,10 +34,12 @@ const App = () => {
 						<Route path="/" element={<LoginLayout />}>
 							<Route index element={<SuccededLogIn />} />
 						</Route>
-						<Route element={<UpdateDatabase />}>
-							<Route path="library" element={<Library />} />
-							<Route path="books" element={<AllBooks />} />
-							<Route path="leaderboard" element={<Leaderboard />} />
+						<Route element={<AddLibrary />}>
+							<Route element={<UpdateDatabase />}>
+								<Route path="library" element={<Library />} />
+								<Route path="books" element={<AllBooks />} />
+								<Route path="leaderboard" element={<Leaderboard />} />
+							</Route>
 						</Route>
 					</Route>
 				</Route>

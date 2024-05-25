@@ -21,7 +21,6 @@ const Wrap = styled.div`
 
 const SuccededLogIn = () => {
 	const [isInitializing, setIsInitializing] = useState(true);
-
 	useEffect(() => {
 		async function fetchData() {
 			try {
@@ -35,7 +34,6 @@ const SuccededLogIn = () => {
 		}
 		fetchData();
 	}, []);
-
 	return (
 		<>
 			{isInitializing ? (

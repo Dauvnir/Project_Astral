@@ -136,6 +136,7 @@ const patchManhwaChapterAllScanlation = async (req, res) => {
 		const insertQuery = `INSERT INTO manhwa(scanlation_site, title, srcimg, websiteurl, chapter)
 		VALUES ($1, $2, $3, $4, $5)
 		RETURNING *;`;
+		await pool.query("BEGIN");
 
 		for (const { scanlationSite, title, chapter, srcImg, websiteUrl } of data) {
 			const check = await pool.query(selectQuery, [scanlationSite, title]);
@@ -160,9 +161,12 @@ const patchManhwaChapterAllScanlation = async (req, res) => {
 				}
 			}
 		}
+		await pool.query("COMMIT");
+
 		console.log("Data inserted successfully into the database.");
 		res.status(200).send("Data inserted successfully into the database.");
 	} catch (error) {
+		await pool.query("ROLLBACK");
 		console.error(`Error in patchManhwaChapterAll: ${error.message}`);
 		res.status(500).send("Internal Server Error");
 	}
@@ -198,6 +202,8 @@ const patchManhwaChapterAll = async (req, res) => {
 			VALUES ($1, $2, $3, $4, $5)
 			RETURNING *;`;
 
+		await pool.query("BEGIN");
+
 		for (const { scanlationSite, title, chapter, srcImg, websiteUrl } of data) {
 			const check = await pool.query(selectQuery, [scanlationSite, title]);
 			if (check.rows.length === 0) {
@@ -221,9 +227,11 @@ const patchManhwaChapterAll = async (req, res) => {
 				}
 			}
 		}
+		await pool.query("COMMIT");
 		console.log("Data inserted successfully into the database.");
 		res.status(200).send("Data inserted successfully into the database.");
 	} catch (error) {
+		await pool.query("ROLLBACK");
 		console.error(`Error in patchManhwaChapterAll: ${error.message}`);
 		res.status(500).send("Internal Server Error");
 	}
@@ -233,15 +241,20 @@ const patchManhwaChapterAll = async (req, res) => {
 const addManhwa = async (req, res) => {
 	try {
 		const { scanlation_site, title, srcimg, websiteurl, chapter } = req.body;
+		await pool.query("BEGIN");
+
 		const newManhwa = await pool.query(
 			`INSERT INTO manhwa(scanlation_site, title, srcimg, websiteurl, chapter)
 			VALUES ($1, $2, $3, $4, $5)
 			RETURNING *;`,
 			[scanlation_site, title, srcimg, websiteurl, chapter]
 		);
+		await pool.query("COMMIT");
 
 		res.status(201).json(newManhwa.rows[0]);
 	} catch (error) {
+		await pool.query("ROLLBACK");
+
 		console.error(error.message);
 		res.status(500).send("Internal Server Error");
 	}
@@ -262,15 +275,16 @@ const addAllManhwa = async (req, res) => {
 		console.log("Starting dataNight");
 		const dataNight = await scrapData("Night", true);
 
-		console.log("Starting dataReaper");
-		const dataReaper = await scrapData("Reaper", true);
+		// console.log("Starting dataReaper");
+		// const dataReaper = await scrapData("Reaper", true);
 
-		const data = dataAsura.concat(dataVoid, dataFlame, dataNight, dataReaper);
+		const data = dataAsura.concat(dataVoid, dataFlame, dataNight);
 
 		const insertQuery = `
 		INSERT INTO manhwa(scanlation_site, title, srcimg, websiteurl, chapter)
 		VALUES ($1, $2, $3, $4, $5)
 		RETURNING *;`;
+		await pool.query("BEGIN");
 
 		for (const { scanlationSite, title, srcImg, websiteUrl, chapter } of data) {
 			await pool.query(insertQuery, [
@@ -281,10 +295,13 @@ const addAllManhwa = async (req, res) => {
 				chapter,
 			]);
 		}
+		await pool.query("COMMIT");
 
 		console.log("Data inserted successfully into the database.");
 		res.status(200).send("Data inserted successfully into the database.");
 	} catch (error) {
+		await pool.query("ROLLBACK");
+
 		console.error("Error:", error);
 		res.status(500).send("Internal Server Error");
 	}

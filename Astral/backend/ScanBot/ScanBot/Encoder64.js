@@ -1,6 +1,9 @@
 const encoder64 = async (page) => {
 	const base = await page.evaluate(async () => {
-		let src = document.querySelector("img").getAttribute("src");
+		let src = document.querySelector("img")?.getAttribute("src");
+		if (src === undefined) {
+			return;
+		}
 		const parseToURIFormat = async (blobObject) => {
 			const reader = new FileReader();
 			reader.readAsDataURL(blobObject);
