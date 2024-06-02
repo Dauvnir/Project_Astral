@@ -7,20 +7,19 @@ const WrapperGrid = styled.div`
 	width: 100%;
 	grid-template-columns: repeat(2, 50%);
 	grid-auto-flow: row;
-	row-gap: 2.5rem;
+	row-gap: 4rem;
 	padding-top: 2rem;
 	padding-bottom: 5rem;
-	padding-left: 1.5rem;
-	padding-right: 1.5rem;
-	@media (min-width: 450px) {
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	@media (min-width: 520px) {
 		grid-template-columns: repeat(3, 33.33%);
 	}
-	@media (min-width: 600px) {
+	@media (min-width: 680px) {
 		grid-template-columns: repeat(4, 25%);
 	}
 	@media (min-width: 850px) {
 		grid-template-columns: repeat(5, 20%);
-		row-gap: 4rem;
 	}
 
 	@media (min-width: 1100px) {

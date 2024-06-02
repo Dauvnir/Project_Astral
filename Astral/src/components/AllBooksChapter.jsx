@@ -56,28 +56,25 @@ const Btn = styled.button`
 `;
 const AllBooksChapter = () => {
 	const [sortMethod, setSortMethod] = useState("default");
-
 	const sortMethodHandler = (method) => {
 		setIndexValue(1);
 		setSortMethod(method);
 	};
 
 	const [inputValue, setInputValue] = useState(null);
-
 	const sortInputHandler = (value) => {
 		setInputValue(value);
 	};
 
 	const [indexValue, setIndexValue] = useState(1);
-
 	const indexValueHandler = (index) => {
 		const anchor = document.getElementById("top");
 		anchor.href = "#top";
 		anchor.click();
 		setIndexValue(index);
 	};
-	const [totalAmount, setTotalAmount] = useState(1);
 
+	const [totalAmount, setTotalAmount] = useState(1);
 	useEffect(() => {
 		const amount = async () => {
 			const amountValue = await database.table("manhwas").count();

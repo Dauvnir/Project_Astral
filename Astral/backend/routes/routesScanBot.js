@@ -18,11 +18,6 @@ router.get(
 	manhwaController.getManhwaByScanlationAndSearch
 );
 router.patch(
-	"/methods/patch/all",
-	verifyRoles(ROLES_LIST.Admin),
-	manhwaController.patchManhwaChapterAll
-);
-router.patch(
 	"/methods/patch/all/:scanlation",
 	verifyRoles(ROLES_LIST.Admin),
 	manhwaController.patchManhwaChapterAllScanlation

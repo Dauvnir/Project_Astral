@@ -173,7 +173,7 @@ const patchManhwaChapterAllScanlation = async (req, res) => {
 };
 
 //PATCH manhwa all chapter + insert new one if appeard
-const patchManhwaChapterAll = async (req, res) => {
+const patchManhwaChapterAll = async () => {
 	try {
 		console.log("Starting asura scraping");
 		const dataAsura = await scrapData("Asura", false);
@@ -187,10 +187,10 @@ const patchManhwaChapterAll = async (req, res) => {
 		console.log("Starting dataNight");
 		const dataNight = await scrapData("Night", false);
 
-		console.log("Starting dataReaper");
-		const dataReaper = await scrapData("Reaper", false);
+		// console.log("Starting dataReaper");
+		// const dataReaper = await scrapData("Reaper", false);
 
-		const data = dataFlame.concat(dataVoid, dataNight, dataReaper, dataAsura);
+		const data = dataFlame.concat(dataVoid, dataNight, dataAsura);
 
 		const updateQuery = `UPDATE manhwa
 			SET chapter = $1
@@ -229,11 +229,9 @@ const patchManhwaChapterAll = async (req, res) => {
 		}
 		await pool.query("COMMIT");
 		console.log("Data inserted successfully into the database.");
-		res.status(200).send("Data inserted successfully into the database.");
 	} catch (error) {
 		await pool.query("ROLLBACK");
 		console.error(`Error in patchManhwaChapterAll: ${error.message}`);
-		res.status(500).send("Internal Server Error");
 	}
 };
 

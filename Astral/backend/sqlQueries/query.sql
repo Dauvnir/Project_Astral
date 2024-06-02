@@ -8,11 +8,12 @@ SELECT ur.role_id
 FROM user_roles ur
  WHERE ur.user_id = $1;
  -- User book table
- CREATE TABLE UserManhwa (
+CREATE TABLE UserManhwa (
+    id SERIAL PRIMARY KEY,
     user_id INT,
     manhwa_id INT,
-    user_chapter INT,
-    PRIMARY KEY (user_id, manhwa_id),
+    user_chapter VARCHAR(255),
+    is_favorite BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (manhwa_id) REFERENCES manhwa(manhwa_id)
 );

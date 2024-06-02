@@ -31,15 +31,15 @@ const App = () => {
 				{/* Protected routes for users*/}
 				<Route element={<PersistentLogin />}>
 					<Route element={<RequireAuth allowedRoles={[7213]} />}>
-						<Route path="/" element={<LoginLayout />}>
-							<Route index element={<SuccededLogIn />} />
-						</Route>
 						<Route element={<AddLibrary />}>
-							<Route element={<UpdateDatabase />}>
-								<Route path="library" element={<Library />} />
-								<Route path="books" element={<AllBooks />} />
-								<Route path="leaderboard" element={<Leaderboard />} />
+							<Route path="/" element={<LoginLayout />}>
+								<Route index element={<SuccededLogIn />} />
 							</Route>
+						</Route>
+						<Route element={<UpdateDatabase />}>
+							<Route path="library" element={<Library />} />
+							<Route path="books" element={<AllBooks />} />
+							<Route path="leaderboard" element={<Leaderboard />} />
 						</Route>
 					</Route>
 				</Route>

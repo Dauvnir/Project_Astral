@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const AvatarWrapper = styled.div`
 	display: flex;
 	height: 100%;
-	width: clamp(15rem, 22rem, 30rem);
+	width: clamp(10rem, 22rem, 30rem);
 	box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
 `;
 const AvatarNickname = styled.p`
@@ -30,6 +30,10 @@ const AvatarNickname = styled.p`
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
+	@media (max-width: 430px) {
+		border-bottom-left-radius: 0px;
+		border-top-left-radius: 0px;
+	}
 `;
 const AvatarImage = styled.img`
 	position: relative;
@@ -81,6 +85,12 @@ const Wrap = styled.div`
 	justify-content: right;
 	box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
 	border-radius: 10px 0 0 10px;
+	@media (min-width: 320px) {
+		width: 100%;
+	}
+	@media (min-width: 1200px) {
+		width: auto;
+	}
 `;
 const Avatar = () => {
 	const logout = useLogout();

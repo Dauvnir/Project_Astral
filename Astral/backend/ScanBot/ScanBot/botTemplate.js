@@ -95,7 +95,11 @@ const encodeImg = async (page, data) => {
 			timeout: 0,
 		});
 		const image = await encoder64(page);
-		images.push(image);
+		if (!image) {
+			continue;
+		} else {
+			images.push(image);
+		}
 	}
 	return images;
 };

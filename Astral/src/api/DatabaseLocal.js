@@ -8,7 +8,7 @@ database.version(1).stores({
 	manhwas:
 		"++i, manhwa_id, srcimg, scanlation_site, title, websiteUrl, chapter", // Define your Dexie schema
 	metadata: "++i, lastUpdate",
-	library: "++i, manhwa_id, user_chapter",
+	library: "++i, manhwa_id, user_chapter, isFavourite",
 });
 //--------------------------populated database
 export function isDatabasePopulated() {

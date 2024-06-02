@@ -102,7 +102,8 @@ const SortBtn = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-radius: ${(props) => (props.$toggleValue ? "10px 10px 0px 0px" : "10px 10px 10px 10px")};
+	border-radius: ${(props) =>
+		props.$toggleValue ? "10px 10px 0px 0px" : "10px 10px 10px 10px"};
 	border: 1px solid #afbfd5;
 	background: rgba(29, 37, 53, 1);
 	cursor: pointer;
@@ -223,12 +224,15 @@ const AllBooksComponent = ({ sortMethodHandler, sortInputHandler }) => {
 					placeholder="Search for a series"
 					onFocus={() => setIsInputFocused(true)}
 					onBlur={() => setIsInputFocused(false)}
-					onInput={inputValueHandler}
+					onInput={(e) => inputValueHandler(e)}
 				/>
 				<SearchSvg style={{ opacity: isInputFocused ? 0 : 1 }} />
 			</SearchBar>
 			<StyledDiv>
-				<SortBtn $toggleValue={toggleValue} onClick={() => toggleHandler()} ref={sortBtnRef}>
+				<SortBtn
+					$toggleValue={toggleValue}
+					onClick={() => toggleHandler()}
+					ref={sortBtnRef}>
 					<SortStyled></SortStyled>
 				</SortBtn>
 				<UlStyled $toggleValue={toggleValue} ref={sortingListRef}>
