@@ -2,32 +2,35 @@ import { database } from "../api/DatabaseLocal";
 import useAxiosPrivate from "./useAxiosPrivate";
 import useGetUsername from "./useGetUsername";
 
-const useToggleFavourite = () => {
-	const axiosPrivate = useAxiosPrivate();
+const useAddUserChapter = () => {
 	const username = useGetUsername();
-	const toggleFavourite = async (manhwa_id, favoriteStatus) => {
-		let favourite = !favoriteStatus;
+	const axiosPrivate = useAxiosPrivate();
+
+	const AddUserChapter = async (manhwa_id, user_chapter) => {
 		try {
 			await database
 				.table("library")
 				.where("manhwa_id")
 				.equals(manhwa_id)
-				.modify({ is_favourite: favourite });
+				.modify({ user_chapter: user_chapter });
 
 			await axiosPrivate.post(
-				"library/favourite",
-				{ username, manhwa_id, favourite },
+				"/library/chapter",
+				{ username, manhwa_id, user_chapter },
 				{
 					headers: { "Content-Type": "application/json" },
 					withCredentials: true,
 				}
 			);
 		} catch (error) {
-			console.error("Error while adding to favorite", error);
+			console.error(
+				"Error while adding personal user chapter to database",
+				error
+			);
 		}
 	};
 
-	return toggleFavourite;
+	return AddUserChapter;
 };
 
-export default useToggleFavourite;
+export default useAddUserChapter;

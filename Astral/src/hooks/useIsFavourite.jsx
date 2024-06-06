@@ -8,7 +8,7 @@ const useIsFavourite = () => {
 				.where("manhwa_id")
 				.equals(manhwa_id)
 				.first();
-			return favourite ? !!favourite?.is_favourite : false;
+			return favourite?.is_favourite;
 		} catch (error) {
 			console.error("Error fetching favourite status:", error);
 			return false;

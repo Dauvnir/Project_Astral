@@ -7,7 +7,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 const ChapterListForLibrary = ({ isEditable }) => {
 	let keyCounter = 0;
 	const fetchedData = useFetchDataFromIDB();
-	const liveQuery = useLiveQuery(fetchedData, []);
+
+	const liveQuery = useLiveQuery(fetchedData);
+
 	if (liveQuery === undefined) {
 		return (
 			<PacmanLoader

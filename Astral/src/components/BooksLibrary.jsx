@@ -1,5 +1,3 @@
-import SortBtn from "../components/SortBtn";
-import BookmarkBtn from "../components/BookmarkBtn";
 import WrapperGrid from "../components/WrapperGrid";
 import { LineBreak } from "../components/LineBreak";
 import ChapterListForLibrary from "../components/ChapterListForLibrary";
@@ -103,8 +101,6 @@ const BooksLibrary = () => {
 					<StyledDiv onClick={handleIsEditable}>
 						{!isEditable ? <LockStyled /> : <FaUnlockStyled />}
 					</StyledDiv>
-					<SortBtn></SortBtn>
-					<BookmarkBtn></BookmarkBtn>
 				</ModifiedWrapperFlexBtn>
 			</BookWrapper>
 			<LineBreak

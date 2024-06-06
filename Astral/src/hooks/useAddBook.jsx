@@ -8,6 +8,7 @@ const useAddBook = () => {
 	const axiosPrivate = useAxiosPrivate();
 	const addBook = useCallback(
 		async (manhwa_id, user_chapter) => {
+			const is_favourite = false;
 			try {
 				if (!manhwa_id || !user_chapter) {
 					throw new Error("Manhwa ID and chapter must be provided");
@@ -19,7 +20,7 @@ const useAddBook = () => {
 				if (!username) {
 					throw new Error("Username not found in token");
 				}
-				await database.library.add({ manhwa_id, user_chapter });
+				await database.library.add({ manhwa_id, user_chapter, is_favourite });
 
 				await axiosPrivate.post(
 					"/library/add",

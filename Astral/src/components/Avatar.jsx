@@ -85,11 +85,8 @@ const Wrap = styled.div`
 	justify-content: right;
 	box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
 	border-radius: 10px 0 0 10px;
-	@media (min-width: 320px) {
+	@media (max-width: 430px) {
 		width: 100%;
-	}
-	@media (min-width: 1200px) {
-		width: auto;
 	}
 `;
 const Avatar = () => {

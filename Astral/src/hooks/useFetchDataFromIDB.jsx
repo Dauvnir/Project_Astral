@@ -6,13 +6,23 @@ const useFetchDataFromIDB = () => {
 	const liveQuery = async () => {
 		try {
 			const books = await database.table("library").toArray();
-			const manhwaIds = books.map((book) => book.manhwa_id);
+
+			const manhwaIds = books
+				.sort((a, b) => {
+					return b.is_favourite - a.is_favourite;
+				})
+				.map((book) => book.manhwa_id);
+
 			const manhwas = await database
 				.table("manhwas")
 				.filter((manhwa) => manhwaIds.includes(manhwa.manhwa_id))
 				.toArray();
+
+			const sortedManhwas = manhwaIds.map((id) =>
+				manhwas.find((manhwa) => manhwa.manhwa_id === id)
+			);
 			await Promise.all(
-				manhwas.map(async (manhwa) => {
+				sortedManhwas.map(async (manhwa) => {
 					try {
 						if (manhwa.srcimg === " ") {
 							const response = await axiosPrivate.get(
@@ -32,7 +42,7 @@ const useFetchDataFromIDB = () => {
 					}
 				})
 			);
-			return manhwas.filter((manhwa) => manhwa !== undefined);
+			return sortedManhwas.filter((manhwa) => manhwa !== undefined);
 		} catch (error) {
 			console.error("Error while fetching", error);
 			return [];
