@@ -49,3 +49,13 @@ SELECT 1
 
 --Insert into db library 
 Insert into UserManhwa (user_id, manhwa_id, user_chapter) values (7, 1 ,1);
+--
+ALTER TABLE UserManhwa ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE;
+ALTER TABLE user_roles ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE;
+
+CREATE TABLE user_profiles (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    nickname VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

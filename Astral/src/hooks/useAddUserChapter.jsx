@@ -1,9 +1,9 @@
 import { database } from "../api/DatabaseLocal";
 import useAxiosPrivate from "./useAxiosPrivate";
-import useGetUsername from "./useGetUsername";
+import useGetNickname from "./useGetNickname";
 
 const useAddUserChapter = () => {
-	const username = useGetUsername();
+	const nickname = useGetNickname();
 	const axiosPrivate = useAxiosPrivate();
 
 	const AddUserChapter = async (manhwa_id, user_chapter) => {
@@ -16,7 +16,7 @@ const useAddUserChapter = () => {
 
 			await axiosPrivate.post(
 				"/library/chapter",
-				{ username, manhwa_id, user_chapter },
+				{ nickname, manhwa_id, user_chapter },
 				{
 					headers: { "Content-Type": "application/json" },
 					withCredentials: true,

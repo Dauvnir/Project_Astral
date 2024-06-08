@@ -27,6 +27,10 @@ const createUser = async (req, res) => {
 			"INSERT INTO user_roles (user_id, role_id) VALUES ($1, $2);",
 			[userID, ROLES_LIST.User]
 		);
+		await pool.query(
+			"INSERT INTO user_profiles(user_id, nickname) VALUES ($1, $2);",
+			[userID, user]
+		);
 		res.status(201).json({ succes: `New user ${user} created!` });
 	} catch (error) {
 		res.status(500).json({ message: error.message });

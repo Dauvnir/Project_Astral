@@ -1,15 +1,15 @@
 import useAxiosPrivate from "./useAxiosPrivate";
-import useGetUsername from "./useGetUsername";
 import { database } from "../api/DatabaseLocal";
+import useGetNickname from "./useGetNickname";
 
 const useRemoveBook = () => {
-	const username = useGetUsername();
+	const nickname = useGetNickname();
 	const axiosPrivate = useAxiosPrivate();
 	const removeBook = async (manhwa_id) => {
 		try {
 			await axiosPrivate.post(
 				"library/remove",
-				{ username, manhwa_id },
+				{ nickname, manhwa_id },
 				{
 					headers: { "Content-Type": "application/json" },
 					withCredentials: true,

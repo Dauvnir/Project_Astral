@@ -60,6 +60,7 @@ const Image = styled.img`
 	height: 100%;
 	width: 100%;
 	border-radius: 5px 5px 0 0;
+	color: #d9d9d9;
 	cursor: pointer;
 `;
 const Overlay = styled.div`

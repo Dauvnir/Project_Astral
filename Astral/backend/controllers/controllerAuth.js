@@ -15,6 +15,7 @@ const handleLogin = async (req, res) => {
 			"SELECT username, password, user_id FROM users WHERE username = $1;",
 			[user]
 		);
+
 		// User not found
 		if (userData.rowCount === 0) return res.sendStatus(404);
 		// Compare passwords
@@ -22,6 +23,11 @@ const handleLogin = async (req, res) => {
 		const match = await bcrypt.compare(pwd, hashedPassword);
 		if (match) {
 			const user_id = userData.rows[0].user_id;
+			const nicknameQuery = await pool.query(
+				"SELECT nickname FROM user_profiles WHERE user_id = $1;",
+				[user_id]
+			);
+			const nickname = nicknameQuery.rows[0].nickname;
 			const usernameDB = userData.rows[0].username;
 			const queryRoles = await pool.query(
 				`SELECT ur.role_id
@@ -31,14 +37,16 @@ const handleLogin = async (req, res) => {
 			);
 			const roles = queryRoles.rows.map((row) => row.role_id);
 			const accessToken = jwt.sign(
-				{ UserInfo: { username: usernameDB, roles: roles } },
+				{
+					UserInfo: { username: usernameDB, roles: roles, nickname: nickname },
+				},
 				process.env.ACCESS_TOKEN_SECRET,
-				{ expiresIn: "10m" } // set 10 minutes
+				{ expiresIn: "30m" } // set 10 minutes
 			);
 			const refreshToken = jwt.sign(
 				{ username: user },
 				process.env.REFRESH_TOKEN_SECRET,
-				{ expiresIn: "1d" }
+				{ expiresIn: "3d" }
 			);
 			//Save refresh token
 			await pool.query(

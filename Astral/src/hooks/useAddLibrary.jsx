@@ -1,11 +1,11 @@
 import { database } from "../api/DatabaseLocal";
 import useAxiosPrivate from "./useAxiosPrivate";
-import useGetUsername from "./useGetUsername";
+import useGetNickname from "./useGetNickname";
 
 //---Add books to database
 const useAddLibrary = () => {
 	const axiosPrivate = useAxiosPrivate();
-	const username = useGetUsername();
+	const nickname = useGetNickname();
 	const checkLibraryExists = async () => {
 		try {
 			//If your local browser contain multiple users delete it all the time
@@ -13,7 +13,7 @@ const useAddLibrary = () => {
 
 			const response = await axiosPrivate.post(
 				"/library",
-				{ username },
+				{ nickname },
 				{
 					headers: { "Content-Type": "application/json" },
 					withCredentials: true,
@@ -24,7 +24,7 @@ const useAddLibrary = () => {
 				//then fetch database and put it to indexedDB
 				const fetchLibraryResponse = await axiosPrivate.post(
 					"/library/fetch",
-					{ username },
+					{ nickname },
 					{
 						headers: { "Content-Type": "application/json" },
 						withCredentials: true,

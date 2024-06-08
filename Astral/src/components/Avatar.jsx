@@ -4,6 +4,7 @@ import PcMenu from "./PcMenu";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
+import useGetNickname from "../hooks/useGetNickname";
 const AvatarWrapper = styled.div`
 	display: flex;
 	height: 100%;
@@ -96,13 +97,14 @@ const Avatar = () => {
 		await logout();
 		navigate("/form/login");
 	};
+	const nickname = useGetNickname();
 	return (
 		<>
 			<AdjustedWrapper>
 				<PcMenu />
 				<Wrap>
 					<AvatarWrapper>
-						<AvatarNickname>Alicja z kotem</AvatarNickname>
+						<AvatarNickname>{nickname}</AvatarNickname>
 						<AvatarImage></AvatarImage>
 					</AvatarWrapper>
 					<LogoutWrapper>

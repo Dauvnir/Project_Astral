@@ -12,7 +12,6 @@ import ReportBug from "./ReportBug";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
 import ChangeNickname from "./ChangeNickname";
-import ChangeAvatar from "./ChangeAvatar";
 import DeleteAccount from "./DeleteAccount";
 import Logout from "./Logout";
 import Notifications from "./Notifications";
@@ -207,9 +206,6 @@ const PcMenu = () => {
 			{activeComponent2 === "ChangeNickname" && (
 				<ChangeNickname clearComponents={clearComponents} />
 			)}
-			{activeComponent2 === "ChangeAvatar" && (
-				<ChangeAvatar clearComponents={clearComponents} />
-			)}
 			{activeComponent2 === "DeleteAccount" && (
 				<DeleteAccount clearComponents={clearComponents} />
 			)}
@@ -296,12 +292,6 @@ const PcMenu = () => {
 										<span style={{ whiteSpace: "nowrap" }}>
 											Change Nickname
 										</span>
-									</AccountSubMenuBtn>
-								</li>
-								<li>
-									<AccountSubMenuBtn
-										onClick={() => handleClick2("ChangeAvatar")}>
-										<span>Change Avatar</span>
 									</AccountSubMenuBtn>
 								</li>
 								<li>

@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import DeleteAccount from "./DeleteAccount";
-import ChangeAvatar from "./ChangeAvatar";
 import ChangeEmail from "./ChangeEmail";
 import ChangeNickname from "./ChangeNickname";
 import ChangePassword from "./ChangePassword";
@@ -138,7 +137,10 @@ const MenuExtendedAccount = () => {
 			<MenuExtendedStyling ref={menuExtendedAccount}>
 				<UlList $toggleValue={toggle}>
 					<LiElement
-						style={{ borderTopRightRadius: "20px", borderTopLeftRadius: "20px" }}
+						style={{
+							borderTopRightRadius: "20px",
+							borderTopLeftRadius: "20px",
+						}}
 						onClick={() => handleClick("ChangePassword")}>
 						<Span>Change Password</Span>
 					</LiElement>
@@ -149,10 +151,6 @@ const MenuExtendedAccount = () => {
 					<ExtendedLineBreak></ExtendedLineBreak>
 					<LiElement onClick={() => handleClick("ChangeNickname")}>
 						<Span>Change Nickname</Span>
-					</LiElement>
-					<ExtendedLineBreak></ExtendedLineBreak>
-					<LiElement onClick={() => handleClick("ChangeAvatar")}>
-						<Span>Change Avatar</Span>
 					</LiElement>
 					<ExtendedLineBreak></ExtendedLineBreak>
 					<LiElement
@@ -169,7 +167,6 @@ const MenuExtendedAccount = () => {
 			{activeComponent === "ChangePassword" && <ChangePassword />}
 			{activeComponent === "ChangeEmail" && <ChangeEmail />}
 			{activeComponent === "ChangeNickname" && <ChangeNickname />}
-			{activeComponent === "ChangeAvatar" && <ChangeAvatar />}
 			{activeComponent === "DeleteAccount" && <DeleteAccount />}
 		</>
 	);

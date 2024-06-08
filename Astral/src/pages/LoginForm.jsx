@@ -85,9 +85,9 @@ const LoginForm = () => {
 			if (!error?.response) {
 				setErrMsg("No Server Response");
 			} else if (error.response?.status === 400) {
-				setErrMsg("Missing Username or Password");
+				setErrMsg("Missing username or password");
 			} else if (error.response?.status === 401) {
-				setErrMsg("Unauthorized");
+				setErrMsg("Invalid username or password");
 			} else {
 				setErrMsg("Login Failed");
 			}

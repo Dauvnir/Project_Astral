@@ -1,10 +1,10 @@
 import { database } from "../api/DatabaseLocal";
 import useAxiosPrivate from "./useAxiosPrivate";
-import useGetUsername from "./useGetUsername";
+import useGetNickname from "./useGetNickname";
 
 const useToggleFavourite = () => {
 	const axiosPrivate = useAxiosPrivate();
-	const username = useGetUsername();
+	const nickname = useGetNickname();
 	const toggleFavourite = async (manhwa_id, favoriteStatus) => {
 		let favourite = !favoriteStatus;
 		try {
@@ -16,7 +16,7 @@ const useToggleFavourite = () => {
 
 			await axiosPrivate.post(
 				"library/favourite",
-				{ username, manhwa_id, favourite },
+				{ nickname, manhwa_id, favourite },
 				{
 					headers: { "Content-Type": "application/json" },
 					withCredentials: true,

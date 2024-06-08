@@ -30,11 +30,23 @@ const handleRefreshToken = async (req, res) => {
 					 WHERE ur.user_id = $1;`,
 					[user_id]
 				);
+				const nicknameQuery = await pool.query(
+					"SELECT nickname FROM user_profiles WHERE user_id = $1;",
+					[user_id]
+				);
+				const nickname = nicknameQuery.rows[0].nickname;
+
 				const roles = queryRoles.rows.map((row) => row.role_id);
 				const accessToken = jwt.sign(
-					{ UserInfo: { username: decoded.username, roles: roles } },
+					{
+						UserInfo: {
+							username: decoded.username,
+							roles: roles,
+							nickname: nickname,
+						},
+					},
 					process.env.ACCESS_TOKEN_SECRET,
-					{ expiresIn: "10m" }
+					{ expiresIn: "30m" }
 				);
 				res.json({ accessToken });
 			}
