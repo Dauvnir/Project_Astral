@@ -46,6 +46,7 @@ app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
 app.use("/registration", require("./routes/registration"));
 app.use("/manhwas", require("./routes/routesScanBot"));
+app.use("/leaderboard", require("./routes/leaderboard"));
 app.use(verifyJWT);
 app.use("/library", require("./routes/library"));
 app.use("/users", require("./routes/usersCRUD"));

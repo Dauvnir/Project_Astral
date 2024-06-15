@@ -1,233 +1,212 @@
 import styled from "styled-components";
-import { WrapperFlex } from "./WrapperFlex";
+import useGetLeaderboard from "../hooks/useGetLeaderboard";
+import { useEffect } from "react";
 import { useState } from "react";
-import PropTypes from "prop-types";
-
-const LeaderboardWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	padding-inline: 1rem;
-	width: 100vw;
-	background-color: rgba(29, 37, 53, 0.7);
-	height: 100%;
+import { BarLoader } from "react-spinners";
+const DivFirstMain = styled.div`
 	position: relative;
-	z-index: 2;
-	/* margin-top: 2rem; */
-`;
-const LeaderboardHeadersWrapper = styled.div`
+	z-index: 1;
 	display: flex;
+	justify-content: center;
 	align-items: center;
-	justify-content: space-between;
-	flex-direction: colums;
+	flex-direction: row;
+	flex-wrap: nowrap;
 	width: 100%;
-	height: 5rem;
+	gap: 3rem;
+	height: 27rem;
 `;
-
-const LeaderboardHeaderWrapper = styled.div`
+const DivPlaces = styled.div`
 	display: flex;
+	justify-content: center;
 	align-items: center;
-	justify-content: left;
-	height: 3rem;
-	padding-block: 1rem;
+	flex-direction: column;
+	height: inherit;
+	gap: 1rem;
+	padding: 1rem;
+	transform: scale(0.85);
 `;
-const WrapperFlexResponsive = styled(WrapperFlex)`
-	/* width: clamp(15rem, 80vw, 43rem); */
-	width: 100vw;
-	justify-content: left;
-	margin: 3rem 0 0 0rem;
-	overflow: visible;
-	height: 4rem;
-	@media (min-width: 600px) {
-		width: clamp(15rem, 85vw, 43rem);
-	}
+const DivFirstPlace = styled(DivPlaces)`
+	transform: scale(1);
 `;
-const ButtonStyled = styled.button`
-	width: 33.3%;
+const DivImageWrapper = styled.div`
+	height: 70%;
+	border-radius: 15px;
+	box-shadow: 0px 0px 16px 5px rgba(255, 230, 0, 1);
+`;
+const ImgPlaces = styled.img`
 	height: 100%;
-	background-color: rgba(29, 37, 53, 0.7);
-	padding-inline: 0.5rem;
-	padding-block: 0.25rem;
-	border: none;
-	text-align: left;
-	cursor: pointer;
-	&:hover {
-		background: rgba(217, 217, 217, 0.9);
-		transition: background linear 0.3s;
-		:is(span) {
-			color: rgba(29, 37, 53, 1);
-			transition: color linear 0.3s;
-		}
-	}
-`;
-const WrapperGrid = styled.div`
-	display: grid;
 	width: 100%;
-	height: auto;
-	grid-template-columns: 25% 40% 35%;
-	grid-auto-flow: row;
-	row-gap: 1.5rem;
+	object-fit: scale-down;
+	border-radius: 15px;
+	filter: drop-shadow(0 0 0.5rem black);
 `;
-const SpanStyled = styled.span`
+const DivData = styled.div`
+	height: 30%;
+	width: 100%;
+	text-align: center;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: column;
+	gap: 0.5rem;
+`;
+const Header = styled.h3`
 	color: #d9d9d9;
 	font-family: Lato;
-	font-size: 1.1rem;
 	font-style: normal;
-	font-weight: 600;
+	font-weight: 800;
+`;
+const Paragraph = styled.p`
+	color: #d9d9d9;
+	font-family: Lato;
+	font-style: normal;
 	line-height: normal;
-	@media (min-width: 640px) {
-		white-space: nowrap;
-	}
-	@media (min-width: 740px) {
-		font-size: 1.25rem;
-	}
+	font-weight: 600;
+	font-size: 1.15rem;
 `;
-const LeaderboardRowElement = styled(SpanStyled)`
-	font-size: 1.5rem;
+const DivSecondMain = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	z-index: 1;
+	flex-direction: column;
+	flex-grow: 1;
+	width: 90%;
+	margin: auto;
+	background-color: rgba(29, 37, 53, 0.5);
+	margin-bottom: 2rem;
+	border-radius: 0 0 20px 20px;
 `;
 
-const LeaderboardRow = ({ place, name, score }) => {
-	let colorCode;
-	switch (place) {
-		case 1:
-			colorCode = "#FFD700";
-			break;
-		case 2:
-			colorCode = "#c0c0c0";
-			break;
-		case 3:
-			colorCode = "#CD7F32";
-			break;
-		default:
-			colorCode = "#d9d9d9";
-	}
-
-	return (
-		<>
-			<LeaderboardRowElement style={{ color: colorCode }}>{place}</LeaderboardRowElement>
-			<LeaderboardRowElement style={{ color: colorCode }}>{name}</LeaderboardRowElement>
-			<LeaderboardRowElement style={{ color: colorCode }}>{score}</LeaderboardRowElement>
-		</>
-	);
-};
-
+const UlPlaces = styled.ul`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	width: 100%;
+	height: auto;
+	margin: 2rem;
+	border-radius: 0px;
+`;
+const UlElement = styled.ul`
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	border-radius: 20px 20px 0px 0px;
+	background-color: rgba(29, 37, 53, 0.5);
+	padding: 2rem 1rem;
+	box-shadow: 0px 0px 3px 3px rgba(230, 230, 250, 0.7);
+`;
+const LiHeader = styled.li`
+	display: inline-block;
+	width: 20%;
+	text-align: center;
+	color: #d9d9d9;
+	font-family: Lato;
+	font-style: normal;
+	line-height: normal;
+	font-weight: 800;
+	font-size: 1.75rem;
+`;
+const LiElement = styled(LiHeader)`
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
 const LeaderBoardComponent = () => {
-	const [ReviewsState, setReviewsState] = useState(true);
-	const [BookmarkedState, setBookmarkedState] = useState(false);
-	const [CommentState, setCommentState] = useState(false);
-	const ReviewsStateHandler = () => {
-		setReviewsState(true);
-		setBookmarkedState(false);
-		setCommentState(false);
-	};
-	const BookmarkedStateHandler = () => {
-		setReviewsState(false);
-		setBookmarkedState(true);
-		setCommentState(false);
-	};
-	const CommentStateHandler = () => {
-		setReviewsState(false);
-		setBookmarkedState(false);
-		setCommentState(true);
-	};
+	const [leaderboard, setLeaderboard] = useState([]);
+	const [firstPlaces, setFirstPlaces] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const fetchLeaderboard = useGetLeaderboard();
+
+	useEffect(() => {
+		if (
+			fetchLeaderboard.leaderboard &&
+			fetchLeaderboard.leaderboard.length > 0
+		) {
+			const data = fetchLeaderboard.leaderboard;
+			const mainPlaces = data.slice(0, 3);
+			const rest = data.slice(3);
+			setFirstPlaces(mainPlaces);
+			setLeaderboard(rest);
+			setLoading(false);
+		}
+	}, [fetchLeaderboard.leaderboard]);
+
+	if (loading) {
+		return (
+			<DivFirstMain>
+				<BarLoader height={5} width={300} color="#d9d9d9" />
+			</DivFirstMain>
+		);
+	}
+
 	return (
 		<>
-			<WrapperFlexResponsive $justifyContent="left" $margin="3rem  0 0 0">
-				<ButtonStyled onClick={ReviewsStateHandler} style={{ opacity: ReviewsState ? 1 : 0.5 }}>
-					<SpanStyled>Reviews Royale</SpanStyled>
-				</ButtonStyled>
-				<ButtonStyled
-					onClick={BookmarkedStateHandler}
-					style={{ opacity: BookmarkedState ? 1 : 0.5 }}>
-					<SpanStyled>Bookmarked Bests</SpanStyled>
-				</ButtonStyled>
-				<ButtonStyled
-					style={{ borderTopRightRadius: "20px", opacity: CommentState ? 1 : 0.5 }}
-					onClick={CommentStateHandler}>
-					<SpanStyled>Comment Champions</SpanStyled>
-				</ButtonStyled>
-			</WrapperFlexResponsive>
-			<LeaderboardWrapper>
-				<LeaderboardHeadersWrapper>
-					<LeaderboardHeaderWrapper style={{ minWidth: "25%" }}>
-						<SpanStyled style={{ fontSize: "1.5rem" }}>Place</SpanStyled>
-					</LeaderboardHeaderWrapper>
-					<LeaderboardHeaderWrapper style={{ minWidth: "40%" }}>
-						<SpanStyled style={{ fontSize: "1.5rem" }}> Nickname</SpanStyled>
-					</LeaderboardHeaderWrapper>
-					<LeaderboardHeaderWrapper style={{ minWidth: "35%" }}>
-						<SpanStyled style={{ fontSize: "1.5rem" }}>Score</SpanStyled>
-					</LeaderboardHeaderWrapper>
-				</LeaderboardHeadersWrapper>
-				<div style={{ height: "100%", width: "100%" }}>
-					<WrapperGrid>
-						{ReviewsState ? (
-							<>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow place={1} name="Patryk" score={1123}></LeaderboardRow>
-								<LeaderboardRow place={2} name="Patryk 2 i 3" score={123}></LeaderboardRow>
-								<LeaderboardRow place={3} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-							</>
-						) : null}
-						{BookmarkedState ? (
-							<>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow place={1} name="Patryk" score={1123}></LeaderboardRow>
-								<LeaderboardRow place={2} name="Patryk 2 i 3" score={123}></LeaderboardRow>
-								<LeaderboardRow place={3} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-							</>
-						) : null}
-						{CommentState ? (
-							<>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow place={1} name="Patryk" score={1123}></LeaderboardRow>
-								<LeaderboardRow place={2} name="Patryk 2 i 3" score={123}></LeaderboardRow>
-								<LeaderboardRow place={3} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow place={4} name="Patryk 3" score={12}></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-								<LeaderboardRow></LeaderboardRow>
-							</>
-						) : null}
-					</WrapperGrid>
-				</div>
-			</LeaderboardWrapper>
+			<DivFirstMain>
+				<DivPlaces>
+					<DivImageWrapper
+						style={{ boxShadow: "0px 0px 16px 5px rgba(192, 192, 192, 1)" }}>
+						<ImgPlaces src={firstPlaces[1].srcimg} alt={firstPlaces[1].title} />
+					</DivImageWrapper>
+					<DivData>
+						<Header>{firstPlaces[1].title}</Header>
+						<Paragraph>
+							<span>#2 Place </span>
+							<span>{firstPlaces[1].favorite_count}</span>
+						</Paragraph>
+					</DivData>
+				</DivPlaces>
+				<DivFirstPlace>
+					<DivImageWrapper>
+						<ImgPlaces src={firstPlaces[0].srcimg} alt={firstPlaces[0].title} />
+					</DivImageWrapper>
+					<DivData>
+						<Header>{firstPlaces[0].title} </Header>
+						<Paragraph>
+							<span>#1 Place </span>
+							<span>{firstPlaces[0].favorite_count}</span>
+						</Paragraph>
+					</DivData>
+				</DivFirstPlace>
+				<DivPlaces>
+					<DivImageWrapper
+						style={{ boxShadow: "0px 0px 16px 5px rgba(205, 127, 50, 1)" }}>
+						<ImgPlaces src={firstPlaces[2].srcimg} alt={firstPlaces[2].title} />
+					</DivImageWrapper>
+					<DivData>
+						<Header>{firstPlaces[2].title}</Header>
+						<Paragraph>
+							<span>#3 Place </span>
+							<span>{firstPlaces[2].favorite_count}</span>
+						</Paragraph>
+					</DivData>
+				</DivPlaces>
+			</DivFirstMain>
+			<DivSecondMain>
+				<UlElement>
+					<LiHeader>Place</LiHeader>
+					<LiHeader />
+					<LiHeader style={{ width: "40%" }}>Title</LiHeader>
+					<LiHeader>Followers number</LiHeader>
+				</UlElement>
+				{leaderboard.map((book, index) => (
+					<UlPlaces key={book.i}>
+						<LiElement style={{ fontSize: "3rem" }}>{index + 4}</LiElement>
+						<LiElement>
+							<span style={{ height: "13rem" }}>
+								<ImgPlaces src={book.srcimg} alt={book.title} />
+							</span>
+						</LiElement>
+						<LiElement style={{ width: "40%" }}>{book.title}</LiElement>
+						<LiElement>{book.favorite_count}</LiElement>
+					</UlPlaces>
+				))}
+			</DivSecondMain>
 		</>
 	);
 };
-LeaderboardRow.propTypes = {
-	place: PropTypes.number,
-	name: PropTypes.string,
-	score: PropTypes.number,
-};
+
 export default LeaderBoardComponent;

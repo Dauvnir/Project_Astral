@@ -59,3 +59,8 @@ CREATE TABLE user_profiles (
     nickname VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+SELECT manhwa_id, COUNT(DISTINCT user_id) AS favorite_count
+FROM UserManhwa
+WHERE is_favourite = TRUE
+GROUP BY manhwa_id;
