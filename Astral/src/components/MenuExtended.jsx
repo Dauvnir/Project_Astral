@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { LineBreak } from "./LineBreak";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -32,7 +31,7 @@ const UlList = styled.ul`
 	overflow: hidden;
 	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
 	@media (min-width: 550px) {
-		height: ${(props) => (props.$toggleValue ? 23 : 0)}rem;
+		height: ${(props) => (props.$toggleValue ? 22 : 0)}rem;
 	}
 	@media (min-width: 1200px) {
 		display: none;
@@ -42,6 +41,7 @@ const UlList = styled.ul`
 const LiElement = styled.li`
 	padding: 1rem;
 	cursor: pointer;
+	border-bottom: 1px solid rgba(217, 217, 217, 0.9);
 	&:hover {
 		background: rgba(217, 217, 217, 0.9);
 		transition: background ease 0.5s;
@@ -67,9 +67,7 @@ const Span = styled.span`
 		font-weight: 400;
 	}
 `;
-const ExtendedLineBreak = styled(LineBreak)`
-	margin: 0;
-`;
+
 const WrapperIconLeft = styled.div`
 	display: flex;
 	justify-content: center;
@@ -145,22 +143,21 @@ const MenuExtended = () => {
 				<UlList $toggleValue={toggleValue}>
 					<LiElement
 						onClick={toHome}
-						style={{ borderTopRightRadius: "20px", borderTopLeftRadius: "20px" }}>
+						style={{
+							borderTopRightRadius: "20px",
+							borderTopLeftRadius: "20px",
+						}}>
 						<Span>Home</Span>
 					</LiElement>
-					<ExtendedLineBreak />
 					<LiElement onClick={() => handleClick("Notifications")}>
 						<Span>Notifications</Span>
 					</LiElement>
-					<ExtendedLineBreak />
 					<LiElement onClick={() => handleClick("ReportBug")}>
 						<Span>Report bug</Span>
 					</LiElement>
-					<ExtendedLineBreak />
 					<LiElement onClick={() => handleClick("AboutUs")}>
 						<Span>About us</Span>
 					</LiElement>
-					<ExtendedLineBreak />
 					<LiElement
 						onClick={() => handleClick("LogOut")}
 						style={{

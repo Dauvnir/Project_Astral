@@ -1,11 +1,8 @@
 import styled from "styled-components";
-
-import { IoAdd } from "react-icons/io5";
 import { FaTrophy } from "react-icons/fa6";
 import { FaBook } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-// import Chapter from "./Chapter";
 import ReportBug from "./ReportBug";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
@@ -44,71 +41,6 @@ const MenuStyled = styled.div`
 		display: none;
 	}
 `;
-
-const WrapperIcon = styled.div`
-	display: flex;
-	justify-content: center;
-	align-content: center;
-	position: relative;
-	z-index: 3;
-	height: 100%;
-	width: 17%;
-	padding-block: 10px;
-	padding-inline: 0.5rem;
-	overflow: hidden;
-	background: inherit;
-	cursor: pointer;
-	&:hover {
-		background: rgba(217, 217, 217, 1);
-		transition: background ease 0.5s;
-		:is(svg) {
-			color: rgba(29, 37, 53, 1);
-			transition: color ease 0.5s;
-		}
-	}
-`;
-
-const WrapperIconRight = styled(WrapperIcon)`
-	border-bottom-right-radius: 20px;
-	border-top-right-radius: 20px;
-`;
-const WrapperIconCircle = styled.div`
-	display: flex;
-	position: absolute;
-	align-items: center;
-	justify-content: center;
-	left: 0;
-	right: 0;
-	margin-left: auto;
-	margin-right: auto;
-	z-index: 4;
-	width: 5rem;
-	height: 5rem;
-	overflow: visible;
-	border-radius: 50%;
-	background-color: rgba(29, 37, 53, 1);
-	box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.56);
-	cursor: pointer;
-	&:hover {
-		background: rgba(217, 217, 217, 0.9);
-		transition: background ease 0.5s;
-		:is(svg) {
-			color: rgba(29, 37, 53, 1);
-			transition: color ease 0.5s;
-		}
-	}
-	@media (min-width: 500px) {
-		width: 6rem;
-		height: 6rem;
-	}
-`;
-
-const Add = styled(IoAdd)`
-	width: 8rem;
-	height: 8rem;
-	border-radius: 100%;
-	color: #d9d9d9;
-`;
 const Leaderboard = styled(FaTrophy)`
 	height: 100%;
 	width: 100%;
@@ -140,15 +72,8 @@ const Menu = () => {
 			<MenuStyled>
 				<MenuExtended />
 				<MenuExtendedAccount />
-				<WrapperIconCircle>
-					<Add></Add>
-				</WrapperIconCircle>
-				<WrapperIcon style={{ width: "33%", paddingLeft: "3.5rem" }}>
-					<Leaderboard onClick={toLeaderboard}></Leaderboard>
-				</WrapperIcon>
-				<WrapperIconRight>
-					<AllBooksIcon onClick={toBooks} />
-				</WrapperIconRight>
+				<Leaderboard onClick={toLeaderboard}></Leaderboard>
+				<AllBooksIcon onClick={toBooks} />
 			</MenuStyled>
 		</>
 	);

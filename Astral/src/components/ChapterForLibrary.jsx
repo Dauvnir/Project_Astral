@@ -110,13 +110,14 @@ const ScalingWrap = styled.div`
 	box-shadow: ${(props) =>
 		props.$favoured === "false"
 			? "0px 0px 3px 3px rgba(0, 0, 0, 0.56)"
-			: "0px 0px 16px 5px rgba(230, 230, 250, 0.7)"};
+			: "0px 0px 16px 5px rgba(231, 76, 60, 0.7)"};
 	border-radius: 5px;
 	transition: all 0.3s ease-in-out;
 	&:hover {
 		transform: scale(1.2);
 	}
 `;
+
 //0px 0px 20px 10px rgba(42, 82, 190, 0.7)
 //0px 0px 20px 10px rgba(46, 204, 113, 0.7)
 const IconsWrap = styled.div`

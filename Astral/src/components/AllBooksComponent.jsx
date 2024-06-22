@@ -1,74 +1,15 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { GoListUnordered } from "react-icons/go";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { useRef } from "react";
-import { IoSearchOutline } from "react-icons/io5";
-
-const StyledDiv = styled.div`
-	display: flex;
-	position: relative;
-	z-index: 5;
-	justify-content: right;
-	align-items: center;
-	margin-right: 2rem;
-	overflow: visible;
-	width: 10%;
-	height: auto;
-	@media (max-width: 400px) {
-		margin-right: 1rem;
-	}
-	@media (max-width: 519px) {
-		width: auto;
-	}
-`;
-const UlStyled = styled.ul`
-	z-index: 5;
-	list-style: none;
-	height: ${(props) => (props.$toggleValue ? "12.2rem" : "0rem")};
-	overflow: hidden;
-	position: absolute;
-	background: rgba(29, 37, 53, 1);
-	white-space: nowrap;
-	top: 100%;
-	right: -2%;
-	border-radius: 20px 0 20px 20px;
-	transition: height 0.3s ease;
-`;
-const LiStyled = styled.li`
-	display: flex;
-	justify-content: center;
-	text-align: center;
-	width: 100%;
-	border-bottom: 1px solid #afbfd5;
-`;
-const ButtonStyled = styled.button`
-	color: rgba(217, 217, 217, 0.9);
-	width: 100%;
-	height: 100%;
-	background: none;
-	border: none;
-	text-align: left;
-	padding: 0.5rem;
-	cursor: pointer;
-	&:hover {
-		background: rgba(217, 217, 217, 0.9);
-		transition: background linear 0.3s;
-		:is(span) {
-			color: rgba(29, 37, 53, 1);
-			transition: color linear 0.3s;
-		}
-	}
-`;
-const SpanStyled = styled.span`
-	color: #d9d9d9;
-	font-family: Lato;
-	font-size: 1.125rem;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
-`;
+import { IoSearchSharp } from "react-icons/io5";
+import {
+	BsSortAlphaDown,
+	BsSortAlphaDownAlt,
+	BsSortNumericDown,
+	BsSortNumericDownAlt,
+} from "react-icons/bs";
+import { ImBooks } from "react-icons/im";
 
 const Title = styled.p`
 	text-align: left;
@@ -81,42 +22,16 @@ const Title = styled.p`
 	white-space: nowrap;
 	overflow: visible;
 	z-index: 2;
-	margin-left: 2rem;
-	width: 25%;
-	@media (max-width: 519px) {
-		width: auto;
-	}
-`;
-const SortStyled = styled(GoListUnordered)`
-	color: #d9d9d9e6;
 	width: 100%;
-	height: auto;
-	padding: 0.2rem;
-`;
-const SortBtn = styled.button`
-	width: 56px;
-	height: 56px;
-	padding: 0.25rem;
-	position: relative;
-	z-index: 5;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-radius: ${(props) =>
-		props.$toggleValue ? "10px 10px 0px 0px" : "10px 10px 10px 10px"};
-	border: 1px solid #afbfd5;
-	background: rgba(29, 37, 53, 1);
-	cursor: pointer;
-	transition: 0.5s ease all;
-	&:hover {
-		background: rgba(217, 217, 217, 0.9);
-		transition: background linear 0.3s;
-		:is(svg) {
-			color: rgba(29, 37, 53, 1);
-			transition: color linear 0.3s;
-		}
+	height: 40%;
+	@media (min-width: 600px) {
+		width: auto;
+		height: 100%;
+		display: flex;
+		align-items: center;
 	}
 `;
+
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -126,17 +41,20 @@ const BookWrapper = styled.div`
 	width: 100vw;
 	position: relative;
 	z-index: 4;
-	padding-block: 1rem;
-
+	padding: 0.5rem 1rem 1rem 1rem;
 	margin-top: 3rem;
-	@media (max-width: 519px) {
-		justify-content: space-between;
+	height: 8rem;
+	flex-direction: column;
+	gap: 0.5rem;
+	@media (min-width: 600px) {
+		flex-direction: row;
+		height: 6rem;
+		padding: 1rem;
 	}
 `;
 const StyledInput = styled.input`
-	height: 2.5rem;
-	width: clamp(10rem, 80%, 25rem);
-	margin-right: 2rem;
+	height: 100%;
+	width: 100%;
 	background: none;
 	border: none;
 	border-bottom: 1px solid #afbfd5;
@@ -145,65 +63,108 @@ const StyledInput = styled.input`
 	font-size: 1.25rem;
 	color: #d9d9d9;
 `;
-const SearchSvg = styled(IoSearchOutline)`
-	color: #d9d9d9;
-	margin-left: -3rem;
-	margin-bottom: -0.25rem;
-	width: 1.25rem;
-	height: 1.25rem;
-	transition: opacity 0.2s ease;
-`;
+
 const SearchBar = styled.div`
 	display: flex;
-	justify-content: right;
+	justify-content: left;
+	align-items: flex-start;
+	width: 75%;
+	height: 90%;
+`;
+const Icon = styled.div`
+	position: relative;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
 	align-items: center;
-	margin-right: 1rem;
-	width: 65%;
-	@media (max-width: 519px) {
-		display: none;
+	height: 100%;
+	width: 20%;
+	box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.56);
+	color: #d9d9d9;
+	background-color: rgba(29, 37, 53, 1);
+	border-radius: 5px;
+	cursor: pointer;
+	&:hover {
+		background: rgba(217, 217, 217, 0.9);
+		transition: background ease-in-out 0.3s;
+		:is(svg) {
+			color: rgba(29, 37, 53, 1);
+			transition: color ease-in-out 0.3s;
+		}
+	}
+	@media (min-width: 600px) {
+		height: 3rem;
 	}
 `;
-const AllBooksComponent = ({ sortMethodHandler, sortInputHandler }) => {
-	const [isInputFocused, setIsInputFocused] = useState(false);
-
-	// eslint-disable-next-line no-unused-vars
-	const [method, setMethod] = useState("default");
-	const setMethodHandler = (msg) => {
-		setMethod(msg);
-		sortMethodHandler(msg);
-		toggleHandler();
-	};
-
-	const [toggleValue, setToggleValue] = useState(false);
-	const toggleHandler = () => {
-		setToggleValue((prev) => !prev);
-	};
-
-	let sortBtnRef = useRef();
-	let sortingListRef = useRef();
-	useEffect(() => {
-		// eslint-disable-next-line no-unused-vars
-		let handler = (event) => {
-			if (
-				toggleValue &&
-				!sortBtnRef.current.contains(event.target) &&
-				!sortingListRef.current.contains(event.target)
-			) {
-				toggleHandler();
-			}
-		};
-		document.addEventListener("mousedown", handler);
-		return () => {
-			document.removeEventListener("mousedown", handler);
-		};
-	}, [toggleValue]);
-	// eslint-disable-next-line no-unused-vars
+const IconWrap = styled.div`
+	height: 50%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	gap: 1rem;
+	@media (min-width: 420px) {
+		width: 25rem;
+		align-self: flex-end;
+	}
+	@media (min-width: 600px) {
+		height: 100%;
+		align-self: center;
+	}
+`;
+const AllBooksComponent = ({
+	sortMethodHandler,
+	sortInputHandler,
+	scanlationHandler,
+}) => {
+	const [titleSort, setTitleSort] = useState(true);
+	const [numberSort, setNumberSort] = useState(true);
+	const [searchBar, setSearchBar] = useState(true);
 	const [inputValue, setInputValue] = useState("");
+	const [debouncedInputValue, setDebouncedInputValue] = useState("");
+	const setMethodHandler = (sortType) => {
+		sortMethodHandler(sortType);
+	};
 	const inputValueHandler = (e) => {
 		setInputValue(e.target.value);
 	};
 
-	const [debouncedInputValue, setDebouncedInputValue] = useState("");
+	const titleSortHandle = () => {
+		setTitleSort((prev) => !prev);
+		setNumberSort(true);
+		scanlationHandler(false);
+		if (titleSort) {
+			setMethodHandler("nameAZ");
+		} else {
+			setMethodHandler("nameZA");
+		}
+	};
+	const numberSortHandle = () => {
+		setNumberSort((prev) => !prev);
+		setTitleSort(true);
+		scanlationHandler(false);
+		if (numberSort) {
+			setMethodHandler("chapter19");
+		} else {
+			setMethodHandler("chapter91");
+		}
+	};
+	const searchBarHandle = () => {
+		setSearchBar((prev) => !prev);
+		sortInputHandler("");
+		setDebouncedInputValue("");
+		setTitleSort(true);
+		setNumberSort(true);
+		scanlationHandler(false);
+		if (!searchBar) {
+			setMethodHandler("default");
+		}
+	};
+
+	const scanlationListHandle = () => {
+		scanlationHandler((prev) => !prev);
+	};
+
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
 			setDebouncedInputValue(inputValue);
@@ -218,51 +179,52 @@ const AllBooksComponent = ({ sortMethodHandler, sortInputHandler }) => {
 	return (
 		<BookWrapper>
 			<Title>Books</Title>
-			<SearchBar>
-				<StyledInput
-					type="text"
-					placeholder="Search for a series"
-					onFocus={() => setIsInputFocused(true)}
-					onBlur={() => setIsInputFocused(false)}
-					onInput={(e) => inputValueHandler(e)}
-				/>
-				<SearchSvg style={{ opacity: isInputFocused ? 0 : 1 }} />
-			</SearchBar>
-			<StyledDiv>
-				<SortBtn
-					$toggleValue={toggleValue}
-					onClick={() => toggleHandler()}
-					ref={sortBtnRef}>
-					<SortStyled></SortStyled>
-				</SortBtn>
-				<UlStyled $toggleValue={toggleValue} ref={sortingListRef}>
-					<LiStyled>
-						<ButtonStyled onClick={() => setMethodHandler("nameAZ")}>
-							<SpanStyled>Sort by name A-Z</SpanStyled>
-						</ButtonStyled>
-					</LiStyled>
-					<LiStyled>
-						<ButtonStyled onClick={() => setMethodHandler("nameZA")}>
-							<SpanStyled>Sort by name Z-A</SpanStyled>
-						</ButtonStyled>
-					</LiStyled>
-					<LiStyled>
-						<ButtonStyled onClick={() => setMethodHandler("scanlation")}>
-							<SpanStyled>Sort by scanlations</SpanStyled>
-						</ButtonStyled>
-					</LiStyled>
-					<LiStyled>
-						<ButtonStyled onClick={() => setMethodHandler("chapter19")}>
-							<SpanStyled>Sort by chapters 1-9</SpanStyled>
-						</ButtonStyled>
-					</LiStyled>
-					<LiStyled style={{ borderBottom: "none" }}>
-						<ButtonStyled onClick={() => setMethodHandler("chapter91")}>
-							<SpanStyled>Sort by chapters 9-1</SpanStyled>
-						</ButtonStyled>
-					</LiStyled>
-				</UlStyled>
-			</StyledDiv>
+			<IconWrap>
+				<Icon onClick={searchBarHandle}>
+					<IoSearchSharp
+						style={{ width: "100%", height: "100%", padding: "0.25rem" }}
+					/>
+				</Icon>
+				{searchBar ? (
+					<>
+						<Icon onClick={titleSortHandle}>
+							{titleSort ? (
+								<BsSortAlphaDown
+									style={{ width: "100%", height: "100%", padding: "0.25rem" }}
+								/>
+							) : (
+								<BsSortAlphaDownAlt
+									style={{ width: "100%", height: "100%", padding: "0.25rem" }}
+								/>
+							)}
+						</Icon>
+						<Icon onClick={numberSortHandle}>
+							{numberSort ? (
+								<BsSortNumericDown
+									style={{ width: "100%", height: "100%", padding: "0.25rem" }}
+								/>
+							) : (
+								<BsSortNumericDownAlt
+									style={{ width: "100%", height: "100%", padding: "0.25rem" }}
+								/>
+							)}
+						</Icon>
+						<Icon onClick={scanlationListHandle}>
+							<ImBooks
+								style={{ width: "100%", height: "100%", padding: "0.25rem" }}
+							/>
+						</Icon>
+					</>
+				) : (
+					<SearchBar>
+						<StyledInput
+							type="text"
+							placeholder="Search book by title"
+							onInput={(e) => inputValueHandler(e)}
+						/>
+					</SearchBar>
+				)}
+			</IconWrap>
 		</BookWrapper>
 	);
 };
@@ -270,6 +232,7 @@ const AllBooksComponent = ({ sortMethodHandler, sortInputHandler }) => {
 AllBooksComponent.propTypes = {
 	sortMethodHandler: PropTypes.func.isRequired,
 	sortInputHandler: PropTypes.func.isRequired,
+	scanlationHandler: PropTypes.func.isRequired,
 };
 
 export default AllBooksComponent;

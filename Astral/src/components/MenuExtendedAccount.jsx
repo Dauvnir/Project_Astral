@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { LineBreak } from "./LineBreak";
 import { MdManageAccounts } from "react-icons/md";
 import { useState } from "react";
 import { useRef } from "react";
@@ -34,7 +33,7 @@ const UlList = styled.ul`
 	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
 	transition: all 0.3s ease;
 	@media (min-width: 550px) {
-		height: ${(props) => (props.$toggleValue ? 23 : 0)}rem;
+		height: ${(props) => (props.$toggleValue ? 18 : 0)}rem;
 	}
 	@media (min-width: 1200px) {
 		display: none;
@@ -43,6 +42,7 @@ const UlList = styled.ul`
 const LiElement = styled.li`
 	padding: 1rem;
 	cursor: pointer;
+	border-bottom: 1px solid rgba(217, 217, 217, 0.9);
 	&:hover {
 		background: rgba(217, 217, 217, 0.9);
 		transition: background ease 0.5s;
@@ -68,9 +68,7 @@ const Span = styled.span`
 		font-weight: 400;
 	}
 `;
-const ExtendedLineBreak = styled(LineBreak)`
-	margin: 0;
-`;
+
 const Account = styled(MdManageAccounts)`
 	display: inline-block;
 	height: 100%;
@@ -144,15 +142,12 @@ const MenuExtendedAccount = () => {
 						onClick={() => handleClick("ChangePassword")}>
 						<Span>Change Password</Span>
 					</LiElement>
-					<ExtendedLineBreak></ExtendedLineBreak>
 					<LiElement onClick={() => handleClick("ChangeEmail")}>
 						<Span>Change Email</Span>
 					</LiElement>
-					<ExtendedLineBreak></ExtendedLineBreak>
 					<LiElement onClick={() => handleClick("ChangeNickname")}>
 						<Span>Change Nickname</Span>
 					</LiElement>
-					<ExtendedLineBreak></ExtendedLineBreak>
 					<LiElement
 						onClick={() => handleClick("DeleteAccount")}
 						style={{

@@ -196,7 +196,10 @@ const patchManhwaChapterAll = async () => {
 			SET chapter = $1
 			WHERE scanlation_site = $2 AND title = $3
 			RETURNING *;`;
-
+		const updateQueryUrl = `UPDATE manhwa
+			SET websiteUrl = $1
+			WHERE scanlation_site = $2 AND title = $3
+			RETURNING *;`;
 		const selectQuery = `SELECT  scanlation_site, title, chapter FROM manhwa WHERE scanlation_site = $1 AND title = $2;`;
 		const insertQuery = `INSERT INTO manhwa(scanlation_site, title, srcimg, websiteurl, chapter)
 			VALUES ($1, $2, $3, $4, $5)
@@ -219,7 +222,13 @@ const patchManhwaChapterAll = async () => {
 					`New manhwa inserted: ${title}, ${chapter}, ${scanlationSite}`
 				);
 			} else {
-				if (chapter === check.rows[0].chapter) {
+				if (
+					websiteUrl !== check.rows[0].websiteUrl &&
+					chapter === check.rows[0].chapter
+				) {
+					await pool.query(updateQueryUrl, [websiteUrl, scanlationSite, title]);
+					console.log(`Updated manhwa: ${title}`);
+				} else if (chapter === check.rows[0].chapter) {
 					continue;
 				} else {
 					await pool.query(updateQuery, [chapter, scanlationSite, title]);

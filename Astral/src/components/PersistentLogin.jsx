@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useRefreshToken from "../hooks/useRefreshToken";
-import { PacmanLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 import MainBackground from "./MainBackground";
 import styled from "styled-components";
 import { WrapperFlex } from "./WrapperFlex";
@@ -20,8 +20,8 @@ const Wrapper = styled.div`
 	position: relative;
 	z-index: 3;
 	align-items: center;
-	justify-content: left;
-	width: 100%;
+	justify-content: center;
+	width: 100vw;
 	height: 100%;
 `;
 const PersistentLogin = () => {
@@ -57,13 +57,7 @@ const PersistentLogin = () => {
 							<StyledLogo />
 						</WrapperFlex>
 						<Wrapper>
-							<PacmanLoader
-								color="#d9d9d9"
-								size={100}
-								cssOverride={{
-									opacity: 1,
-								}}
-							/>
+							<BarLoader height={5} width={300} color="#d9d9d9" />
 						</Wrapper>
 					</WrapperMain>
 				</>

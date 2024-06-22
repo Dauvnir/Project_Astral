@@ -107,7 +107,7 @@ const Label = styled.label`
 	font-weight: 600;
 	margin-bottom: 6px;
 `;
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,15}$/;
 
 const ChangeNickname = ({ clearComponents }) => {
 	const [display, setDisplay] = useState(true);
@@ -204,7 +204,7 @@ const ChangeNickname = ({ clearComponents }) => {
 									userFocus && !validName && nickname != "" ? "block" : "none",
 							}}>
 							<IoInformationCircleSharp style={{ marginRight: "0.35rem" }} />
-							4 to 24 characters. <br />
+							4 to 16 characters. <br />
 							Must begin with a letter. <br />
 							Letters, numbers, underscores, hyphens allowed.
 						</Uidnote>

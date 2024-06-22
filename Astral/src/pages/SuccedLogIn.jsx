@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { initializeDatabase } from "../api/DatabaseLocal";
 import { Navigate } from "react-router-dom";
+import { BarLoader } from "react-spinners";
 const Wrap = styled.div`
 	background-color: rgba(29, 37, 53, 0.7);
 	position: relative;
@@ -41,9 +42,10 @@ const SuccededLogIn = () => {
 					<Paragraph $fontSize="1.5rem" $fontWeight="600">
 						You are logged in!
 						<br />
-						Database is populating with books.
+						Populating database.
 						<br />
-						You will be redirected to your library shortly.
+						<br />
+						<BarLoader height={5} width={300} color="#d9d9d9" />
 					</Paragraph>
 				</Wrap>
 			) : (

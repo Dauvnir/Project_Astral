@@ -5,6 +5,7 @@ import { LineBreak } from "./LineBreak";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { database } from "../api/DatabaseLocal";
+import ScanlationList from "./ScanlationList";
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -56,17 +57,40 @@ const Btn = styled.button`
 `;
 const AllBooksChapter = () => {
 	const [sortMethod, setSortMethod] = useState("default");
+	const [inputValue, setInputValue] = useState(null);
+	const [indexValue, setIndexValue] = useState(1);
+	const [scanlationSite, setScanlationSite] = useState("default");
+	const [totalAmount, setTotalAmount] = useState(1);
+	const [scanlation, setScanlation] = useState(false);
+
+	useEffect(() => {
+		const amount = async () => {
+			if (!inputValue) {
+				const amountValue = await database.table("manhwas").count();
+				setTotalAmount(amountValue);
+			} else {
+				const manhwasQuery = database.table("manhwas");
+				const amountValue = await manhwasQuery
+					.filter((manhwa) =>
+						manhwa.title.toLowerCase().includes(inputValue.toLowerCase())
+					)
+					.count();
+				setTotalAmount(amountValue);
+			}
+		};
+		amount();
+	}, [inputValue]);
+
+	const scanlationHandler = (value) => {
+		setScanlation(value);
+	};
 	const sortMethodHandler = (method) => {
 		setIndexValue(1);
 		setSortMethod(method);
 	};
-
-	const [inputValue, setInputValue] = useState(null);
 	const sortInputHandler = (value) => {
 		setInputValue(value);
 	};
-
-	const [indexValue, setIndexValue] = useState(1);
 	const indexValueHandler = (index) => {
 		const anchor = document.getElementById("top");
 		anchor.href = "#top";
@@ -74,46 +98,53 @@ const AllBooksChapter = () => {
 		setIndexValue(index);
 	};
 
-	const [totalAmount, setTotalAmount] = useState(1);
-	useEffect(() => {
-		const amount = async () => {
-			const amountValue = await database.table("manhwas").count();
-			setTotalAmount(amountValue);
-		};
-		amount();
-	}, []);
-
+	const scanlationSiteHandle = (site) => {
+		console.log("Setting scanlation site:", site);
+		setScanlationSite(site);
+		setSortMethod("default");
+	};
 	return (
 		<>
 			<span></span>
 			<AllBooksComponent
 				sortMethodHandler={sortMethodHandler}
 				sortInputHandler={sortInputHandler}
+				scanlationHandler={scanlationHandler}
 			/>
-			<LineBreak style={{ margin: "0 0 0 0", width: "100vw" }}></LineBreak>
+			<LineBreak style={{ margin: "0 0 0 0", width: "100vw" }} />
 			<BookWrapper style={{ marginTop: "0rem", height: "auto" }}>
 				<WrapperGrid>
-					<ChapterList
-						sortMethod={sortMethod}
-						inputValue={inputValue}
-						indexValue={indexValue}
-					/>
+					{!scanlation ? (
+						<ChapterList
+							sortMethod={sortMethod}
+							inputValue={inputValue}
+							indexValue={indexValue}
+							scanlationSite={scanlationSite}
+						/>
+					) : (
+						<ScanlationList
+							scanlationSiteHandle={scanlationSiteHandle}
+							scanlationHandler={scanlationHandler}
+						/>
+					)}
 				</WrapperGrid>
-				<Pagination>
-					<Btn
-						onClick={() => indexValueHandler((prev) => prev - 1)}
-						disabled={indexValue === 1}>
-						<span>Previous page</span>
-					</Btn>
-					<Btn style={{ width: "2rem" }}>
-						<span>{indexValue}</span>
-					</Btn>
-					<Btn
-						onClick={() => indexValueHandler((prev) => prev + 1)}
-						disabled={indexValue * 50 >= totalAmount}>
-						<span>Next page</span>
-					</Btn>
-				</Pagination>
+				{!scanlation && scanlationSite && (
+					<Pagination>
+						<Btn
+							onClick={() => indexValueHandler((prev) => prev - 1)}
+							disabled={indexValue === 1}>
+							<span>Previous page</span>
+						</Btn>
+						<Btn style={{ width: "2rem" }}>
+							<span>{indexValue}</span>
+						</Btn>
+						<Btn
+							onClick={() => indexValueHandler((prev) => prev + 1)}
+							disabled={indexValue * 50 >= totalAmount}>
+							<span>Next page</span>
+						</Btn>
+					</Pagination>
+				)}
 			</BookWrapper>
 		</>
 	);

@@ -1,23 +1,29 @@
 import styled from "styled-components";
-import PacmanLoader from "react-spinners/PacmanLoader";
 import PropTypes from "prop-types";
 import Chapter from "./Chapter";
 import useSortedData from "../hooks/useSortedData";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { database } from "../api/DatabaseLocal";
+import { BarLoader } from "react-spinners";
 
-const StyledDiv = styled.div`
+const Spinner = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: left;
-	width: 90vw;
-	height: 15rem;
+	justify-content: center;
+	width: 100vw;
+	height: 10rem;
+	position: relative;
 	padding: 1rem;
+	z-index: 1;
 `;
-
 //  include to dependencies when adding sort function for input value
-const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
+const ChapterList = ({
+	sortMethod,
+	inputValue,
+	indexValue,
+	scanlationSite,
+}) => {
 	const axiosPrivate = useAxiosPrivate();
 	const [manhwa, setManhwa] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -51,7 +57,12 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 	const fetchDataAndImages = async () => {
 		setLoading(true);
 		try {
-			const manhwas = await fetchData(indexValue, sortMethod, inputValue);
+			const manhwas = await fetchData(
+				indexValue,
+				sortMethod,
+				inputValue,
+				scanlationSite
+			);
 			const completeManhwa = await fetchImages(manhwas);
 			setManhwa(completeManhwa);
 		} catch (error) {
@@ -64,23 +75,16 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 		fetchDataAndImages();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [indexValue, sortMethod, inputValue]);
-	let i = 0;
 	return (
 		<>
 			{loading ? (
-				<StyledDiv>
-					<PacmanLoader
-						color="#d9d9d9"
-						size={100}
-						cssOverride={{
-							opacity: 1,
-						}}
-					/>
-				</StyledDiv>
+				<Spinner>
+					<BarLoader height={5} width={400} color="#d9d9d9" />;
+				</Spinner>
 			) : (
-				manhwa.map((manhwa) => (
+				manhwa.map((manhwa, index) => (
 					<Chapter
-						key={i++}
+						key={index}
 						manhwaID={manhwa.manhwa_id}
 						imageUrl={manhwa.srcimg}
 						scanlation={manhwa.scanlation_site}
@@ -104,6 +108,7 @@ ChapterList.propTypes = {
 	sortMethod: PropTypes.string.isRequired,
 	inputValue: PropTypes.string,
 	indexValue: PropTypes.number.isRequired,
+	scanlationSite: PropTypes.string,
 };
 export default ChapterList;
 
