@@ -9,31 +9,34 @@ const Spinner = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100vw;
+	width: 90vw;
 	height: 10rem;
+	padding: 1rem;
+	margin: auto;
 	position: relative;
 	z-index: 1;
 `;
-const ChapterListForLibrary = ({ isEditable }) => {
-	let keyCounter = 0;
+const ChapterListForLibrary = ({ isEditable, isFavourite }) => {
 	const fetchedData = useFetchDataFromIDB();
 
-	const liveQuery = useLiveQuery(fetchedData);
-
+	const fetchedDataHandler = async () => {
+		return await fetchedData(isFavourite);
+	};
+	const liveQuery = useLiveQuery(fetchedDataHandler, [isFavourite]);
 	if (liveQuery === undefined) {
 		return (
 			<Spinner>
-				<BarLoader height={5} width={400} color="#d9d9d9" />;
+				<BarLoader height={5} width={400} color="#d9d9d9" />
 			</Spinner>
 		);
 	}
 	return (
 		<>
 			{liveQuery.length > 0 ? (
-				liveQuery.map((book) => (
+				liveQuery.map((book, index) => (
 					<ChapterForLibrary
 						isEditable={isEditable}
-						key={keyCounter++} //change it to manhwa_id later
+						key={index} //change it to manhwa_id later
 						manhwaID={book.manhwa_id}
 						srcUrl={book.websiteurl}
 						imageUrl={book.srcimg}
@@ -58,6 +61,7 @@ const ChapterListForLibrary = ({ isEditable }) => {
 };
 ChapterListForLibrary.propTypes = {
 	isEditable: PropTypes.bool.isRequired,
+	isFavourite: PropTypes.bool.isRequired,
 };
 
 export default ChapterListForLibrary;

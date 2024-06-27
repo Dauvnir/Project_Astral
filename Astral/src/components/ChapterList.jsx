@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { database } from "../api/DatabaseLocal";
 import { BarLoader } from "react-spinners";
+import { ScaleProvider } from "../context/ScaleProvider";
 
 const Spinner = styled.div`
 	display: flex;
@@ -82,24 +83,26 @@ const ChapterList = ({
 					<BarLoader height={5} width={400} color="#d9d9d9" />;
 				</Spinner>
 			) : (
-				manhwa.map((manhwa, index) => (
-					<Chapter
-						key={index}
-						manhwaID={manhwa.manhwa_id}
-						imageUrl={manhwa.srcimg}
-						scanlation={manhwa.scanlation_site}
-						chapterNumber={
-							manhwa.chapter.length >= 11
-								? manhwa.chapter.slice(0, 11).replace(/\s+$/, "")
-								: manhwa.chapter
-						}
-						title={
-							manhwa.title.length >= 45
-								? manhwa.title.slice(0, 45).replace(/\s+$/, "") + "..."
-								: manhwa.title
-						}
-					/>
-				))
+				<ScaleProvider>
+					{manhwa.map((manhwa, index) => (
+						<Chapter
+							key={index}
+							manhwaID={manhwa.manhwa_id}
+							imageUrl={manhwa.srcimg}
+							scanlation={manhwa.scanlation_site}
+							chapterNumber={
+								manhwa.chapter.length >= 11
+									? manhwa.chapter.slice(0, 11).replace(/\s+$/, "")
+									: manhwa.chapter
+							}
+							title={
+								manhwa.title.length >= 45
+									? manhwa.title.slice(0, 45).replace(/\s+$/, "") + "..."
+									: manhwa.title
+							}
+						/>
+					))}
+				</ScaleProvider>
 			)}
 		</>
 	);

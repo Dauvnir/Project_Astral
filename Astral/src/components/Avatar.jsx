@@ -98,6 +98,7 @@ const Avatar = () => {
 		navigate("/form/login");
 	};
 	const nickname = useGetNickname();
+
 	return (
 		<>
 			<AdjustedWrapper>

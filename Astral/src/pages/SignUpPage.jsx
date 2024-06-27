@@ -64,7 +64,7 @@ const LabelS = styled.label`
 	margin-bottom: 6px;
 `;
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&]).{8,24}$/;
 const EMAIL_REGEX = /[^\s@]+@[^\s@]+\.[^\s@]+/;
 const REGISTER_URL = "/registration";
 const SignUpPage = () => {
@@ -299,6 +299,7 @@ const SignUpPage = () => {
 								<span aria-label="hashtag"># </span>
 								<span aria-label="dollar sign">$ </span>
 								<span aria-label="percent">%</span>
+								<span aria-label="ampersand">&</span>
 							</Uidnote>
 							<LabelS htmlFor="confirm_pwd">
 								Confirm Password:

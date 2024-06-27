@@ -109,13 +109,13 @@ const Label = styled.label`
 	margin-bottom: 6px;
 `;
 
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&]).{8,24}$/;
 
-const ChangePassword = ({ clearComponents }) => {
+const ChangePassword = ({ closeComponent }) => {
 	const changedPassword = useChangePassword();
 
-	const [display, setDisplay] = useState(true);
 	const [success, setSuccess] = useState(false);
+	const [display, setDisplay] = useState(true);
 
 	const [pwd, setPwd] = useState("");
 	const [validPwd, setValidPwd] = useState(false);
@@ -128,14 +128,9 @@ const ChangePassword = ({ clearComponents }) => {
 	const errRef = useRef();
 	const passwordRef = useRef();
 
-	const handleDisplay = () => {
-		setDisplay(false);
-		clearComponents();
-	};
-
 	const handleCloseSuccess = () => {
 		setSuccess(false);
-		clearComponents();
+		closeComponent();
 	};
 
 	const handleSubmit = async (e) => {
@@ -145,6 +140,7 @@ const ChangePassword = ({ clearComponents }) => {
 			setPwd("");
 			setMatchPwd("");
 			setDisplay(false);
+
 			setSuccess(true);
 		} catch (error) {
 			console.error(Error);
@@ -221,6 +217,7 @@ const ChangePassword = ({ clearComponents }) => {
 							<span aria-label="hashtag"># </span>
 							<span aria-label="dollar sign">$ </span>
 							<span aria-label="percent">%</span>
+							<span aria-label="ampersand">&</span>
 						</Uidnote>
 						<Label
 							style={{ fontWeight: "600", whiteSpace: "nowrap" }}
@@ -263,7 +260,7 @@ const ChangePassword = ({ clearComponents }) => {
 							Must match the first password input field.
 						</Uidnote>
 						<WrapBtns>
-							<Button type="button" onClick={handleDisplay}>
+							<Button type="button" onClick={closeComponent}>
 								<Span>Back</Span>
 							</Button>
 							<Button
@@ -275,6 +272,7 @@ const ChangePassword = ({ clearComponents }) => {
 					</form>
 				</Wrap>
 			)}
+
 			{success && (
 				<Wrap style={{ gap: "1.5rem" }}>
 					<Header>Password Changed Successfully</Header>
@@ -290,6 +288,6 @@ const ChangePassword = ({ clearComponents }) => {
 	);
 };
 ChangePassword.propTypes = {
-	clearComponents: PropTypes.func,
+	closeComponent: PropTypes.func,
 };
 export default ChangePassword;

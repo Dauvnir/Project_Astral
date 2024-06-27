@@ -70,12 +70,21 @@ const updateUserNickname = async (req, res) => {
 	}
 
 	try {
-		const isExisted = await pool.query(
+		const nicknameTaken = await pool.query(
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[new_nickname]
+		);
+
+		if (nicknameTaken.rowCount !== 0) {
+			return res.status(409).send("Nickname taken.");
+		}
+
+		const userExists = await pool.query(
 			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
 			[nickname]
 		);
 
-		if (isExisted.rowCount === 0) {
+		if (userExists.rowCount === 0) {
 			return res.status(404).send("User not found.");
 		}
 

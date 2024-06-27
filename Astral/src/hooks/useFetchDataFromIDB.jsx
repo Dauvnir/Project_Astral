@@ -3,9 +3,15 @@ import useAxiosPrivate from "./useAxiosPrivate";
 
 const useFetchDataFromIDB = () => {
 	const axiosPrivate = useAxiosPrivate();
-	const liveQuery = async () => {
+	const liveQuery = async (isFavourite) => {
 		try {
-			const books = await database.table("library").toArray();
+			let books;
+			if (isFavourite) {
+				books = await database.table("library").toArray();
+				books = books.filter((book) => book.is_favourite === true);
+			} else {
+				books = await database.table("library").toArray();
+			}
 
 			const manhwaIds = books
 				.sort((a, b) => {

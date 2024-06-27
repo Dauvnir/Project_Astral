@@ -35,6 +35,7 @@ const Wrap = styled.div`
 `;
 
 const Uidnote = styled(Paragraph)`
+	width: 100%;
 	text-align: left;
 	font-size: 1rem;
 	font-weight: 600;
@@ -51,6 +52,7 @@ const Header = styled.h2`
 	font-style: normal;
 	line-height: normal;
 	font-weight: 600;
+	text-align: center;
 `;
 
 const Button = styled.button`
@@ -109,12 +111,13 @@ const Label = styled.label`
 `;
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,15}$/;
 
-const ChangeNickname = ({ clearComponents }) => {
-	const [display, setDisplay] = useState(true);
+const ChangeNickname = ({ closeComponent }) => {
 	const [nickname, setNickname] = useState("");
 	const [validName, setValidName] = useState(false);
 	const [userFocus, setUserFocus] = useState(false);
 	const [success, setSuccess] = useState(false);
+	const [errMsg, setErrMsg] = useState("");
+	const [display, setDisplay] = useState(true);
 	const errRef = useRef();
 	const nicknameRef = useRef();
 	const changedNickname = useChangeNickname();
@@ -124,22 +127,24 @@ const ChangeNickname = ({ clearComponents }) => {
 		try {
 			await changedNickname(nickname);
 			setNickname("");
-			setDisplay(false);
+			setErrMsg("");
 			setSuccess(true);
+			setDisplay(false);
 		} catch (error) {
-			console.error(Error);
+			if (error.response?.status === 409) {
+				setErrMsg("Nickname taken");
+			} else if (!error?.response) {
+				setErrMsg("No Server Response");
+			} else {
+				setErrMsg("Changing nickname failed.");
+			}
 			errRef.current.focus();
 		}
 	};
 
-	const handleDisplay = () => {
-		setDisplay(false);
-		clearComponents();
-	};
-
 	const handleCloseSuccess = () => {
 		setSuccess(false);
-		clearComponents();
+		closeComponent();
 	};
 
 	useEffect(() => {
@@ -155,6 +160,12 @@ const ChangeNickname = ({ clearComponents }) => {
 		<>
 			{display && (
 				<Wrap>
+					<Uidnote
+						ref={errRef}
+						style={{ display: errMsg ? "block" : "none" }}
+						aria-live="assertive">
+						{errMsg}
+					</Uidnote>
 					<Paragraph
 						$fontSize="1.75rem"
 						$fontWeight="600"
@@ -162,7 +173,6 @@ const ChangeNickname = ({ clearComponents }) => {
 						style={{ width: "100%" }}>
 						Change Nickname
 					</Paragraph>
-
 					<form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
 						<Label
 							style={{ fontWeight: "600", whiteSpace: "nowrap" }}
@@ -209,7 +219,7 @@ const ChangeNickname = ({ clearComponents }) => {
 							Letters, numbers, underscores, hyphens allowed.
 						</Uidnote>
 						<WrapBtns>
-							<Button type="button" onClick={handleDisplay}>
+							<Button type="button" onClick={closeComponent}>
 								<Span>Back</Span>
 							</Button>
 							<Button type="submit">
@@ -234,6 +244,6 @@ const ChangeNickname = ({ clearComponents }) => {
 	);
 };
 ChangeNickname.propTypes = {
-	clearComponents: PropTypes.func,
+	closeComponent: PropTypes.func.isRequired,
 };
 export default ChangeNickname;

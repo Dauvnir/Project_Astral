@@ -4,7 +4,6 @@ import { Paragraph } from "./Paragraph";
 import { StyledInput } from "./StyledInput";
 import PropTypes from "prop-types";
 import { WrapperFlex } from "./WrapperFlex";
-import { useState } from "react";
 import { WindowTemplateStyling } from "./WindowTemplateStyling";
 import { StyledBtn } from "./Btn";
 
@@ -31,63 +30,56 @@ const ExtendedParagraph = styled(Paragraph)`
 	font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
 `;
 
-const ReportBug = ({ clearComponents }) => {
-	const [manageState, setManageState] = useState(true);
-	const handler = () => {
-		setManageState((prev) => !prev);
-		clearComponents();
-	};
+const ReportBug = ({ closeComponent }) => {
 	return (
 		<>
-			{manageState ? (
-				<WindowTemplateStyling style={{ transform: "translate(-50%, -30%)" }}>
-					<Paragraph
-						$fontSize="2rem"
-						$fontWeight="600"
-						$textAlign="center"
-						style={{ width: "100%", marginBottom: "1rem" }}>
-						Report Bug
-					</Paragraph>
-					<StyledForm id="form" method="post" action="">
-						<WrapperFlex $flexWrap="wrap" $gap="1rem" $overflow="visible">
-							<WrapDivForm>
-								<ExtendedParagraph>Your e-mail address.</ExtendedParagraph>
-								<StyledInput
-									pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-									required
-									type="e-mail"
-									placeholder="E-mail"></StyledInput>
-							</WrapDivForm>
-							<WrapDivForm>
-								<ExtendedParagraph>You want to talk about..</ExtendedParagraph>
-								<StyledInput required placeholder="Topic"></StyledInput>
-							</WrapDivForm>
-							<WrapDivForm>
-								<ExtendedParagraph>Your message.</ExtendedParagraph>
-								<StyledTextarea
-									required
-									placeholder="I want to say that I very like eating tacos...."></StyledTextarea>
-							</WrapDivForm>
-						</WrapperFlex>
-					</StyledForm>
-					<WrapperFlex $overflow="visible" $margin="1rem  0">
-						<StyledBtn $width="45%" $margin="auto" onClick={handler}>
-							<Paragraph $fontSize="1.5rem" $fontWeight="600">
-								BACK
-							</Paragraph>
-						</StyledBtn>
-						<StyledBtn $width="45%" $margin="auto">
-							<Paragraph $fontSize="1.5rem" $fontWeight="600">
-								CONFIRM
-							</Paragraph>
-						</StyledBtn>
+			<WindowTemplateStyling style={{ transform: "translate(-50%, -30%)" }}>
+				<Paragraph
+					$fontSize="2rem"
+					$fontWeight="600"
+					$textAlign="center"
+					style={{ width: "100%", marginBottom: "1rem" }}>
+					Report Bug
+				</Paragraph>
+				<StyledForm id="form" method="post" action="">
+					<WrapperFlex $flexWrap="wrap" $gap="1rem" $overflow="visible">
+						<WrapDivForm>
+							<ExtendedParagraph>Your e-mail address.</ExtendedParagraph>
+							<StyledInput
+								pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+								required
+								type="e-mail"
+								placeholder="E-mail"></StyledInput>
+						</WrapDivForm>
+						<WrapDivForm>
+							<ExtendedParagraph>You want to talk about..</ExtendedParagraph>
+							<StyledInput required placeholder="Topic"></StyledInput>
+						</WrapDivForm>
+						<WrapDivForm>
+							<ExtendedParagraph>Your message.</ExtendedParagraph>
+							<StyledTextarea
+								required
+								placeholder="I want to say that I very like eating tacos...."></StyledTextarea>
+						</WrapDivForm>
 					</WrapperFlex>
-				</WindowTemplateStyling>
-			) : null}
+				</StyledForm>
+				<WrapperFlex $overflow="visible" $margin="1rem  0">
+					<StyledBtn $width="45%" $margin="auto" onClick={closeComponent}>
+						<Paragraph $fontSize="1.5rem" $fontWeight="600">
+							BACK
+						</Paragraph>
+					</StyledBtn>
+					<StyledBtn $width="45%" $margin="auto">
+						<Paragraph $fontSize="1.5rem" $fontWeight="600">
+							CONFIRM
+						</Paragraph>
+					</StyledBtn>
+				</WrapperFlex>
+			</WindowTemplateStyling>
 		</>
 	);
 };
 ReportBug.propTypes = {
-	clearComponents: PropTypes.func,
+	closeComponent: PropTypes.func,
 };
 export default ReportBug;

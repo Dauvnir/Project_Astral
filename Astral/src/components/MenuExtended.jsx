@@ -29,7 +29,7 @@ const UlList = styled.ul`
 	text-decoration: none;
 	list-style: none;
 	overflow: hidden;
-	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
+	height: ${(props) => (props.$toggleValue ? 18 : 0)}rem;
 	@media (min-width: 550px) {
 		height: ${(props) => (props.$toggleValue ? 22 : 0)}rem;
 	}
@@ -68,19 +68,17 @@ const Span = styled.span`
 	}
 `;
 
-const WrapperIconLeft = styled.div`
+const IconWrap = styled.div`
 	display: flex;
+	align-items: center;
 	justify-content: center;
-	align-content: center;
 	position: relative;
 	z-index: 5;
+	width: 25%;
 	height: 100%;
-	width: 17%;
-	padding-block: 10px;
-	padding-inline: 0.5rem;
-	overflow: visible;
+	background: rgba(29, 37, 53, 1);
+	border-radius: 20px 0 0 20px;
 	cursor: pointer;
-	background: inherit;
 	&:hover {
 		background: rgba(217, 217, 217, 1);
 		transition: background ease 0.5s;
@@ -89,28 +87,38 @@ const WrapperIconLeft = styled.div`
 			transition: color ease 0.5s;
 		}
 	}
-	border-bottom-left-radius: 20px;
-	border-top-left-radius: 20px;
 `;
 const Hamburger = styled(RxHamburgerMenu)`
 	display: inline-block;
-	height: 100%;
+	height: 80%;
 	width: 100%;
 	color: #d9d9d9;
 	scale: 1.1;
 `;
 const MenuExtended = () => {
+	const [toggleValue, setToggleValue] = useState(false);
+	const [activeComponent, setActiveComponent] = useState(null);
+
+	const changeValueOfToggle = () => {
+		setToggleValue((prev) => !prev);
+	};
+	const handleClick = (componentName) => {
+		setActiveComponent(componentName);
+		setToggleValue((prev) => !prev);
+	};
+	const closeComponent = () => {
+		setActiveComponent(null);
+	};
+
 	let navigate = useNavigate();
+	let menuExtended = useRef();
+	let btnToExtend = useRef();
+
 	const toHome = () => {
 		let path = `/library`;
 		navigate(path);
 	};
-	const [toggleValue, setToggleValue] = useState(false);
-	const changeValueOfToggle = () => {
-		setToggleValue((prev) => !prev);
-	};
-	let menuExtended = useRef();
-	let btnToExtend = useRef();
+
 	useEffect(() => {
 		let handler = (e) => {
 			if (
@@ -128,17 +136,11 @@ const MenuExtended = () => {
 		};
 	}, [toggleValue]);
 
-	const [activeComponent, setActiveComponent] = useState(null);
-	const handleClick = (componentName) => {
-		setActiveComponent(componentName);
-		setToggleValue((prev) => !prev);
-	};
-
 	return (
 		<>
-			<WrapperIconLeft onClick={() => changeValueOfToggle()} ref={btnToExtend}>
+			<IconWrap onClick={() => changeValueOfToggle()} ref={btnToExtend}>
 				<Hamburger />
-			</WrapperIconLeft>
+			</IconWrap>
 			<MenuExtendedStyling ref={menuExtended}>
 				<UlList $toggleValue={toggleValue}>
 					<LiElement
@@ -169,10 +171,18 @@ const MenuExtended = () => {
 					</LiElement>
 				</UlList>
 			</MenuExtendedStyling>
-			{activeComponent === "Notifications" && <Notifications />}
-			{activeComponent === "ReportBug" && <ReportBug />}
-			{activeComponent === "AboutUs" && <AboutUs />}
-			{activeComponent === "LogOut" && <Logout />}
+			{activeComponent === "Notifications" && (
+				<Notifications closeComponent={closeComponent} />
+			)}
+			{activeComponent === "ReportBug" && (
+				<ReportBug closeComponent={closeComponent} />
+			)}
+			{activeComponent === "AboutUs" && (
+				<AboutUs closeComponent={closeComponent} />
+			)}
+			{activeComponent === "LogOut" && (
+				<Logout closeComponent={closeComponent} />
+			)}
 		</>
 	);
 };

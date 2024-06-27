@@ -7,7 +7,8 @@ import { Paragraph } from "./Paragraph";
 import { useState } from "react";
 import { FaUnlock } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
-
+import { RiBookFill } from "react-icons/ri";
+import { RiBookMarkFill } from "react-icons/ri";
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -51,7 +52,6 @@ const ModifiedWrapperFlexBtn = styled(WrapperFlex)`
 		margin-right: 2rem;
 	}
 `;
-
 const LockStyled = styled(FaLock)`
 	color: rgba(217, 217, 217, 0.9);
 	width: 60%;
@@ -72,19 +72,27 @@ const StyledDiv = styled.div`
 	width: 56px;
 	height: 56px;
 	cursor: pointer;
-	&:hover {
-		background: rgba(217, 217, 217, 0.9);
-		transition: background linear 0.3s;
-		:is(svg) {
-			color: rgba(29, 37, 53, 1);
-			transition: color linear 0.3s;
-		}
-	}
+`;
+const RiBookFillStyled = styled(RiBookFill)`
+	width: 100%;
+	height: 80%;
+	cursor: pointer;
+	color: rgba(217, 217, 217, 0.9);
+`;
+const RiBookBookmarkStyled = styled(RiBookMarkFill)`
+	width: 100%;
+	height: 80%;
+	cursor: pointer;
+	color: rgba(217, 217, 217, 0.9);
 `;
 const BooksLibrary = () => {
 	const [isEditable, setIsEditable] = useState(false);
 	const handleIsEditable = () => {
 		setIsEditable((prev) => !prev);
+	};
+	const [isFavourite, setIsFavourite] = useState(false);
+	const isFavouriteHandler = () => {
+		setIsFavourite((prev) => !prev);
 	};
 	return (
 		<>
@@ -98,17 +106,21 @@ const BooksLibrary = () => {
 					</Paragraph>
 				</ModifiedWrapperFlex>
 				<ModifiedWrapperFlexBtn>
+					<StyledDiv onClick={isFavouriteHandler}>
+						{!isFavourite ? <RiBookFillStyled /> : <RiBookBookmarkStyled />}
+					</StyledDiv>
 					<StyledDiv onClick={handleIsEditable}>
 						{!isEditable ? <LockStyled /> : <FaUnlockStyled />}
 					</StyledDiv>
 				</ModifiedWrapperFlexBtn>
 			</BookWrapper>
-			<LineBreak
-				style={{ width: "100vw", height: "2px", margin: "0" }}></LineBreak>
+			<LineBreak style={{ width: "100vw", height: "2px", margin: "0" }} />
 			<ChapterWrapper>
 				<WrapperGrid>
 					<ChapterListForLibrary
-						isEditable={isEditable}></ChapterListForLibrary>
+						isEditable={isEditable}
+						isFavourite={isFavourite}
+					/>
 				</WrapperGrid>
 			</ChapterWrapper>
 		</>

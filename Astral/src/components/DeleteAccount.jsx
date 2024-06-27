@@ -1,5 +1,4 @@
 import { Paragraph } from "./Paragraph";
-import { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import useDeleteAccount from "../hooks/useDeleteAccount";
@@ -75,42 +74,36 @@ const Span = styled.span`
 	font-size: 1.25rem;
 `;
 
-const DeleteAccount = ({ clearComponents }) => {
-	const [display, setDisplay] = useState(true);
-	const handleDisplay = () => {
-		setDisplay(false);
-		clearComponents();
-	};
+const DeleteAccount = ({ closeComponent }) => {
 	const deleteAccount = useDeleteAccount();
 	const handleDeleteAccount = async () => {
 		await deleteAccount();
+		closeComponent();
 	};
 	return (
 		<>
-			{display && (
-				<Wrap style={{ gap: "1.5rem" }}>
-					<Header>Delete Account</Header>
-					<Paragraph style={{ fontSize: "1.25rem" }}>
-						Do you really want to leave us?
-						<br />
-						Are you sure about this ?
-						<br />
-						All your information will be deleted.
-					</Paragraph>
-					<WrapBtns>
-						<Button type="button" onClick={handleDisplay}>
-							<Span>Back</Span>
-						</Button>
-						<Button type="button" onClick={handleDeleteAccount}>
-							<Span>Confirm</Span>
-						</Button>
-					</WrapBtns>
-				</Wrap>
-			)}
+			<Wrap style={{ gap: "1.5rem" }}>
+				<Header>Delete Account</Header>
+				<Paragraph style={{ fontSize: "1.25rem" }}>
+					Do you really want to leave us?
+					<br />
+					Are you sure about this ?
+					<br />
+					All your information will be deleted.
+				</Paragraph>
+				<WrapBtns>
+					<Button type="button" onClick={closeComponent}>
+						<Span>Back</Span>
+					</Button>
+					<Button type="button" onClick={handleDeleteAccount}>
+						<Span>Confirm</Span>
+					</Button>
+				</WrapBtns>
+			</Wrap>
 		</>
 	);
 };
 DeleteAccount.propTypes = {
-	clearComponents: PropTypes.func,
+	closeComponent: PropTypes.func,
 };
 export default DeleteAccount;

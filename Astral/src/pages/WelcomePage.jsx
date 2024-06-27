@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import MainBackground from "../components/MainBackground";
 import WelcomeMsg from "../components/WelcomeMsg";
-import ImgCarouselWrapper from "../components/ImgCarouselWrapper";
 import JoinMsg from "../components/JoinMsg";
 import LibraryBtn from "../components/LibraryBtn";
 import Indicator from "../components/Indicator";
@@ -42,7 +41,7 @@ const WelcomePage = () => {
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
 			<WelcomeMsg></WelcomeMsg>
-			<ImgCarouselWrapper></ImgCarouselWrapper>
+			{/* <ImgCarouselWrapper></ImgCarouselWrapper> */}
 			<JoinMsg></JoinMsg>
 			<LibraryBtn></LibraryBtn>
 			<Indicator></Indicator>

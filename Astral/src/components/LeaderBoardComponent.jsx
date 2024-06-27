@@ -81,7 +81,7 @@ const DivImageWrapper = styled.div`
 const ImgPlaces = styled.img`
 	height: 100%;
 	width: 100%;
-	object-fit: scale-down;
+	object-fit: fill;
 	border-radius: 15px;
 	filter: drop-shadow(0 0 0.5rem black);
 `;

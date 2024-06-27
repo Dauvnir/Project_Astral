@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Paragraph } from "./Paragraph";
 import { useState } from "react";
 import useAddBook from "../hooks/useAddBook";
+import useScale from "../hooks/useScale";
 const Wrapper = styled.a`
 	display: flex;
 	flex-direction: column;
@@ -85,11 +86,20 @@ const ScalingWrap = styled.div`
 	box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.56);
 	border-radius: 5px;
 	transition: all 0.3s ease-in-out;
-	&:hover {
-		transform: scale(1.2);
+	@media (hover: hover) {
+		&:hover {
+			transform: scale(1.2);
+		}
+		&:hover ${Overlay} {
+			opacity: 1;
+		}
 	}
-	&:hover ${Overlay} {
-		opacity: 1;
+	@media (hover: none) {
+		transform: ${(props) => (props.$showForMobile ? "scale(1.2)" : "none")};
+		cursor: pointer;
+		${Overlay} {
+			opacity: ${(props) => (props.$showForMobile ? "1" : "0")};
+		}
 	}
 `;
 const OverlayWrap = styled.div`
@@ -117,18 +127,28 @@ const Button = styled.div`
 const Chapter = ({ imageUrl, title, chapterNumber, manhwaID }) => {
 	const addBook = useAddBook();
 	const [isClicked, setIsClicked] = useState(false);
+	const { scaledId, setScaledId } = useScale();
+
+	const showForMobileHandler = () => {
+		setScaledId((prev) => (prev === manhwaID ? null : manhwaID));
+	};
 
 	const handlerMouseLeave = () => {
 		setTimeout(() => {
 			setIsClicked(false);
 		}, 500);
 	};
-	const handleAddBook = () => {
+	const handleAddBook = (event) => {
+		event.stopPropagation();
 		addBook(manhwaID, chapterNumber);
 		setIsClicked(true);
 	};
+
 	return (
-		<ScalingWrap onMouseLeave={() => handlerMouseLeave()}>
+		<ScalingWrap
+			onMouseLeave={handlerMouseLeave}
+			onClick={showForMobileHandler}
+			$showForMobile={scaledId === manhwaID}>
 			<Overlay>
 				<OverlayWrap>
 					<>

@@ -42,7 +42,6 @@ const BookWrapper = styled.div`
 	position: relative;
 	z-index: 4;
 	padding: 0.5rem 1rem 1rem 1rem;
-	margin-top: 3rem;
 	height: 8rem;
 	flex-direction: column;
 	gap: 0.5rem;
@@ -167,7 +166,7 @@ const AllBooksComponent = ({
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
-			setDebouncedInputValue(inputValue);
+			setDebouncedInputValue(inputValue.replace(/\s+$/, ""));
 		}, 500);
 		return () => clearTimeout(timeoutId);
 	}, [inputValue]);

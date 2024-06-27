@@ -30,7 +30,7 @@ const UlList = styled.ul`
 	text-decoration: none;
 	list-style: none;
 	overflow: hidden;
-	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
+	height: ${(props) => (props.$toggleValue ? 15 : 0)}rem;
 	transition: all 0.3s ease;
 	@media (min-width: 550px) {
 		height: ${(props) => (props.$toggleValue ? 18 : 0)}rem;
@@ -74,21 +74,16 @@ const Account = styled(MdManageAccounts)`
 	height: 100%;
 	width: 100%;
 	color: #d9d9d9;
-	scale: 1.3;
 `;
-const WrapperIcon = styled.div`
+const IconWrap = styled.div`
 	display: flex;
+	align-items: center;
 	justify-content: center;
-	align-content: center;
 	position: relative;
-	z-index: 4;
+	z-index: 5;
+	width: 25%;
 	height: 100%;
-	width: 33%;
-	padding-block: 10px;
-	padding-left: 0.5rem;
-	padding-right: 3.5rem;
-	overflow: hidden;
-	background: inherit;
+	background: rgba(29, 37, 53, 1);
 	cursor: pointer;
 	&:hover {
 		background: rgba(217, 217, 217, 1);
@@ -102,8 +97,16 @@ const WrapperIcon = styled.div`
 
 const MenuExtendedAccount = () => {
 	const [toggle, setToggle] = useState(false);
+	const [activeComponent, setActiveComponent] = useState(null);
 	const justToggle = () => {
 		setToggle((prev) => !prev);
+	};
+	const handleClick = (componentName) => {
+		setActiveComponent(componentName);
+		setToggle((prev) => !prev);
+	};
+	const closeComponent = () => {
+		setActiveComponent(null);
 	};
 	let menuExtendedAccount = useRef();
 	let btnToExtendAccount = useRef();
@@ -122,16 +125,12 @@ const MenuExtendedAccount = () => {
 			document.removeEventListener("mousedown", handlerAccount);
 		};
 	}, [toggle]);
-	const [activeComponent, setActiveComponent] = useState(null);
-	const handleClick = (componentName) => {
-		setActiveComponent(componentName);
-		setToggle((prev) => !prev);
-	};
+
 	return (
 		<>
-			<WrapperIcon onClick={() => justToggle()} ref={btnToExtendAccount}>
-				<Account></Account>
-			</WrapperIcon>
+			<IconWrap onClick={() => justToggle()} ref={btnToExtendAccount}>
+				<Account />
+			</IconWrap>
 			<MenuExtendedStyling ref={menuExtendedAccount}>
 				<UlList $toggleValue={toggle}>
 					<LiElement
@@ -154,15 +153,24 @@ const MenuExtendedAccount = () => {
 							paddingBottom: "3rem",
 							borderBottomRightRadius: "20px",
 							borderBottomLeftRadius: "20px",
+							borderBottom: "none",
 						}}>
 						<Span>Delete Account</Span>
 					</LiElement>
 				</UlList>
 			</MenuExtendedStyling>
-			{activeComponent === "ChangePassword" && <ChangePassword />}
-			{activeComponent === "ChangeEmail" && <ChangeEmail />}
-			{activeComponent === "ChangeNickname" && <ChangeNickname />}
-			{activeComponent === "DeleteAccount" && <DeleteAccount />}
+			{activeComponent === "ChangePassword" && (
+				<ChangePassword closeComponent={closeComponent} />
+			)}
+			{activeComponent === "ChangeEmail" && (
+				<ChangeEmail closeComponent={closeComponent} />
+			)}
+			{activeComponent === "ChangeNickname" && (
+				<ChangeNickname closeComponent={closeComponent} />
+			)}
+			{activeComponent === "DeleteAccount" && (
+				<DeleteAccount closeComponent={closeComponent} />
+			)}
 		</>
 	);
 };

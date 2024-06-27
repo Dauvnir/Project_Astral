@@ -15,6 +15,8 @@ import SuccededLogIn from "./pages/SuccedLogIn";
 import PersistentLogin from "./components/PersistentLogin";
 import UpdateDatabase from "./components/UpdateDatabase";
 import AddLibrary from "./components/AddLibrary";
+import { RandomImageProvider } from "./context/RandomImageProvider.jsx";
+import MainPage from "./pages/MainPage.jsx";
 
 const App = () => {
 	return (
@@ -37,9 +39,13 @@ const App = () => {
 							</Route>
 						</Route>
 						<Route element={<UpdateDatabase />}>
-							<Route path="library" element={<Library />} />
-							<Route path="books" element={<AllBooks />} />
-							<Route path="leaderboard" element={<Leaderboard />} />
+							<Route element={<RandomImageProvider />}>
+								<Route path="/" element={<MainPage />}>
+									<Route path="library" element={<Library />} />
+									<Route path="books" element={<AllBooks />} />
+									<Route path="leaderboard" element={<Leaderboard />} />
+								</Route>
+							</Route>
 						</Route>
 					</Route>
 				</Route>

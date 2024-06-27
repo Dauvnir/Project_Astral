@@ -1,17 +1,7 @@
 import styled from "styled-components";
 import { FaTrophy } from "react-icons/fa6";
 import { FaBook } from "react-icons/fa";
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import ReportBug from "./ReportBug";
-import ChangeEmail from "./ChangeEmail";
-import ChangePassword from "./ChangePassword";
-import ChangeNickname from "./ChangeNickname";
-import ChangeAvatar from "./ChangeAvatar";
-import DeleteAccount from "./DeleteAccount";
-import Logout from "./Logout";
-import Notifications from "./Notifications";
-import AboutUs from "./AboutUsMenuComponent";
 import MenuExtended from "./MenuExtended";
 import MenuExtendedAccount from "./MenuExtendedAccount";
 const MenuStyled = styled.div`
@@ -42,18 +32,39 @@ const MenuStyled = styled.div`
 	}
 `;
 const Leaderboard = styled(FaTrophy)`
-	height: 100%;
+	height: 80%;
 	width: 100%;
 	color: #d9d9d9;
 `;
 
 const AllBooksIcon = styled(FaBook)`
-	display: inline-block;
-	height: 100%;
+	height: 80%;
 	width: 100%;
 	color: #d9d9d9;
 `;
 
+const IconWrap = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	z-index: 5;
+	width: 25%;
+	height: 100%;
+	background: rgba(29, 37, 53, 1);
+	cursor: pointer;
+	&:hover {
+		background: rgba(217, 217, 217, 1);
+		transition: background ease 0.5s;
+		:is(svg) {
+			color: rgba(29, 37, 53, 1);
+			transition: color ease 0.5s;
+		}
+	}
+`;
+const IconWrapRight = styled(IconWrap)`
+	border-radius: 0 20px 20px 0;
+`;
 const Menu = () => {
 	let navigate = useNavigate();
 	const toBooks = () => {
@@ -72,38 +83,15 @@ const Menu = () => {
 			<MenuStyled>
 				<MenuExtended />
 				<MenuExtendedAccount />
-				<Leaderboard onClick={toLeaderboard}></Leaderboard>
-				<AllBooksIcon onClick={toBooks} />
+				<IconWrap>
+					<Leaderboard onClick={toLeaderboard} />
+				</IconWrap>
+				<IconWrapRight>
+					<AllBooksIcon onClick={toBooks} />
+				</IconWrapRight>
 			</MenuStyled>
 		</>
 	);
 };
-ChangePassword.propTypes = {
-	resetComponent: PropTypes.func,
-};
-ChangeNickname.propTypes = {
-	resetComponent: PropTypes.func,
-};
-ChangeAvatar.propTypes = {
-	resetComponent: PropTypes.func,
-};
-ChangeEmail.propTypes = {
-	resetComponent: PropTypes.func,
-};
-DeleteAccount.propTypes = {
-	resetComponent: PropTypes.func,
-};
-Logout.propTypes = {
-	resetComponent: PropTypes.func,
-};
-AboutUs.propTypes = {
-	resetComponent: PropTypes.func,
-};
 
-Notifications.propTypes = {
-	resetComponent: PropTypes.func,
-};
-ReportBug.propTypes = {
-	resetComponent: PropTypes.func,
-};
 export default Menu;

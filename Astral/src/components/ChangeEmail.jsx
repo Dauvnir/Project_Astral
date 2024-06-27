@@ -108,9 +108,9 @@ const Label = styled.label`
 `;
 const EMAIL_REGEX = /[^\s@]+@[^\s@]+\.[^\s@]+/;
 
-const ChangeEmail = ({ clearComponents }) => {
-	const [display, setDisplay] = useState(true);
+const ChangeEmail = ({ closeComponent }) => {
 	const [success, setSuccess] = useState(false);
+	const [display, setDisplay] = useState(true);
 
 	const [email, setEmail] = useState("");
 	const [validEmail, setValidEmail] = useState(false);
@@ -125,14 +125,9 @@ const ChangeEmail = ({ clearComponents }) => {
 	const errRef = useRef();
 	const emailRef = useRef();
 
-	const handleDisplay = () => {
-		setDisplay(false);
-		clearComponents();
-	};
-
 	const handleCloseSuccess = () => {
 		setSuccess(false);
-		clearComponents();
+		closeComponent();
 	};
 
 	const handleSubmit = async (e) => {
@@ -141,8 +136,8 @@ const ChangeEmail = ({ clearComponents }) => {
 			await changedEmail(email);
 			setEmail("");
 			setMatchEmail("");
-			setDisplay(false);
 			setSuccess(true);
+			setDisplay(false);
 		} catch (error) {
 			console.error(Error);
 			errRef.current.focus();
@@ -255,7 +250,7 @@ const ChangeEmail = ({ clearComponents }) => {
 							Must match the first email input field.
 						</Uidnote>
 						<WrapBtns>
-							<Button type="button" onClick={handleDisplay}>
+							<Button type="button" onClick={closeComponent}>
 								<Span>Back</Span>
 							</Button>
 							<Button
@@ -267,6 +262,7 @@ const ChangeEmail = ({ clearComponents }) => {
 					</form>
 				</Wrap>
 			)}
+
 			{success && (
 				<Wrap style={{ gap: "1.5rem" }}>
 					<Header>Email Changed Successfully</Header>
@@ -282,6 +278,6 @@ const ChangeEmail = ({ clearComponents }) => {
 	);
 };
 ChangeEmail.propTypes = {
-	clearComponents: PropTypes.func,
+	closeComponent: PropTypes.func,
 };
 export default ChangeEmail;
