@@ -21,7 +21,7 @@ const fetchData = async (page, choosedWebsite) => {
 		switch (choosedWebsite) {
 			//add next  cases if needed
 			case "Asura":
-				website = `https://asuratoon.com/manga/?page=${i}&order=update`;
+				website = `https://asuracomic.net/manga/?page=1&order=update`;
 				break;
 			case "Reaper":
 				website = `https://reaperscans.com/comics?page=${i}`;

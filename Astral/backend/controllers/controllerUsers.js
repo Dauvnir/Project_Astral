@@ -171,10 +171,66 @@ const deleteUser = async (req, res) => {
 		return res.status(500).send("Internal server error.");
 	}
 };
+
+const setUserAvatar = async (req, res) => {
+	const { nickname, avatar } = req.body;
+	if (!nickname) {
+		return res.status(400).send("Nickname is required.");
+	}
+
+	try {
+		const isExisted = await pool.query(
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[nickname]
+		);
+
+		if (isExisted.rowCount === 0) {
+			return res.status(404).send("User not found.");
+		}
+
+		const query = "UPDATE user_profiles SET avatars = $1 WHERE nickname = $2;";
+
+		await pool.query(query, [avatar, nickname]);
+		return res.sendStatus(200);
+	} catch (error) {
+		console.error("Error while adding  avatar name to db", error);
+		return res.status(500).send("Internal server error.");
+	}
+};
+
+const avatarName = async (req, res) => {
+	const { nickname } = req.body;
+	if (!nickname) {
+		return res.status(400).send("Nickname is required.");
+	}
+	try {
+		const isExisted = await pool.query(
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[nickname]
+		);
+
+		if (isExisted.rowCount === 0) {
+			return res.status(404).send("User not found.");
+		}
+
+		const query = await pool.query(
+			"SELECT avatars FROM user_profiles WHERE nickname = $1;",
+			[nickname]
+		);
+		const avatarName = query.rows[0].avatars;
+
+		return res.status(200).json({ avatarName });
+	} catch (error) {
+		console.error("Error while adding  avatar name to db", error);
+		return res.status(500).send("Internal server error.");
+	}
+};
 module.exports = {
 	deleteUser,
 	updateUserPassword,
 	updateUserEmail,
 	createUser,
 	updateUserNickname,
+	setUserAvatar,
+	avatarName,
 };

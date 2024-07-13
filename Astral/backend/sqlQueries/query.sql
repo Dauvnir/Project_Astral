@@ -61,6 +61,10 @@ CREATE TABLE user_profiles (
 );
 ALTER TABLE user_profiles
 ADD CONSTRAINT unique_nickname UNIQUE (nickname);
+ALTER TABLE user_profiles
+ADD COLUMN avatars VARCHAR(255) DEFAULT 'default';
+
+
 
 SELECT manhwa_id, COUNT(DISTINCT user_id) AS favorite_count
 FROM UserManhwa

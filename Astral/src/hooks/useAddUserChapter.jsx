@@ -6,7 +6,7 @@ const useAddUserChapter = () => {
 	const nickname = useGetNickname();
 	const axiosPrivate = useAxiosPrivate();
 
-	const AddUserChapter = async (manhwa_id, user_chapter) => {
+	const addUserChapter = async (manhwa_id, user_chapter) => {
 		try {
 			await database
 				.table("library")
@@ -30,7 +30,7 @@ const useAddUserChapter = () => {
 		}
 	};
 
-	return AddUserChapter;
+	return addUserChapter;
 };
 
 export default useAddUserChapter;

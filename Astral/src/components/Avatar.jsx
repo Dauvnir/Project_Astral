@@ -5,6 +5,7 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import useGetNickname from "../hooks/useGetNickname";
+import useGetAvatarName from "../hooks/useGetAvatarName";
 const AvatarWrapper = styled.div`
 	display: flex;
 	height: 100%;
@@ -36,12 +37,15 @@ const AvatarNickname = styled.p`
 		border-top-left-radius: 0px;
 	}
 `;
-const AvatarImage = styled.img`
+const AvatarImage = styled.div`
 	position: relative;
 	z-index: 3;
 	width: 30%;
 	height: 100%;
-	background: url("/src/assets/avatar.jpeg") no-repeat center center / cover;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(29, 37, 53, 0.7);
 `;
 const AdjustedWrapper = styled(WrapperFlex)`
 	position: static;
@@ -90,15 +94,21 @@ const Wrap = styled.div`
 		width: 100%;
 	}
 `;
+const Img = styled.img`
+	height: 80%;
+	width: 100%;
+	object-fit: contain;
+`;
 const Avatar = () => {
 	const logout = useLogout();
 	const navigate = useNavigate();
+	const avatar = useGetAvatarName();
+
 	const signOut = async () => {
 		await logout();
 		navigate("/form/login");
 	};
 	const nickname = useGetNickname();
-
 	return (
 		<>
 			<AdjustedWrapper>
@@ -106,7 +116,9 @@ const Avatar = () => {
 				<Wrap>
 					<AvatarWrapper>
 						<AvatarNickname>{nickname}</AvatarNickname>
-						<AvatarImage></AvatarImage>
+						<AvatarImage>
+							<Img src={`/assets/avatars/${avatar}.png`} alt={avatar} />
+						</AvatarImage>
 					</AvatarWrapper>
 					<LogoutWrapper>
 						<LogoutBtn style={{ color: "#d9d9d9" }} onClick={signOut} />

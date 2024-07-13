@@ -233,7 +233,8 @@ const ChangeNickname = ({ closeComponent }) => {
 				<Wrap style={{ gap: "1.5rem" }}>
 					<Header>Nickname Changed Successfully</Header>
 					<Paragraph style={{ fontSize: "1.25rem" }}>
-						Your nickname has been updated successfully.
+						Your nickname has been updated successfully. You will changes after
+						re-log.
 					</Paragraph>
 					<Button onClick={handleCloseSuccess}>
 						<Span>Close</Span>

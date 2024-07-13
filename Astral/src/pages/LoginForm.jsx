@@ -16,9 +16,11 @@ const LOGIN_URL = "/auth";
 const RegisteredParagraph = styled(Paragraph)`
 	text-align: left;
 	font-weight: 600;
-	margin-top: 1.5rem;
 	font-size: 1.15rem;
 	text-decoration: none;
+	margin-inline: none;
+	width: 50%;
+	height: 100%;
 `;
 const LabelS = styled.label`
 	display: flex;
@@ -45,6 +47,15 @@ const Uidnote = styled(Paragraph)`
 	padding: 1rem;
 	background: #28344b;
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.56);
+`;
+const ParagrapthWrap = styled.div`
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
+	gap: 1rem;
+	margin-top: 1.5rem;
 `;
 const LoginForm = () => {
 	const navigate = useNavigate();
@@ -171,15 +182,24 @@ const LoginForm = () => {
 							<StyledText>Sign In</StyledText>
 						</StyledBtn>
 					</StyledForm>
-
-					<RegisteredParagraph>
-						Need an Account? <br />
-						<span>
-							<Link to="/form/register" style={{ color: "inherit" }}>
-								Sign Up
-							</Link>
-						</span>
-					</RegisteredParagraph>
+					<ParagrapthWrap>
+						<RegisteredParagraph>
+							Need an Account? <br />
+							<span>
+								<Link to="/form/register" style={{ color: "inherit" }}>
+									Sign Up
+								</Link>
+							</span>
+						</RegisteredParagraph>
+						<RegisteredParagraph style={{ textAlign: "right" }}>
+							Forgot password? <br />
+							<span>
+								<Link to="/form/resetLink" style={{ color: "inherit" }}>
+									Reset password
+								</Link>
+							</span>
+						</RegisteredParagraph>
+					</ParagrapthWrap>
 				</section>
 			</BackgroundWrapper>
 		</>

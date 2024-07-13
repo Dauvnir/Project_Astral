@@ -29,19 +29,20 @@ const useRandomPick = () => {
 
 			await Promise.all(
 				images.map(async (image) => {
-					if (image.srcimg === "") {
+					if (image.srcimg === "" || image.srcimg === " ") {
 						try {
 							const response = await axiosPrivate.get(
-								`/manhwa/methods/get/images/${image.manhwa_id}`
+								`/manhwas/methods/get/images/${image.manhwa_id}`
 							);
-
 							const data = response.data;
-
+							const flattenedSrcimgs = data.map((element) => element.srcimg);
 							await database
 								.table("manhwas")
 								.where("manhwa_id")
 								.equals(image.manhwa_id)
-								.modify({ srcimg: data });
+								.modify({ srcimg: flattenedSrcimgs });
+
+							image.srcimg = flattenedSrcimgs;
 						} catch (error) {
 							console.error("Error while fetching images", error);
 						}
@@ -58,6 +59,7 @@ const useRandomPick = () => {
 			return images;
 		} catch (error) {
 			console.error("Error while fetching local database:", error);
+			throw error;
 		}
 	};
 

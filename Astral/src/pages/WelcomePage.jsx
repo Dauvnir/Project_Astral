@@ -11,15 +11,12 @@ import Form from "../components/Form";
 import MoveToTop from "../components/MoveToTop";
 import { WrapperFlex } from "../components/WrapperFlex";
 import { useNavigate } from "react-router-dom";
+import ImageCarouselWelcome from "../components/ImageCarouselWelcome";
 
 const ResponsiveWrapperFlex = styled(WrapperFlex)`
+	width: 100vw;
 	flex-wrap: wrap;
-	@media only screen and (min-width: 800px) {
-		flex-wrap: nowrap !important;
-		gap: 3rem;
-		align-items: flex-start;
-		justify-content: center;
-	}
+	align-items: flex-start;
 `;
 
 const WelcomePage = () => {
@@ -41,7 +38,7 @@ const WelcomePage = () => {
 				<StyledLogo></StyledLogo>
 			</WrapperFlex>
 			<WelcomeMsg></WelcomeMsg>
-			{/* <ImgCarouselWrapper></ImgCarouselWrapper> */}
+			<ImageCarouselWelcome />
 			<JoinMsg></JoinMsg>
 			<LibraryBtn></LibraryBtn>
 			<Indicator></Indicator>

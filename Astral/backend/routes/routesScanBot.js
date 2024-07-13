@@ -3,7 +3,6 @@ const router = express.Router();
 const manhwaController = require("../controllers/controllerScanBot");
 const verifyRoles = require("../middleware/verifyRoles");
 const ROLES_LIST = require("../config/roles_list");
-
 router.get("/methods/get/all", manhwaController.getAllManhwa);
 router.get("/methods/get/manhwa", manhwaController.getManhwaData);
 router.get("/methods/get/images/:id", manhwaController.getImages);

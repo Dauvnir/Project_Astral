@@ -15,7 +15,6 @@ import ChangeNickname from "./ChangeNickname";
 import DeleteAccount from "./DeleteAccount";
 import Logout from "./Logout";
 import Notifications from "./Notifications";
-import AboutUs from "./AboutUsMenuComponent";
 const UlList = styled.ul`
 	display: flex;
 	list-style: none;
@@ -136,7 +135,6 @@ const PcMenu = () => {
 		let path3 = "/library";
 		navigate3(path3);
 	};
-	// eslint-disable-next-line no-unused-vars
 	const [toggleValue, setToggleValue] = useState(false);
 	const changeValueOfToggle = () => {
 		setToggleValue((prev) => !prev);
@@ -191,35 +189,32 @@ const PcMenu = () => {
 		setActiveComponent2(componentName);
 		setToggleValue2((prev) => !prev);
 	};
-	const clearComponents = () => {
+	const closeComponent = () => {
 		setActiveComponent(null);
 		setActiveComponent2(null);
 	};
 	return (
 		<>
 			{activeComponent2 === "ChangePassword" && (
-				<ChangePassword clearComponents={clearComponents} />
+				<ChangePassword closeComponent={closeComponent} />
 			)}
 			{activeComponent2 === "ChangeEmail" && (
-				<ChangeEmail clearComponents={clearComponents} />
+				<ChangeEmail closeComponent={closeComponent} />
 			)}
 			{activeComponent2 === "ChangeNickname" && (
-				<ChangeNickname clearComponents={clearComponents} />
+				<ChangeNickname closeComponent={closeComponent} />
 			)}
 			{activeComponent2 === "DeleteAccount" && (
-				<DeleteAccount clearComponents={clearComponents} />
+				<DeleteAccount closeComponent={closeComponent} />
 			)}
 			{activeComponent === "Notifications" && (
-				<Notifications clearComponents={clearComponents} />
+				<Notifications closeComponent={closeComponent} />
 			)}
 			{activeComponent === "ReportBug" && (
-				<ReportBug clearComponents={clearComponents} />
-			)}
-			{activeComponent === "AboutUs" && (
-				<AboutUs clearComponents={clearComponents} />
+				<ReportBug closeComponent={closeComponent} />
 			)}
 			{activeComponent === "LogOut" && (
-				<Logout clearComponents={clearComponents} />
+				<Logout closeComponent={closeComponent} />
 			)}
 			<Wrapper>
 				<UlList>
@@ -238,12 +233,7 @@ const PcMenu = () => {
 								</li>
 								<li>
 									<SubMenuBtn onClick={() => handleClick("Notifications")}>
-										<span>Notifications</span>
-									</SubMenuBtn>
-								</li>
-								<li>
-									<SubMenuBtn onClick={() => handleClick("AboutUs")}>
-										<span>About me</span>
+										<span>Settings</span>
 									</SubMenuBtn>
 								</li>
 								<li>

@@ -34,11 +34,12 @@ const Uidnote = styled(Paragraph)`
 	text-align: left;
 	font-size: 1rem;
 	font-weight: 600;
-	margin-bottom: 1rem;
+	margin: 0 0 1rem 0;
 	border-radius: 20px;
 	padding: 1rem;
 	background: #28344b;
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.56);
+	width: 100%;
 `;
 const RegisteredParagraph = styled(Paragraph)`
 	text-align: left;

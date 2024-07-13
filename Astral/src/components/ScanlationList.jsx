@@ -63,7 +63,7 @@ const ScanlationList = ({ scanlationSiteHandle, scanlationHandler }) => {
 		<>
 			{uniqueSites.map((site, index) => (
 				<Wrap key={index} onClick={uniqueSitesHandle(site)}>
-					<Img src={`src/assets/${site}.png`} alt={site} />
+					<Img src={`/assets/scanlations/${site}.png`} alt={site} />
 				</Wrap>
 			))}
 		</>

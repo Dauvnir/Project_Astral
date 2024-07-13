@@ -13,5 +13,7 @@ router.post(
 	verifyRoles(ROLES_LIST.Admin),
 	usersController.createUser
 );
+router.post("/avatar", usersController.setUserAvatar);
+router.post("/avatar/name", usersController.avatarName);
 
 module.exports = router;

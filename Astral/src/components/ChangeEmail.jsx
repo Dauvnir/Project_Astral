@@ -120,17 +120,27 @@ const ChangeEmail = ({ closeComponent }) => {
 	const [validMatch, setValidMatch] = useState(false);
 	const [matchFocus, setMatchFocus] = useState(false);
 
+	const [errMsg, setErrMsg] = useState("");
+
 	const changedEmail = useChangeEmail();
 
 	const errRef = useRef();
 	const emailRef = useRef();
-
 	const handleCloseSuccess = () => {
 		setSuccess(false);
-		closeComponent();
+		closeComponent(null);
 	};
 
+	const handleDisplay = () => {
+		setDisplay(false);
+		closeComponent(null);
+	};
 	const handleSubmit = async (e) => {
+		const test3 = EMAIL_REGEX.test(email);
+		if (!test3) {
+			setErrMsg("Invalid Entry");
+			return;
+		}
 		e.preventDefault();
 		try {
 			await changedEmail(email);
@@ -163,6 +173,12 @@ const ChangeEmail = ({ closeComponent }) => {
 						style={{ width: "100%" }}>
 						Change Email
 					</Paragraph>
+					<Uidnote
+						ref={errRef}
+						style={{ display: errMsg ? "block" : "none" }}
+						aria-live="assertive">
+						{errMsg}
+					</Uidnote>
 					<form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
 						<Label
 							style={{ fontWeight: "600", whiteSpace: "nowrap" }}
@@ -203,7 +219,9 @@ const ChangeEmail = ({ closeComponent }) => {
 								display:
 									emailFocus && !validEmail && email != "" ? "block" : "none",
 							}}>
-							<IoInformationCircleSharp style={{ marginRight: "0.35rem" }} />
+							<IoInformationCircleSharp
+								style={{ marginRight: "0.35rem", marginBottom: "-0.12rem" }}
+							/>
 							Must include @ letter and . following by domain. <br />
 							Letters, numbers, underscores, hyphens and other special
 							characters allowed.
@@ -246,11 +264,13 @@ const ChangeEmail = ({ closeComponent }) => {
 								display: matchFocus && !validMatch ? "block" : "none",
 								marginBottom: "0rem",
 							}}>
-							<IoInformationCircleSharp style={{ marginRight: "0.35rem" }} />
+							<IoInformationCircleSharp
+								style={{ marginRight: "0.35rem", marginBottom: "-0.12rem" }}
+							/>
 							Must match the first email input field.
 						</Uidnote>
 						<WrapBtns>
-							<Button type="button" onClick={closeComponent}>
+							<Button type="button" onClick={handleDisplay}>
 								<Span>Back</Span>
 							</Button>
 							<Button
@@ -278,6 +298,6 @@ const ChangeEmail = ({ closeComponent }) => {
 	);
 };
 ChangeEmail.propTypes = {
-	closeComponent: PropTypes.func,
+	closeComponent: PropTypes.func.isRequired,
 };
 export default ChangeEmail;

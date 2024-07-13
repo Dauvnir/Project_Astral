@@ -10,8 +10,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import useToggleFavourite from "../hooks/useToggleFavourite";
 import useAddUserChapter from "../hooks/useAddUserChapter";
-import useDebounce from "../hooks/useDebounce";
 import useFetchUserChapter from "../hooks/useFetchUserChapter";
+import { useRef } from "react";
+import useAddBookContext from "../hooks/useAddBookContext";
 const enlargeAndShrink = keyframes`
     0% {
         transform: scale(1); /* Normal size at the beginning */
@@ -42,7 +43,6 @@ const ChapterInformationWrapper = styled.div`
 	width: 8rem;
 	height: 14rem;
 	background: rgba(29, 37, 53, 0.8);
-	backdrop-filter: blur(2px);
 	border-radius: 0 0 5px 5px;
 	border-top: 0px;
 	@media (min-width: 1000px) {
@@ -166,7 +166,6 @@ const Input = styled.input`
 	width: 100%;
 	height: 6rem;
 	padding: 0.25rem;
-	background: #1d2535e8;
 	border: none;
 	color: #e5e9f1;
 	font-family: Lato;
@@ -177,6 +176,7 @@ const Input = styled.input`
 	white-space: normal;
 	text-align: center;
 	text-decoration: none;
+	background: #1d2535;
 	&:focus {
 		outline: none;
 		border-top: none;
@@ -192,10 +192,10 @@ const InputWrapper = styled.div`
 	flex-direction: column;
 `;
 const InputSpan = styled(Span)`
-	background: #1d2535e8;
 	height: 4rem;
 	width: 100%;
 	padding: 0.25rem;
+	background: #1d2535;
 `;
 const AnimatedSpan = styled(Span)`
 	animation: ${enlargeAndShrink} 4s ease-in-out infinite;
@@ -211,43 +211,16 @@ const ChapterForLibrary = ({
 	manhwaID,
 }) => {
 	const [favoured, setFavoured] = useState(false);
-	const [chapter, setChapter] = useState(chapterNumber);
-	const [chapterChanged, setChapterChanged] = useState(false);
 	const removeBook = useRemoveBook();
 	const isFavouried = useIsFavourite();
 	const toggleFavouriedStatus = useToggleFavourite();
-	const addUserChapter = useAddUserChapter();
-	const debouncedChapter = useDebounce(chapter, 2000);
-	const fetchedUserChapter = useFetchUserChapter();
-
-	const handleAddUserChapter = async () => {
-		await addUserChapter(manhwaID, chapter);
-	};
 	const handleToggleFavouriedStatus = async () => {
 		await toggleFavouriedStatus(manhwaID, favoured);
 		setFavoured(!favoured);
 	};
-	const handleInputChange = (e) => {
-		setChapter(e.target.value);
-	};
-
 	const handleRemoveBook = async () => {
 		await removeBook(manhwaID);
 	};
-
-	const handleChangeChapterOnClick = async () => {
-		setChapterChanged(false);
-		setChapter(chapterNumber);
-		await addUserChapter(manhwaID, chapterNumber);
-	};
-
-	useEffect(() => {
-		const handleFetchedUserChapter = async () => {
-			const chapter_user = await fetchedUserChapter(manhwaID);
-			setChapter(chapter_user);
-		};
-		handleFetchedUserChapter();
-	}, [manhwaID]);
 
 	useEffect(() => {
 		const fetchIsFavoured = async () => {
@@ -257,25 +230,82 @@ const ChapterForLibrary = ({
 
 		fetchIsFavoured();
 	}, [isFavouried, manhwaID]);
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	const fetchedUserChapter = useFetchUserChapter();
+	const addUserChapter = useAddUserChapter();
+	const { bookID, setBookID } = useAddBookContext();
+	const setID = () => {
+		setBookID((prev) => (prev === manhwaID ? null : manhwaID));
+	};
+	const [userChapter, setUserChapter] = useState();
+	const [inputValue, setInputValue] = useState();
+	const [debouncedValue, setDebouncedValue] = useState(null);
+	const [chapterChanged, setChapterChanged] = useState(false);
+	const fetchChapterHandler = async () => {
+		const chapter = await fetchedUserChapter(manhwaID);
+		setUserChapter(chapter);
+		setInputValue(chapter);
+	};
+	const inputValueHandler = (event) => {
+		setInputValue(event.target.value);
+	};
+
+	const sendToDatabase = async () => {
+		await addUserChapter(manhwaID, debouncedValue);
+	};
 
 	useEffect(() => {
-		if (isEditable === true) {
-			if (debouncedChapter !== chapterNumber) {
-				handleAddUserChapter();
+		fetchChapterHandler();
+	}, []);
+
+	useEffect(() => {
+		const handler = setTimeout(() => {
+			setDebouncedValue(inputValue);
+		}, 1000);
+
+		return () => {
+			clearTimeout(handler);
+		};
+	}, [inputValue]);
+
+	useEffect(() => {
+		setUserChapter(debouncedValue);
+	}, [debouncedValue]);
+
+	const initialRender = useRef(true);
+	useEffect(() => {
+		if (initialRender.current) {
+			initialRender.current = false;
+		} else if (debouncedValue) {
+			if (
+				userChapter === debouncedValue &&
+				!isEditable &&
+				bookID === manhwaID
+			) {
+				sendToDatabase();
+				setBookID(null);
 			}
 		}
-	}, [debouncedChapter]);
+	}, [userChapter, isEditable]);
 
 	useEffect(() => {
-		if (chapterNumber !== chapter) {
+		if (chapterNumber !== userChapter) {
 			setChapterChanged(true);
 		} else {
 			setChapterChanged(false);
 		}
-	}, [chapterNumber, chapter]);
+	}, [chapterNumber, userChapter]);
+
+	const handleChangeChapterOnClick = async () => {
+		setChapterChanged(false);
+		setUserChapter(chapterNumber);
+		setBookID(null);
+		setInputValue(chapterNumber);
+		await addUserChapter(manhwaID, chapterNumber);
+	};
 
 	return (
-		<ScalingWrap $favoured={`${favoured}`}>
+		<ScalingWrap $favoured={`${favoured}`} $bookID={bookID === manhwaID}>
 			{isEditable && (
 				<Overlay>
 					<IconsWrap>
@@ -292,7 +322,12 @@ const ChapterForLibrary = ({
 					</IconsWrap>
 					<InputWrapper>
 						<InputSpan>You can edit chapter now:</InputSpan>
-						<Input type="text" value={chapter} onChange={handleInputChange} />
+						<Input
+							type="text"
+							value={!inputValue ? chapterNumber : inputValue}
+							onClick={setID}
+							onChange={inputValueHandler}
+						/>
 					</InputWrapper>
 				</Overlay>
 			)}
@@ -310,7 +345,8 @@ const ChapterForLibrary = ({
 					) : (
 						<Span style={{ height: "30%" }}> {chapterNumber}</Span>
 					)}
-					{!isEditable && <Span style={{ height: "30%" }}>{chapter}</Span>}
+
+					{!isEditable && <Span style={{ height: "30%" }}>{userChapter}</Span>}
 				</TitleInformation>
 			</ChapterInformationWrapper>
 		</ScalingWrap>

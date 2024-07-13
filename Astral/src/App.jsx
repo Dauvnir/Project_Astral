@@ -6,7 +6,7 @@ import LoginLayout from "./components/LoginLayout";
 import SignUpPage from "./pages/SignUpPage";
 import Library from "./pages/Library";
 import AllBooks from "./pages/AllBooks";
-import Leaderboard from "./pages/ Leaderboard";
+import Leaderboard from "./pages/Leaderboard";
 import Layout from "./pages/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import RequireAuth from "./components/RequireAuth";
@@ -17,6 +17,8 @@ import UpdateDatabase from "./components/UpdateDatabase";
 import AddLibrary from "./components/AddLibrary";
 import { RandomImageProvider } from "./context/RandomImageProvider.jsx";
 import MainPage from "./pages/MainPage.jsx";
+import ResetLink from "./pages/ResetLink.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 
 const App = () => {
 	return (
@@ -28,6 +30,10 @@ const App = () => {
 					<Route index element={<LoginPage />} />
 					<Route path="login" element={<LoginForm />} />
 					<Route path="register" element={<SignUpPage />} />
+					<Route path="resetLink" element={<ResetLink />} />
+				</Route>
+				<Route path="resetPassword/:id/:token" element={<LoginLayout />}>
+					<Route index element={<ResetPassword />} />
 				</Route>
 
 				{/* Protected routes for users*/}

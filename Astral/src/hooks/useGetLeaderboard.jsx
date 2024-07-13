@@ -24,26 +24,24 @@ const useGetLeaderboard = () => {
 		try {
 			const dataObject = await getLeaderboard();
 			const manhwaIds = dataObject.map((item) => item.manhwa_id);
-
-			manhwaIds.forEach(async (book) => {
-				if (book.srcimg === "") {
+			await Promise.all(
+				manhwaIds.map(async (manhwaId) => {
 					try {
 						const response = await axiosPrivate.get(
-							`/manhwa/methods/get/images/${book.manhwa_id}`
+							`/manhwas/methods/get/images/${manhwaId}`
 						);
-
-						const image = response.data;
-
+						const data = response.data;
+						const flattenedSrcimgs = data.map((element) => element.srcimg);
 						await database
 							.table("manhwas")
 							.where("manhwa_id")
-							.equals(book.manhwa_id)
-							.modify({ srcimg: image });
+							.equals(manhwaId)
+							.modify({ srcimg: flattenedSrcimgs });
 					} catch (error) {
 						console.error("Error while fetching images", error);
 					}
-				}
-			});
+				})
+			);
 
 			const books = await database
 				.table("manhwas")

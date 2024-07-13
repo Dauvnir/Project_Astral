@@ -98,6 +98,10 @@ const IconWrap = styled.div`
 const MenuExtendedAccount = () => {
 	const [toggle, setToggle] = useState(false);
 	const [activeComponent, setActiveComponent] = useState(null);
+
+	function closeComponent() {
+		setActiveComponent(null);
+	}
 	const justToggle = () => {
 		setToggle((prev) => !prev);
 	};
@@ -105,9 +109,7 @@ const MenuExtendedAccount = () => {
 		setActiveComponent(componentName);
 		setToggle((prev) => !prev);
 	};
-	const closeComponent = () => {
-		setActiveComponent(null);
-	};
+
 	let menuExtendedAccount = useRef();
 	let btnToExtendAccount = useRef();
 	useEffect(() => {

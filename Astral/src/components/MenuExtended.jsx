@@ -7,7 +7,6 @@ import { useRef } from "react";
 import ReportBug from "./ReportBug";
 import Notifications from "./Notifications";
 import Logout from "./Logout";
-import AboutUs from "./AboutUsMenuComponent";
 const MenuExtendedStyling = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -29,9 +28,9 @@ const UlList = styled.ul`
 	text-decoration: none;
 	list-style: none;
 	overflow: hidden;
-	height: ${(props) => (props.$toggleValue ? 18 : 0)}rem;
+	height: ${(props) => (props.$toggleValue ? 14.5 : 0)}rem;
 	@media (min-width: 550px) {
-		height: ${(props) => (props.$toggleValue ? 22 : 0)}rem;
+		height: ${(props) => (props.$toggleValue ? 18 : 0)}rem;
 	}
 	@media (min-width: 1200px) {
 		display: none;
@@ -151,14 +150,11 @@ const MenuExtended = () => {
 						}}>
 						<Span>Home</Span>
 					</LiElement>
-					<LiElement onClick={() => handleClick("Notifications")}>
-						<Span>Notifications</Span>
+					<LiElement onClick={() => handleClick("Settings")}>
+						<Span>Settings</Span>
 					</LiElement>
 					<LiElement onClick={() => handleClick("ReportBug")}>
 						<Span>Report bug</Span>
-					</LiElement>
-					<LiElement onClick={() => handleClick("AboutUs")}>
-						<Span>About us</Span>
 					</LiElement>
 					<LiElement
 						onClick={() => handleClick("LogOut")}
@@ -171,14 +167,11 @@ const MenuExtended = () => {
 					</LiElement>
 				</UlList>
 			</MenuExtendedStyling>
-			{activeComponent === "Notifications" && (
+			{activeComponent === "Settings" && (
 				<Notifications closeComponent={closeComponent} />
 			)}
 			{activeComponent === "ReportBug" && (
 				<ReportBug closeComponent={closeComponent} />
-			)}
-			{activeComponent === "AboutUs" && (
-				<AboutUs closeComponent={closeComponent} />
 			)}
 			{activeComponent === "LogOut" && (
 				<Logout closeComponent={closeComponent} />
