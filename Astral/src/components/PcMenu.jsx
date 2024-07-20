@@ -132,7 +132,7 @@ const PcMenu = () => {
 	};
 	let navigate3 = useNavigate();
 	const toHome = () => {
-		let path3 = "library";
+		let path3 = "/library";
 		navigate3(path3);
 	};
 	const [toggleValue, setToggleValue] = useState(false);
