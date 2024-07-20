@@ -46,7 +46,7 @@ const App = () => {
 						</Route>
 						<Route element={<UpdateDatabase />}>
 							<Route element={<RandomImageProvider />}>
-								<Route path="/library" element={<MainPage />}>
+								<Route path="library" element={<MainPage />}>
 									<Route index element={<Library />} />
 									<Route path="books" element={<AllBooks />} />
 									<Route path="leaderboard" element={<Leaderboard />} />
