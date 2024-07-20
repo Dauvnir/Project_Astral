@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { initializeDatabase } from "../api/DatabaseLocal";
 import styled from "styled-components";
-import PacmanLoader from "react-spinners/PacmanLoader";
+import { BarLoader } from "react-spinners";
+
 const Overlay = styled.div`
 	width: 100vw;
 	height: 100vh;
@@ -73,13 +74,7 @@ const PopulatingDatabase = () => {
 						<MsgWindow>
 							<Header>One time only downloading books...</Header>
 							<Body>
-								<PacmanLoader
-									color="#d9d9d9"
-									size={45}
-									cssOverride={{
-										opacity: 1,
-									}}
-								/>
+								<BarLoader height={5} width={300} color="#d9d9d9" />
 							</Body>
 						</MsgWindow>
 					</Overlay>

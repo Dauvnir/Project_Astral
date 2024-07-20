@@ -9,11 +9,14 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"type": "module",
+	"type": "commonjs",
 	"types": "module",
 	"dependencies": {
+		"antibotbrowser": "^1.0.5",
 		"puppeteer": "^22.1.0",
 		"puppeteer-extra": "^3.3.6",
-		"puppeteer-extra-plugin-stealth": "^2.11.2"
+		"puppeteer-extra-plugin-anonymize-ua": "^2.4.6",
+		"puppeteer-extra-plugin-stealth": "^2.11.2",
+		"puppeteer-real-browser": "^1.2.17"
 	}
 }

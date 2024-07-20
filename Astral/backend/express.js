@@ -45,12 +45,17 @@ app.use("/auth", require("./routes/authorized"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
 app.use("/registration", require("./routes/registration"));
-app.use(verifyJWT);
 app.use("/manhwas", require("./routes/routesScanBot"));
+app.use("/leaderboard", require("./routes/leaderboard"));
+app.use("/forgotPassword", require("./routes/forgotPassword"));
+app.use("/resetPassword", require("./routes/resetPassword"));
+app.use("/email", require("./routes/contactReportEmail"));
+app.use(verifyJWT);
+app.use("/library", require("./routes/library"));
 app.use("/users", require("./routes/usersCRUD"));
 
 //update database every 2 hours
-setInterval(updateDB, 7200000); //7 200 000  it is 2 hour
+// setInterval(updateDB, 7200000); //7 200 000  it is 2 hour
 async function updateDB() {
 	try {
 		await manhwaController.patchManhwaChapterAll();
@@ -61,7 +66,7 @@ async function updateDB() {
 	}
 }
 //
-
+updateDB();
 app.use(errorHandler);
 
 process.on("exit", () => {

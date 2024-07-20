@@ -11,7 +11,9 @@ const useRefreshToken = () => {
 		const decoded = response?.data?.accessToken
 			? jwtDecode(response.data.accessToken)
 			: undefined;
+
 		const roles = decoded?.UserInfo?.roles || [];
+
 		setAuth((prev) => {
 			return {
 				...prev,

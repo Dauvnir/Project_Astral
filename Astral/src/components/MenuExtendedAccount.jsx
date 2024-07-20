@@ -1,11 +1,9 @@
 import styled from "styled-components";
-import { LineBreak } from "./LineBreak";
 import { MdManageAccounts } from "react-icons/md";
 import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import DeleteAccount from "./DeleteAccount";
-import ChangeAvatar from "./ChangeAvatar";
 import ChangeEmail from "./ChangeEmail";
 import ChangeNickname from "./ChangeNickname";
 import ChangePassword from "./ChangePassword";
@@ -32,10 +30,10 @@ const UlList = styled.ul`
 	text-decoration: none;
 	list-style: none;
 	overflow: hidden;
-	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
+	height: ${(props) => (props.$toggleValue ? 15 : 0)}rem;
 	transition: all 0.3s ease;
 	@media (min-width: 550px) {
-		height: ${(props) => (props.$toggleValue ? 23 : 0)}rem;
+		height: ${(props) => (props.$toggleValue ? 18 : 0)}rem;
 	}
 	@media (min-width: 1200px) {
 		display: none;
@@ -44,6 +42,7 @@ const UlList = styled.ul`
 const LiElement = styled.li`
 	padding: 1rem;
 	cursor: pointer;
+	border-bottom: 1px solid rgba(217, 217, 217, 0.9);
 	&:hover {
 		background: rgba(217, 217, 217, 0.9);
 		transition: background ease 0.5s;
@@ -69,29 +68,22 @@ const Span = styled.span`
 		font-weight: 400;
 	}
 `;
-const ExtendedLineBreak = styled(LineBreak)`
-	margin: 0;
-`;
+
 const Account = styled(MdManageAccounts)`
 	display: inline-block;
 	height: 100%;
 	width: 100%;
 	color: #d9d9d9;
-	scale: 1.3;
 `;
-const WrapperIcon = styled.div`
+const IconWrap = styled.div`
 	display: flex;
+	align-items: center;
 	justify-content: center;
-	align-content: center;
 	position: relative;
-	z-index: 4;
+	z-index: 5;
+	width: 25%;
 	height: 100%;
-	width: 33%;
-	padding-block: 10px;
-	padding-left: 0.5rem;
-	padding-right: 3.5rem;
-	overflow: hidden;
-	background: inherit;
+	background: rgba(29, 37, 53, 1);
 	cursor: pointer;
 	&:hover {
 		background: rgba(217, 217, 217, 1);
@@ -105,9 +97,19 @@ const WrapperIcon = styled.div`
 
 const MenuExtendedAccount = () => {
 	const [toggle, setToggle] = useState(false);
+	const [activeComponent, setActiveComponent] = useState(null);
+
+	function closeComponent() {
+		setActiveComponent(null);
+	}
 	const justToggle = () => {
 		setToggle((prev) => !prev);
 	};
+	const handleClick = (componentName) => {
+		setActiveComponent(componentName);
+		setToggle((prev) => !prev);
+	};
+
 	let menuExtendedAccount = useRef();
 	let btnToExtendAccount = useRef();
 	useEffect(() => {
@@ -125,52 +127,52 @@ const MenuExtendedAccount = () => {
 			document.removeEventListener("mousedown", handlerAccount);
 		};
 	}, [toggle]);
-	const [activeComponent, setActiveComponent] = useState(null);
-	const handleClick = (componentName) => {
-		setActiveComponent(componentName);
-		setToggle((prev) => !prev);
-	};
+
 	return (
 		<>
-			<WrapperIcon onClick={() => justToggle()} ref={btnToExtendAccount}>
-				<Account></Account>
-			</WrapperIcon>
+			<IconWrap onClick={() => justToggle()} ref={btnToExtendAccount}>
+				<Account />
+			</IconWrap>
 			<MenuExtendedStyling ref={menuExtendedAccount}>
 				<UlList $toggleValue={toggle}>
 					<LiElement
-						style={{ borderTopRightRadius: "20px", borderTopLeftRadius: "20px" }}
+						style={{
+							borderTopRightRadius: "20px",
+							borderTopLeftRadius: "20px",
+						}}
 						onClick={() => handleClick("ChangePassword")}>
 						<Span>Change Password</Span>
 					</LiElement>
-					<ExtendedLineBreak></ExtendedLineBreak>
 					<LiElement onClick={() => handleClick("ChangeEmail")}>
 						<Span>Change Email</Span>
 					</LiElement>
-					<ExtendedLineBreak></ExtendedLineBreak>
 					<LiElement onClick={() => handleClick("ChangeNickname")}>
 						<Span>Change Nickname</Span>
 					</LiElement>
-					<ExtendedLineBreak></ExtendedLineBreak>
-					<LiElement onClick={() => handleClick("ChangeAvatar")}>
-						<Span>Change Avatar</Span>
-					</LiElement>
-					<ExtendedLineBreak></ExtendedLineBreak>
 					<LiElement
 						onClick={() => handleClick("DeleteAccount")}
 						style={{
 							paddingBottom: "3rem",
 							borderBottomRightRadius: "20px",
 							borderBottomLeftRadius: "20px",
+							borderBottom: "none",
 						}}>
 						<Span>Delete Account</Span>
 					</LiElement>
 				</UlList>
 			</MenuExtendedStyling>
-			{activeComponent === "ChangePassword" && <ChangePassword />}
-			{activeComponent === "ChangeEmail" && <ChangeEmail />}
-			{activeComponent === "ChangeNickname" && <ChangeNickname />}
-			{activeComponent === "ChangeAvatar" && <ChangeAvatar />}
-			{activeComponent === "DeleteAccount" && <DeleteAccount />}
+			{activeComponent === "ChangePassword" && (
+				<ChangePassword closeComponent={closeComponent} />
+			)}
+			{activeComponent === "ChangeEmail" && (
+				<ChangeEmail closeComponent={closeComponent} />
+			)}
+			{activeComponent === "ChangeNickname" && (
+				<ChangeNickname closeComponent={closeComponent} />
+			)}
+			{activeComponent === "DeleteAccount" && (
+				<DeleteAccount closeComponent={closeComponent} />
+			)}
 		</>
 	);
 };

@@ -1,184 +1,93 @@
 import styled from "styled-components";
-import { database } from "../api/DatabaseLocal";
-import Chapter from "./Chapter";
-import { useLiveQuery } from "dexie-react-hooks";
-import PacmanLoader from "react-spinners/PacmanLoader";
 import PropTypes from "prop-types";
-import { compareMetaData } from "../api/DatabaseLocal";
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
-const StyledDiv = styled.div`
+import Chapter from "./Chapter";
+import useSortedData from "../hooks/useSortedData";
+import { useEffect, useState } from "react";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { database } from "../api/DatabaseLocal";
+import { BarLoader } from "react-spinners";
+import { ScaleProvider } from "../context/ScaleProvider";
+
+const Spinner = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: left;
-	width: 90vw;
-	height: 15rem;
+	justify-content: center;
+	width: 100vw;
+	height: 10rem;
+	position: relative;
 	padding: 1rem;
+	z-index: 1;
 `;
 //  include to dependencies when adding sort function for input value
-const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
-	const pageSize = 50;
-	const [startIndex, setStartIndex] = useState(0);
-	const unmountTime = 60000;
-	useEffect(() => {
-		const interval = setInterval(async () => {
-			await compareMetaData();
-		}, unmountTime);
+const ChapterList = ({
+	sortMethod,
+	inputValue,
+	indexValue,
+	scanlationSite,
+}) => {
+	const axiosPrivate = useAxiosPrivate();
+	const [manhwa, setManhwa] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const fetchData = useSortedData();
 
-		return () => clearInterval(interval);
-	}, []);
-	useEffect(() => {
-		setStartIndex((indexValue - 1) * pageSize);
-	}, [indexValue]);
-
-	let manhwasQuery;
-	if (sortMethod === "nameAZ") {
-		manhwasQuery = () =>
-			database
-				.table("manhwas")
-				.orderBy("title")
-				.offset(startIndex)
-				.limit(pageSize)
-				.toArray();
-	} else if (sortMethod === "nameZA") {
-		manhwasQuery = () =>
-			database
-				.table("manhwas")
-				.orderBy("title")
-				.reverse()
-				.offset(startIndex)
-				.limit(pageSize)
-				.toArray();
-	} else if (sortMethod === "scanlation") {
-		manhwasQuery = () =>
-			database
-				.table("manhwas")
-				.orderBy("scanlation_site")
-				.offset(startIndex)
-				.limit(pageSize)
-				.toArray();
-	} else if (sortMethod === "chapter19") {
-		manhwasQuery = async () => {
-			let manhwas = await database.table("manhwas").toArray();
-
-			manhwas.sort((a, b) => {
-				const chapterA = extractNumericPart(a.chapter);
-				const chapterB = extractNumericPart(b.chapter);
-				return chapterA - chapterB;
-			});
-
-			manhwas = manhwas.slice(startIndex, startIndex + pageSize);
-
-			return manhwas;
-		};
-	} else if (sortMethod === "chapter91") {
-		manhwasQuery = async () => {
-			let manhwas = await database.table("manhwas").toArray();
-
-			manhwas.sort((a, b) => {
-				const chapterA = extractNumericPart(a.chapter);
-				const chapterB = extractNumericPart(b.chapter);
-				return chapterB - chapterA;
-			});
-
-			manhwas = manhwas.slice(startIndex, startIndex + pageSize);
-
-			return manhwas;
-		};
-	} else {
-		if (inputValue) {
-			manhwasQuery = () =>
-				database
-					.table("manhwas")
-					.toArray()
-					.then((manhwas) =>
-						manhwas.filter((manhwa) =>
-							manhwa.title
-								.toLowerCase()
-								.match(new RegExp(inputValue.toLowerCase(), "g"))
-						)
-					);
-		} else {
-			manhwasQuery = () =>
-				database.table("manhwas").offset(startIndex).limit(pageSize).toArray();
-		}
-	}
-
-	const manhwas = useLiveQuery(manhwasQuery, [
-		startIndex,
-		pageSize,
-		sortMethod,
-		inputValue,
-	]);
-
-	function extractNumericPart(chapter) {
-		const match = chapter.match(/\d+/);
-		return match ? parseInt(match[0]) : Infinity;
-	}
-
-	if (manhwas) {
-		manhwas.map(async (manhwa) => {
-			if (manhwa.srcimg !== " ") {
-				return;
-			}
-			try {
-				await axios
-					.get(`http://localhost:3000/manhwas/images/${manhwa.manhwa_id}`)
-					.then((response) => {
+	const fetchImages = async (manhwas) => {
+		await Promise.all(
+			manhwas.map(async (manhwa) => {
+				try {
+					if (manhwa.srcimg === " ") {
+						const response = await axiosPrivate.get(
+							`/manhwas/methods/get/images/${manhwa.manhwa_id}`
+						);
 						const image = response.data[0];
-						return database
+						await database
 							.table("manhwas")
 							.where("manhwa_id")
 							.equals(manhwa.manhwa_id)
 							.modify({ srcimg: image.srcimg });
-					})
-					.catch((error) => {
-						console.error("Error fetching data", error);
-						throw error;
-					});
-			} catch (error) {
-				console.error("Error fetching images:", error);
-			}
-		});
-	}
+						manhwa.srcimg = image.srcimg; // Aktualizacja srcimg dla manhwy
+					}
+				} catch (error) {
+					console.error("Error fetching images:", error);
+					throw error; // Re-throw the error to be caught by the Promise.all catch block
+				}
+			})
+		);
+		return manhwas;
+	};
 
-	// const uniqueScanlationSites = new Set();
-
-	// manhwas.forEach((manhwa) => {
-	// 	if (
-	// 		manhwa.scanlation_site &&
-	// 		!uniqueScanlationSites.has(manhwa.scanlation_site)
-	// 	) {
-	// 		uniqueScanlationSites.add(manhwa.scanlation_site);
-	// 	}
-	// });
-	// {uniqueScanlationSites.has(manhwa.scanlation_site) &&
-	// 	sortMethod == "scanlation" && (
-	// 		<>
-	// 			<span>{manhwa.scanlation_site}</span>
-	// 			{uniqueScanlationSites.delete(manhwa.scanlation_site)}
-	// 		</>
-	// 	)}
-
+	const fetchDataAndImages = async () => {
+		setLoading(true);
+		try {
+			const manhwas = await fetchData(
+				indexValue,
+				sortMethod,
+				inputValue,
+				scanlationSite
+			);
+			const completeManhwa = await fetchImages(manhwas);
+			setManhwa(completeManhwa);
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
+	useEffect(() => {
+		fetchDataAndImages();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [indexValue, sortMethod, inputValue]);
 	return (
 		<>
-			{!manhwas ? (
-				<StyledDiv>
-					<PacmanLoader
-						color="#d9d9d9"
-						size={100}
-						cssOverride={{
-							opacity: 1,
-						}}
-					/>
-				</StyledDiv>
+			{loading ? (
+				<Spinner>
+					<BarLoader height={5} width={400} color="#d9d9d9" />;
+				</Spinner>
 			) : (
-				manhwas.map((manhwa) => (
-					<>
+				<ScaleProvider>
+					{manhwa.map((manhwa, index) => (
 						<Chapter
-							key={manhwa.manhwa_id}
-							srcUrl={manhwa.websiteurl}
+							key={index}
+							manhwaID={manhwa.manhwa_id}
 							imageUrl={manhwa.srcimg}
 							scanlation={manhwa.scanlation_site}
 							chapterNumber={
@@ -192,8 +101,8 @@ const ChapterList = ({ sortMethod, inputValue, indexValue }) => {
 									: manhwa.title
 							}
 						/>
-					</>
-				))
+					))}
+				</ScaleProvider>
 			)}
 		</>
 	);
@@ -202,5 +111,24 @@ ChapterList.propTypes = {
 	sortMethod: PropTypes.string.isRequired,
 	inputValue: PropTypes.string,
 	indexValue: PropTypes.number.isRequired,
+	scanlationSite: PropTypes.string,
 };
 export default ChapterList;
+
+// const uniqueScanlationSites = new Set();
+
+// manhwas.forEach((manhwa) => {
+// 	if (
+// 		manhwa.scanlation_site &&
+// 		!uniqueScanlationSites.has(manhwa.scanlation_site)
+// 	) {
+// 		uniqueScanlationSites.add(manhwa.scanlation_site);
+// 	}
+// });
+// {uniqueScanlationSites.has(manhwa.scanlation_site) &&
+// 	sortMethod == "scanlation" && (
+// 		<>
+// 			<span>{manhwa.scanlation_site}</span>
+// 			{uniqueScanlationSites.delete(manhwa.scanlation_site)}
+// 		</>
+// 	)}

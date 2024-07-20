@@ -6,13 +6,19 @@ import LoginLayout from "./components/LoginLayout";
 import SignUpPage from "./pages/SignUpPage";
 import Library from "./pages/Library";
 import AllBooks from "./pages/AllBooks";
-import Leaderboard from "./pages/ Leaderboard";
+import Leaderboard from "./pages/Leaderboard";
 import Layout from "./pages/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import RequireAuth from "./components/RequireAuth";
 import Unauthorized from "./pages/Unauthorized";
 import SuccededLogIn from "./pages/SuccedLogIn";
 import PersistentLogin from "./components/PersistentLogin";
+import UpdateDatabase from "./components/UpdateDatabase";
+import AddLibrary from "./components/AddLibrary";
+import { RandomImageProvider } from "./context/RandomImageProvider.jsx";
+import MainPage from "./pages/MainPage.jsx";
+import ResetLink from "./pages/ResetLink.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 
 const App = () => {
 	return (
@@ -24,26 +30,29 @@ const App = () => {
 					<Route index element={<LoginPage />} />
 					<Route path="login" element={<LoginForm />} />
 					<Route path="register" element={<SignUpPage />} />
+					<Route path="resetLink" element={<ResetLink />} />
+				</Route>
+				<Route path="resetPassword/:id/:token" element={<LoginLayout />}>
+					<Route index element={<ResetPassword />} />
 				</Route>
 
 				{/* Protected routes for users*/}
 				<Route element={<PersistentLogin />}>
 					<Route element={<RequireAuth allowedRoles={[7213]} />}>
-						<Route path="/" element={<LoginLayout />}>
-							<Route index element={<SuccededLogIn />} />
+						<Route element={<AddLibrary />}>
+							<Route path="/" element={<LoginLayout />}>
+								<Route index element={<SuccededLogIn />} />
+							</Route>
 						</Route>
-					</Route>
-
-					<Route element={<RequireAuth allowedRoles={[7213]} />}>
-						<Route path="library" element={<Library />} />
-					</Route>
-
-					<Route element={<RequireAuth allowedRoles={[7213]} />}>
-						<Route path="books" element={<AllBooks />} />
-					</Route>
-
-					<Route element={<RequireAuth allowedRoles={[7213]} />}>
-						<Route path="leaderboard" element={<Leaderboard />} />
+						<Route element={<UpdateDatabase />}>
+							<Route element={<RandomImageProvider />}>
+								<Route path="/" element={<MainPage />}>
+									<Route path="library" element={<Library />} />
+									<Route path="books" element={<AllBooks />} />
+									<Route path="leaderboard" element={<Leaderboard />} />
+								</Route>
+							</Route>
+						</Route>
 					</Route>
 				</Route>
 

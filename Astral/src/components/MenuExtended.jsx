@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { LineBreak } from "./LineBreak";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -8,7 +7,6 @@ import { useRef } from "react";
 import ReportBug from "./ReportBug";
 import Notifications from "./Notifications";
 import Logout from "./Logout";
-import AboutUs from "./AboutUsMenuComponent";
 const MenuExtendedStyling = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -30,9 +28,9 @@ const UlList = styled.ul`
 	text-decoration: none;
 	list-style: none;
 	overflow: hidden;
-	height: ${(props) => (props.$toggleValue ? 19 : 0)}rem;
+	height: ${(props) => (props.$toggleValue ? 14.5 : 0)}rem;
 	@media (min-width: 550px) {
-		height: ${(props) => (props.$toggleValue ? 23 : 0)}rem;
+		height: ${(props) => (props.$toggleValue ? 18 : 0)}rem;
 	}
 	@media (min-width: 1200px) {
 		display: none;
@@ -42,6 +40,7 @@ const UlList = styled.ul`
 const LiElement = styled.li`
 	padding: 1rem;
 	cursor: pointer;
+	border-bottom: 1px solid rgba(217, 217, 217, 0.9);
 	&:hover {
 		background: rgba(217, 217, 217, 0.9);
 		transition: background ease 0.5s;
@@ -67,22 +66,18 @@ const Span = styled.span`
 		font-weight: 400;
 	}
 `;
-const ExtendedLineBreak = styled(LineBreak)`
-	margin: 0;
-`;
-const WrapperIconLeft = styled.div`
+
+const IconWrap = styled.div`
 	display: flex;
+	align-items: center;
 	justify-content: center;
-	align-content: center;
 	position: relative;
 	z-index: 5;
+	width: 25%;
 	height: 100%;
-	width: 17%;
-	padding-block: 10px;
-	padding-inline: 0.5rem;
-	overflow: visible;
+	background: rgba(29, 37, 53, 1);
+	border-radius: 20px 0 0 20px;
 	cursor: pointer;
-	background: inherit;
 	&:hover {
 		background: rgba(217, 217, 217, 1);
 		transition: background ease 0.5s;
@@ -91,28 +86,38 @@ const WrapperIconLeft = styled.div`
 			transition: color ease 0.5s;
 		}
 	}
-	border-bottom-left-radius: 20px;
-	border-top-left-radius: 20px;
 `;
 const Hamburger = styled(RxHamburgerMenu)`
 	display: inline-block;
-	height: 100%;
+	height: 80%;
 	width: 100%;
 	color: #d9d9d9;
 	scale: 1.1;
 `;
 const MenuExtended = () => {
+	const [toggleValue, setToggleValue] = useState(false);
+	const [activeComponent, setActiveComponent] = useState(null);
+
+	const changeValueOfToggle = () => {
+		setToggleValue((prev) => !prev);
+	};
+	const handleClick = (componentName) => {
+		setActiveComponent(componentName);
+		setToggleValue((prev) => !prev);
+	};
+	const closeComponent = () => {
+		setActiveComponent(null);
+	};
+
 	let navigate = useNavigate();
+	let menuExtended = useRef();
+	let btnToExtend = useRef();
+
 	const toHome = () => {
 		let path = `/library`;
 		navigate(path);
 	};
-	const [toggleValue, setToggleValue] = useState(false);
-	const changeValueOfToggle = () => {
-		setToggleValue((prev) => !prev);
-	};
-	let menuExtended = useRef();
-	let btnToExtend = useRef();
+
 	useEffect(() => {
 		let handler = (e) => {
 			if (
@@ -130,37 +135,27 @@ const MenuExtended = () => {
 		};
 	}, [toggleValue]);
 
-	const [activeComponent, setActiveComponent] = useState(null);
-	const handleClick = (componentName) => {
-		setActiveComponent(componentName);
-		setToggleValue((prev) => !prev);
-	};
-
 	return (
 		<>
-			<WrapperIconLeft onClick={() => changeValueOfToggle()} ref={btnToExtend}>
+			<IconWrap onClick={() => changeValueOfToggle()} ref={btnToExtend}>
 				<Hamburger />
-			</WrapperIconLeft>
+			</IconWrap>
 			<MenuExtendedStyling ref={menuExtended}>
 				<UlList $toggleValue={toggleValue}>
 					<LiElement
 						onClick={toHome}
-						style={{ borderTopRightRadius: "20px", borderTopLeftRadius: "20px" }}>
+						style={{
+							borderTopRightRadius: "20px",
+							borderTopLeftRadius: "20px",
+						}}>
 						<Span>Home</Span>
 					</LiElement>
-					<ExtendedLineBreak />
-					<LiElement onClick={() => handleClick("Notifications")}>
-						<Span>Notifications</Span>
+					<LiElement onClick={() => handleClick("Settings")}>
+						<Span>Settings</Span>
 					</LiElement>
-					<ExtendedLineBreak />
 					<LiElement onClick={() => handleClick("ReportBug")}>
 						<Span>Report bug</Span>
 					</LiElement>
-					<ExtendedLineBreak />
-					<LiElement onClick={() => handleClick("AboutUs")}>
-						<Span>About us</Span>
-					</LiElement>
-					<ExtendedLineBreak />
 					<LiElement
 						onClick={() => handleClick("LogOut")}
 						style={{
@@ -172,10 +167,15 @@ const MenuExtended = () => {
 					</LiElement>
 				</UlList>
 			</MenuExtendedStyling>
-			{activeComponent === "Notifications" && <Notifications />}
-			{activeComponent === "ReportBug" && <ReportBug />}
-			{activeComponent === "AboutUs" && <AboutUs />}
-			{activeComponent === "LogOut" && <Logout />}
+			{activeComponent === "Settings" && (
+				<Notifications closeComponent={closeComponent} />
+			)}
+			{activeComponent === "ReportBug" && (
+				<ReportBug closeComponent={closeComponent} />
+			)}
+			{activeComponent === "LogOut" && (
+				<Logout closeComponent={closeComponent} />
+			)}
 		</>
 	);
 };

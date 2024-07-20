@@ -1,101 +1,101 @@
 const pool = require("../db.js");
 const bcrypt = require("bcrypt");
 const ROLES_LIST = require("../config/roles_list.js");
-// eslint-disable-next-line no-unused-vars
-const getUsers = async (req, res) => {
-	const selectQuery = "SELECT user_id, username, password FROM users;";
-	try {
-		const userList = await pool.query(selectQuery);
-		console.log(userList);
-		res.sendStatus(200);
-	} catch (error) {
-		console.error("Error while returning users:", error);
-		res.sendStatus(500);
-	}
-};
 
 const updateUserPassword = async (req, res) => {
-	const { username, password, newPassword } = req.body;
-	if (!username || !password) return res.sendStatus(400);
+	const { nickname, password } = req.body;
+
+	if (!password) {
+		return res.status(400).send("Email is required.");
+	}
+
 	try {
 		const isExisted = await pool.query(
-			"SELECT username, password FROM users WHERE username = $1;",
-			[username]
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[nickname]
 		);
-		if (isExisted.rowCount === 0) return res.sendStatus(401);
 
-		const hashedPassword = isExisted.rows[0].password;
-
-		const match = await bcrypt.compare(password, hashedPassword);
-
-		if (match) {
-			const updateQuery = "UPDATE users SET password = $1 WHERE username = $2;";
-			const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-			try {
-				await pool.query(updateQuery, [hashedNewPassword, username]);
-				res.sendStatus(200);
-			} catch (error) {
-				console.error("Error while updating user:", error);
-				res.sendStatus(500);
-			}
-		} else {
-			console.error("Passwords do not match.");
-			res.sendStatus(401);
+		if (isExisted.rowCount === 0) {
+			return res.status(404).send("User not found.");
 		}
+
+		const userID = isExisted.rows[0].user_id;
+		const updateQuery = "UPDATE users SET password = $1 WHERE user_id = $2;";
+
+		const hashedNewPassword = await bcrypt.hash(password, 10);
+
+		await pool.query(updateQuery, [hashedNewPassword, userID]);
+
+		res.sendStatus(200);
 	} catch (error) {
 		console.error("Error while searching user:", error);
 		res.sendStatus(500);
 	}
 };
+
 const updateUserEmail = async (req, res) => {
-	const { username, email } = req.body;
-	if (!email) return res.sendStatus(400);
+	const { nickname, email } = req.body;
+
+	if (!email) {
+		return res.status(400).send("Email is required.");
+	}
+
 	try {
 		const isExisted = await pool.query(
-			"SELECT username, password FROM users WHERE username = $1;",
-			[username]
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[nickname]
 		);
-		if (isExisted.rowCount === 0) return res.sendStatus(401);
-		const updateQuery = "UPDATE users SET email = $1 WHERE username = $2;";
-		try {
-			await pool.query(updateQuery, [email, username]);
-			res.sendStatus(200);
-		} catch (error) {
-			console.error("Error while updating user:", error);
-			res.sendStatus(500);
+
+		if (isExisted.rowCount === 0) {
+			return res.status(404).send("User not found.");
 		}
+
+		const userID = isExisted.rows[0].user_id;
+
+		const updateQuery = "UPDATE users SET email = $1 WHERE user_id = $2;";
+		await pool.query(updateQuery, [email, userID]);
+
+		return res.sendStatus(200);
 	} catch (error) {
-		console.error("Error while searching user:", error);
-		res.sendStatus(500);
+		console.error("Error while updating user:", error);
+		return res.status(500).send("Internal server error.");
 	}
 };
-const deleteUser = async (req, res) => {
-	const { username, password } = req.body;
-	if (!username || !password) return res.sendStatus(400);
+
+const updateUserNickname = async (req, res) => {
+	const { nickname, new_nickname } = req.body;
+
+	if (!new_nickname) {
+		return res.status(400).send("Nickname is required.");
+	}
 
 	try {
-		const userData = await pool.query(
-			"SELECT username, password FROM users WHERE username = $1",
-			[username]
+		const nicknameTaken = await pool.query(
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[new_nickname]
 		);
 
-		// User not found
-		if (userData.rowCount === 0) return res.sendStatus(401);
-
-		const hashedPassword = userData.rows[0].password;
-
-		// Compare passwords
-		const match = await bcrypt.compare(password, hashedPassword);
-
-		if (match) {
-			await pool.query("DELETE FROM users WHERE username = $1", [username]);
-			res.sendStatus(200);
-		} else {
-			res.sendStatus(401); // Unauthorized
+		if (nicknameTaken.rowCount !== 0) {
+			return res.status(409).send("Nickname taken.");
 		}
+
+		const userExists = await pool.query(
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[nickname]
+		);
+
+		if (userExists.rowCount === 0) {
+			return res.status(404).send("User not found.");
+		}
+
+		const updateQuery =
+			"UPDATE user_profiles SET nickname = $1 WHERE nickname = $2;";
+		await pool.query(updateQuery, [new_nickname, nickname]);
+
+		return res.sendStatus(200);
 	} catch (error) {
-		console.error("Error during deleting account:", error);
-		res.sendStatus(500); // Internal Server Error
+		console.error("Error while updating user:", error);
+		return res.status(500).send("Internal server error.");
 	}
 };
 
@@ -124,16 +124,113 @@ const createUser = async (req, res) => {
 			"INSERT INTO user_roles (user_id, role_id) VALUES ($1, $2);",
 			[userID, ROLES_LIST.User]
 		);
+		await pool.query(
+			"INSERT INTO user_profiles(user_id, nickname) VALUES ($1, $2);",
+			[userID, user]
+		);
 		res.status(201).json({ succes: `New user ${user} created!` });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
 };
 
+const deleteUser = async (req, res) => {
+	const { nickname } = req.body;
+	if (!nickname) {
+		return res.status(400).send("Nickname is required.");
+	}
+
+	try {
+		const isExisted = await pool.query(
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[nickname]
+		);
+
+		if (isExisted.rowCount === 0) {
+			return res.status(404).send("User not found.");
+		}
+
+		const userID = isExisted.rows[0].user_id;
+		await pool.query("BEGIN");
+
+		const queryUsers = "DELETE FROM users WHERE user_id = $1";
+		const queryUserManhwa = "DELETE FROM UserManhwa WHERE user_id = $1";
+		const queryUserRoles = "DELETE FROM user_roles WHERE user_id = $1";
+		const queryUserProfiles = "DELETE FROM user_profiles WHERE user_id = $1";
+
+		await pool.query(queryUserRoles, [userID]);
+		await pool.query(queryUserManhwa, [userID]);
+		await pool.query(queryUserProfiles, [userID]);
+		await pool.query(queryUsers, [userID]);
+
+		await pool.query("COMMIT");
+		return res.sendStatus(200);
+	} catch (error) {
+		await pool.query("ROLLBACK");
+		console.error("Error while deleting account", error);
+		return res.status(500).send("Internal server error.");
+	}
+};
+
+const setUserAvatar = async (req, res) => {
+	const { nickname, avatar } = req.body;
+	if (!nickname) {
+		return res.status(400).send("Nickname is required.");
+	}
+
+	try {
+		const isExisted = await pool.query(
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[nickname]
+		);
+
+		if (isExisted.rowCount === 0) {
+			return res.status(404).send("User not found.");
+		}
+
+		const query = "UPDATE user_profiles SET avatars = $1 WHERE nickname = $2;";
+
+		await pool.query(query, [avatar, nickname]);
+		return res.sendStatus(200);
+	} catch (error) {
+		console.error("Error while adding  avatar name to db", error);
+		return res.status(500).send("Internal server error.");
+	}
+};
+
+const avatarName = async (req, res) => {
+	const { nickname } = req.body;
+	if (!nickname) {
+		return res.status(400).send("Nickname is required.");
+	}
+	try {
+		const isExisted = await pool.query(
+			"SELECT user_id FROM user_profiles WHERE nickname = $1;",
+			[nickname]
+		);
+
+		if (isExisted.rowCount === 0) {
+			return res.status(404).send("User not found.");
+		}
+
+		const query = await pool.query(
+			"SELECT avatars FROM user_profiles WHERE nickname = $1;",
+			[nickname]
+		);
+		const avatarName = query.rows[0].avatars;
+
+		return res.status(200).json({ avatarName });
+	} catch (error) {
+		console.error("Error while adding  avatar name to db", error);
+		return res.status(500).send("Internal server error.");
+	}
+};
 module.exports = {
-	getUsers,
 	deleteUser,
 	updateUserPassword,
 	updateUserEmail,
 	createUser,
+	updateUserNickname,
+	setUserAvatar,
+	avatarName,
 };

@@ -12,11 +12,9 @@ import ReportBug from "./ReportBug";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
 import ChangeNickname from "./ChangeNickname";
-import ChangeAvatar from "./ChangeAvatar";
 import DeleteAccount from "./DeleteAccount";
 import Logout from "./Logout";
 import Notifications from "./Notifications";
-import AboutUs from "./AboutUsMenuComponent";
 const UlList = styled.ul`
 	display: flex;
 	list-style: none;
@@ -137,7 +135,6 @@ const PcMenu = () => {
 		let path3 = "/library";
 		navigate3(path3);
 	};
-	// eslint-disable-next-line no-unused-vars
 	const [toggleValue, setToggleValue] = useState(false);
 	const changeValueOfToggle = () => {
 		setToggleValue((prev) => !prev);
@@ -192,17 +189,33 @@ const PcMenu = () => {
 		setActiveComponent2(componentName);
 		setToggleValue2((prev) => !prev);
 	};
+	const closeComponent = () => {
+		setActiveComponent(null);
+		setActiveComponent2(null);
+	};
 	return (
 		<>
-			{activeComponent2 === "ChangePassword" && <ChangePassword />}
-			{activeComponent2 === "ChangeEmail" && <ChangeEmail />}
-			{activeComponent2 === "ChangeNickname" && <ChangeNickname />}
-			{activeComponent2 === "ChangeAvatar" && <ChangeAvatar />}
-			{activeComponent2 === "DeleteAccount" && <DeleteAccount />}
-			{activeComponent === "Notifications" && <Notifications />}
-			{activeComponent === "ReportBug" && <ReportBug />}
-			{activeComponent === "AboutUs" && <AboutUs />}
-			{activeComponent === "LogOut" && <Logout />}
+			{activeComponent2 === "ChangePassword" && (
+				<ChangePassword closeComponent={closeComponent} />
+			)}
+			{activeComponent2 === "ChangeEmail" && (
+				<ChangeEmail closeComponent={closeComponent} />
+			)}
+			{activeComponent2 === "ChangeNickname" && (
+				<ChangeNickname closeComponent={closeComponent} />
+			)}
+			{activeComponent2 === "DeleteAccount" && (
+				<DeleteAccount closeComponent={closeComponent} />
+			)}
+			{activeComponent === "Notifications" && (
+				<Notifications closeComponent={closeComponent} />
+			)}
+			{activeComponent === "ReportBug" && (
+				<ReportBug closeComponent={closeComponent} />
+			)}
+			{activeComponent === "LogOut" && (
+				<Logout closeComponent={closeComponent} />
+			)}
 			<Wrapper>
 				<UlList>
 					<LiElement ref={subMenuRef}>
@@ -220,12 +233,7 @@ const PcMenu = () => {
 								</li>
 								<li>
 									<SubMenuBtn onClick={() => handleClick("Notifications")}>
-										<span>Notifications</span>
-									</SubMenuBtn>
-								</li>
-								<li>
-									<SubMenuBtn onClick={() => handleClick("AboutUs")}>
-										<span>About me</span>
+										<span>Settings</span>
 									</SubMenuBtn>
 								</li>
 								<li>
@@ -274,12 +282,6 @@ const PcMenu = () => {
 										<span style={{ whiteSpace: "nowrap" }}>
 											Change Nickname
 										</span>
-									</AccountSubMenuBtn>
-								</li>
-								<li>
-									<AccountSubMenuBtn
-										onClick={() => handleClick2("ChangeAvatar")}>
-										<span>Change Avatar</span>
 									</AccountSubMenuBtn>
 								</li>
 								<li>

@@ -4,10 +4,12 @@ import PcMenu from "./PcMenu";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
+import useGetNickname from "../hooks/useGetNickname";
+import useGetAvatarName from "../hooks/useGetAvatarName";
 const AvatarWrapper = styled.div`
 	display: flex;
 	height: 100%;
-	width: clamp(15rem, 22rem, 30rem);
+	width: clamp(10rem, 22rem, 30rem);
 	box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
 `;
 const AvatarNickname = styled.p`
@@ -30,13 +32,20 @@ const AvatarNickname = styled.p`
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
+	@media (max-width: 430px) {
+		border-bottom-left-radius: 0px;
+		border-top-left-radius: 0px;
+	}
 `;
-const AvatarImage = styled.img`
+const AvatarImage = styled.div`
 	position: relative;
 	z-index: 3;
 	width: 30%;
 	height: 100%;
-	background: url("/src/assets/avatar.jpeg") no-repeat center center / cover;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(29, 37, 53, 0.7);
 `;
 const AdjustedWrapper = styled(WrapperFlex)`
 	position: static;
@@ -81,22 +90,35 @@ const Wrap = styled.div`
 	justify-content: right;
 	box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
 	border-radius: 10px 0 0 10px;
+	@media (max-width: 430px) {
+		width: 100%;
+	}
+`;
+const Img = styled.img`
+	height: 80%;
+	width: 100%;
+	object-fit: contain;
 `;
 const Avatar = () => {
 	const logout = useLogout();
 	const navigate = useNavigate();
+	const avatar = useGetAvatarName();
+
 	const signOut = async () => {
 		await logout();
 		navigate("/form/login");
 	};
+	const nickname = useGetNickname();
 	return (
 		<>
 			<AdjustedWrapper>
 				<PcMenu />
 				<Wrap>
 					<AvatarWrapper>
-						<AvatarNickname>Alicja z kotem</AvatarNickname>
-						<AvatarImage></AvatarImage>
+						<AvatarNickname>{nickname}</AvatarNickname>
+						<AvatarImage>
+							<Img src={`/assets/avatars/${avatar}.png`} alt={avatar} />
+						</AvatarImage>
 					</AvatarWrapper>
 					<LogoutWrapper>
 						<LogoutBtn style={{ color: "#d9d9d9" }} onClick={signOut} />
