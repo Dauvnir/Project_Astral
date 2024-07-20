@@ -4,5 +4,16 @@ import pluginRewriteAll from "vite-plugin-rewrite-all"; // <= import the plugin
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react(), pluginRewriteAll()],
+	plugins: [
+		react(),
+		pluginRewriteAll(),
+		react({
+			include: /\.(jsx|tsx)$/,
+			babel: {
+				plugins: ["styled-components"],
+				babelrc: false,
+				configFile: false,
+			},
+		}),
+	],
 });
