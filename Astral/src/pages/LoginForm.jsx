@@ -60,7 +60,7 @@ const ParagrapthWrap = styled.div`
 const LoginForm = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const from = location.state?.from?.pathname || "/";
+	const from = location.state?.from?.pathname || "success";
 	const { setAuth, persist, setPersist } = useAuth();
 	const userRef = useRef();
 	const errRef = useRef();
