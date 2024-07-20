@@ -98,12 +98,24 @@ const SettingButton = styled.button`
 		width: 9rem;
 	}
 `;
-const SettingWindow = styled.div`
+const AvatarWindow = styled.div`
 	width: 18rem;
 	height: auto;
 	display: grid;
 	grid-template-columns: repeat(3, 33.33%);
 	grid-auto-flow: row;
+`;
+
+const NotificationWIndow = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	width: 100%;
+	height: 70%;
+	text-align: center;
+	gap: 2rem;
 `;
 const AvatarWrap = styled.div`
 	position: relative;
@@ -128,6 +140,7 @@ const SuccessMessage = styled.p`
 	justify-content: center;
 	align-items: center;
 `;
+
 const avatarNames = [
 	"chicken",
 	"dog",
@@ -143,7 +156,11 @@ const Notifications = ({ closeComponent }) => {
 	const [activeComponent, setActiveComponent] = useState("");
 	const [success, setSuccess] = useState(false);
 	const setAvatar = useSetAvatar();
-
+	const handlerAskForPermission = async () => {
+		const permissionValue = Notification.permission;
+		if (permissionValue === "default" || permissionValue === "denied")
+			await Notification.requestPermission();
+	};
 	const handlerActiveComponent = (component) => {
 		setActiveComponent(component);
 	};
@@ -156,7 +173,6 @@ const Notifications = ({ closeComponent }) => {
 		handlerCloseActiveComponent();
 		setSuccess(true);
 	};
-
 	return (
 		<Wrap>
 			{!success ? (
@@ -194,7 +210,7 @@ const Notifications = ({ closeComponent }) => {
 							</List>
 						)}
 						{activeComponent === "Avatar" && (
-							<SettingWindow>
+							<AvatarWindow>
 								{avatarNames.map((avatar, index) => {
 									return (
 										<AvatarWrap key={index}>
@@ -206,12 +222,20 @@ const Notifications = ({ closeComponent }) => {
 										</AvatarWrap>
 									);
 								})}
-							</SettingWindow>
+							</AvatarWindow>
 						)}
 						{activeComponent === "Notifications" && (
-							<SettingWindow>
-								<p>Avatar</p>
-							</SettingWindow>
+							<NotificationWIndow>
+								<Span>
+									Do you want to receive notifications about new chapters?
+								</Span>
+								<SettingButton onClick={handlerAskForPermission}>
+									<Span>Grant Permission</Span>
+								</SettingButton>
+								<Span>
+									To change permission click on the permission icon near URL.
+								</Span>
+							</NotificationWIndow>
 						)}
 						<WrapBtns>
 							<SettingButton

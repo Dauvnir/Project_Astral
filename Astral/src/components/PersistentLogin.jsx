@@ -34,7 +34,8 @@ const PersistentLogin = () => {
 			try {
 				await refresh();
 			} catch (error) {
-				console.error(error);
+				// console.error(error);
+				setIsLoading(false);
 			} finally {
 				setIsLoading(false);
 			}

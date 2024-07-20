@@ -18,6 +18,7 @@ const BookWrapper = styled.div`
 	padding-block: 1rem;
 	margin-top: 3rem;
 	flex-direction: column;
+	min-height: 15rem;
 `;
 const Pagination = styled.div`
 	width: 100%;

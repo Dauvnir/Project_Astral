@@ -21,7 +21,7 @@ const fetchData = async (page, choosedWebsite) => {
 		switch (choosedWebsite) {
 			//add next  cases if needed
 			case "Asura":
-				website = `https://asuracomic.net/manga/?page=1&order=update`;
+				website = `https://asuracomic.net/manga/?page=${i}&order=update`;
 				break;
 			case "Reaper":
 				website = `https://reaperscans.com/comics?page=${i}`;
@@ -196,7 +196,7 @@ const scrapManhwaDataBasedOnWebsite = async (page, choosedWebsite) => {
 async function scrapData(choosedWebsite, encode) {
 	await checkInternetConnection();
 	const browser = await puppeteer.launch({
-		headless: true,
+		headless: false,
 	});
 	const page = await browser.newPage();
 	await page.setViewport({ width: 800, height: 600 });
