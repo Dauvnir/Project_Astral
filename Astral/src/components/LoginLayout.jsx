@@ -1,6 +1,6 @@
 import MainBackground from "./MainBackground";
 import StyledLogo from "./LogoHeader";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { WrapperFlex } from "./WrapperFlex";
 import styled from "styled-components";
 
@@ -20,11 +20,6 @@ const Wrapper = styled.div`
 	height: 100%;
 `;
 const LoginLayout = () => {
-	let navigate = useNavigate();
-	const toWelcomePage = () => {
-		let path = `/`;
-		navigate(path);
-	};
 	return (
 		<>
 			<MainBackground></MainBackground>
@@ -33,7 +28,6 @@ const LoginLayout = () => {
 				<WrapperFlex
 					$margin=" 1rem auto 2rem auto"
 					style={{ overflow: "visible", cursor: "pointer" }}
-					onClick={toWelcomePage}
 					$width="clamp(10rem, 95%, 50rem)">
 					<StyledLogo></StyledLogo>
 				</WrapperFlex>

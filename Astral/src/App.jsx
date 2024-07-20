@@ -40,7 +40,7 @@ const App = () => {
 				<Route element={<PersistentLogin />}>
 					<Route element={<RequireAuth allowedRoles={[7213]} />}>
 						<Route element={<AddLibrary />}>
-							<Route path="/" element={<LoginLayout />}>
+							<Route path="success" element={<LoginLayout />}>
 								<Route index element={<SuccededLogIn />} />
 							</Route>
 						</Route>
