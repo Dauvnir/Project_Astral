@@ -8,7 +8,8 @@ import { useState } from "react";
 import { FaUnlock } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { RiBookFill } from "react-icons/ri";
-import { RiBookMarkFill } from "react-icons/ri";
+import { RiBookmarkFill } from "react-icons/ri";
+
 const BookWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -79,7 +80,7 @@ const RiBookFillStyled = styled(RiBookFill)`
 	cursor: pointer;
 	color: rgba(217, 217, 217, 0.9);
 `;
-const RiBookBookmarkStyled = styled(RiBookMarkFill)`
+const RiBookBookmarkStyled = styled(RiBookmarkFill)`
 	width: 100%;
 	height: 80%;
 	cursor: pointer;
