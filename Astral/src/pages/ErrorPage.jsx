@@ -28,7 +28,7 @@ export default function ErrorPage() {
 
 	const navigate = useNavigate();
 	const toWelcomePage = () => {
-		let path = `/welcome`;
+		let path = `/`;
 		navigate(path);
 	};
 
