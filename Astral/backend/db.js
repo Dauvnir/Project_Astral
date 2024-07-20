@@ -1,12 +1,10 @@
-/* eslint-disable no-undef */
-const Pool = require('pg').Pool;
-
+const Pool = require("pg").Pool;
 const pool = new Pool({
-	user: 'dauvnir',
-	password: 'dauvnir',
-	host: 'localhost',
+	user: "samedi",
+	password: "samedi",
+	host: "localhost",
 	port: 5432,
-	database: 'manhwa_list',
+	database: "manhwalist",
 });
-
+console.log(pool);
 module.exports = pool;

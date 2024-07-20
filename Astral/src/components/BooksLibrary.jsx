@@ -1,6 +1,6 @@
-import WrapperGrid from "../components/WrapperGrid";
-import { LineBreak } from "../components/LineBreak";
-import ChapterListForLibrary from "../components/ChapterListForLibrary";
+import WrapperGrid from "./WrapperGrid";
+import { LineBreak } from "./LineBreak";
+import ChapterListForLibrary from "./ChapterListForLibrary";
 import styled from "styled-components";
 import { WrapperFlex } from "./WrapperFlex";
 import { Paragraph } from "./Paragraph";

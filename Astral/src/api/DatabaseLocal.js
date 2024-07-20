@@ -1,5 +1,5 @@
 import Dexie from "dexie";
-import { axiosPrivate } from "./axios";
+import { axiosPrivate } from "./axios.js";
 import makeNotification from "../hooks/makeNotification.jsx";
 
 //-------------------create database and table
