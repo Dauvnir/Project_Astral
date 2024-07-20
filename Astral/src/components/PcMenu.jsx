@@ -122,17 +122,17 @@ const UlListSubMenu = styled.ul`
 const PcMenu = () => {
 	let navigate = useNavigate();
 	const toLeaderboard = () => {
-		let path = "/leaderboard";
+		let path = "leaderboard";
 		navigate(path);
 	};
 	let navigate2 = useNavigate();
 	const toBooks = () => {
-		let path2 = "/books";
+		let path2 = "books";
 		navigate2(path2);
 	};
 	let navigate3 = useNavigate();
 	const toHome = () => {
-		let path3 = "/library";
+		let path3 = "library";
 		navigate3(path3);
 	};
 	const [toggleValue, setToggleValue] = useState(false);

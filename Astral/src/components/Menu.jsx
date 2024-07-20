@@ -68,13 +68,13 @@ const IconWrapRight = styled(IconWrap)`
 const Menu = () => {
 	let navigate = useNavigate();
 	const toBooks = () => {
-		let path = `/books`;
+		let path = `books`;
 		navigate(path);
 	};
 
 	let navigate2 = useNavigate();
 	const toLeaderboard = () => {
-		let path2 = "/leaderboard";
+		let path2 = "leaderboard";
 		navigate2(path2);
 	};
 

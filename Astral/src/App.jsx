@@ -48,8 +48,8 @@ const App = () => {
 							<Route element={<RandomImageProvider />}>
 								<Route path="library" element={<MainPage />}>
 									<Route index element={<Library />} />
-									<Route path="/books" element={<AllBooks />} />
-									<Route path="/leaderboard" element={<Leaderboard />} />
+									<Route path="books" element={<AllBooks />} />
+									<Route path="leaderboard" element={<Leaderboard />} />
 								</Route>
 							</Route>
 						</Route>
