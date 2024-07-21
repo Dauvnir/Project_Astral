@@ -3,7 +3,6 @@ import { Paragraph } from "./Paragraph";
 import { StyledInput } from "./StyledInput";
 import { useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { useRef } from "react";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect } from "react";
 import useSendEmail from "../hooks/useSendEmail";
@@ -129,8 +128,6 @@ const Form = () => {
 
 	const sendEmail = useSendEmail();
 
-	const emailRef = useRef();
-
 	useEffect(() => {
 		if (topic.length > 3) {
 			setValidTopic(true);
@@ -148,10 +145,6 @@ const Form = () => {
 		const result = EMAIL_REGEX.test(email);
 		setValidEmail(result);
 	}, [email]);
-
-	useEffect(() => {
-		emailRef.current.focus();
-	}, []);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -205,7 +198,6 @@ const Form = () => {
 					<Input
 						type="email"
 						id="email"
-						ref={emailRef}
 						autoComplete="off"
 						onChange={(e) => setEmail(e.target.value)}
 						required
