@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "astralapi.patryk-polak.pl";
+const BASE_URL = "https://astralapi.patryk-polak.pl";
 
 export default axios.create({
 	baseURL: BASE_URL,
