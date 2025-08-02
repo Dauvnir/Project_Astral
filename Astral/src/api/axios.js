@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "project_astral_backend.railway.internal";
+const BASE_URL = "projectastralbackend-production.up.railway.app";
 
 export default axios.create({
 	baseURL: BASE_URL,
